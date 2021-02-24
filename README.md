@@ -17,6 +17,12 @@ npm run build
 # build for production and view the bundle analyzer report
 npm run build --report
 
+# start the project
+npm run start-project
+
+# run build and start-project
+npm run start
+
 # run unit tests
 npm run unit
 
