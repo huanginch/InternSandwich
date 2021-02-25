@@ -8,11 +8,12 @@
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",
     "server": "nodemon app.js",
-    "start-project":"node app.js",
+    "start-project": "node app.js",
     "start": "npm run build && npm run start-project"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
+    "build-client": "^1.0.12",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-vue": "^5.16.0",
