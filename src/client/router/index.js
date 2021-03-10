@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import search from '../views/search.vue'
 import login from '../views/login.vue'
 
+
 Vue.use(VueRouter)
 
 const routes = [
