@@ -19,6 +19,8 @@
     "express-vue": "^5.16.0",
     "mysql": "^2.18.1",
     "mysql2": "^2.2.5",
+    "bootstrap-vue": "^2.17.3",
+    "core-js": "^3.6.5",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
