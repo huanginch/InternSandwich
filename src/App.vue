@@ -3,7 +3,7 @@
     <div id="app">
       <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navbar">
         <a class="navbar-brand" href="#"
-          ><img src="./assets/圖片1.png" width="50px"
+          ><img src="./client/assets/圖片1.png" width="50px"
         /></a>
 
         <button
@@ -37,13 +37,13 @@
             <a
               class="nav-item nav-link"
               data-toggle="tab"
-              href="./views/login.vue"
+              href="./client/views/login.vue"
               >企業登入 <span class="glyphicon glyphicon-log-in"></span
             ></a>
             <a
               class="nav-item nav-link"
               data-toggle="tab"
-              href="./views/login.vue"
+              href="./client/views/login.vue"
               >學生登入</a
             >
           </div>
