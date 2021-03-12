@@ -5,23 +5,25 @@
   "author": "黃映慈 <huanginch329@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "node build/dev-server.js",
+    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "build": "node build/build.js",
-    "server": "nodemon app.js",
+    "serve": "nodemon app.js",
     "start-project": "node app.js",
     "start": "npm run build && npm run start-project"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "body-parser": "^1.19.0",
+    "bootstrap-vue": "^2.17.3",
     "build-client": "^1.0.12",
+    "core-js": "^3.6.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-vue": "^5.16.0",
     "mysql": "^2.18.1",
     "mysql2": "^2.2.5",
-    "bootstrap-vue": "^2.17.3",
-    "core-js": "^3.6.5",
     "vue": "^2.5.2",
+    "vue-axios": "^3.2.4",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
