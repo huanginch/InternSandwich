@@ -1,11 +1,13 @@
 <template>
     <div style="padding: 100px 100px 10px">
+      <!-- 搜尋欄 -->
         <form class="bs-example bs-example-form" role="form">
           <div class="row align-items-center">
             <div class="col-lg-12">
               <div class="input-group mt-3 mb-3">
                 <input type="text" class="form-control" />
                 <div class="input-group-btn">
+                  <!-- 類別按鈕 -->
                   <button
                     type="button"
                     class="btn btn-default dropdown-toggle"
@@ -23,6 +25,7 @@
                   </ul>
                 </div>
                 <div class="input-group-btn">
+                  <!-- 地點按鈕 -->
                   <button
                     type="button"
                     class="btn btn-default dropdown-toggle"
@@ -40,6 +43,7 @@
                   </ul>
                 </div>
                 <div class="input-group-btn">
+                  <!-- 薪資按鈕 -->
                   <button
                     type="button"
                     class="btn btn-default dropdown-toggle"
@@ -69,45 +73,50 @@
         <br />
 
        
-
+        
         <div class="row">
           <div class="col-lg-9 text-left">
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <div class="ppp">
-                  <div class="photo">
-                    <img
-                      src="../assets/圖片1.png"
-                      alt="internsandwich"
-                      height="150px"
-                    />
+            <!-- 實習貼文 -->
+            <div id="app"
+            v-for = "post in info"
+            class = "post"
+            > 
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <div class="ppp">
+                    <div class="photo">
+                      <img
+                        src="../assets/圖片1.png"
+                        alt="internsandwich"
+                        height="150px"
+                      />
+                    </div>
+                    
+                    <h1 style="font-size: 25px" align="left">{{post.title}}</h1>
+                    <p style="font-size: 20px" align="left">{{post.id}}</p>
+                    <p style="font-size: 15px" align="center">{{post.body}}</p>
                   </div>
-                  <a style="font-size: 25px">OO實習生</a><br />
-                  <a style="font-size: 20px">OOO股份有限公司</a><br />
-                  <a style="font-size: 15px"
-                    >我是工作內容我是工作內容我是工作內容我是工作內容我是工作內容我是工作內容我是工作內容我是工作內容我是工作內容我是工作內容我是工作內容我是工作內容我是工作內容我是工作內容</a
-                  ><br />
-                </div>
 
-                <div class="ppp2">
-                  <div class="row float-right">
-                    <a
-                      href="#"
-                      class="btn"
-                      style="width: 200px; height: 50px; font-size: 20px"
-                      >查看評論</a
-                    >
-                    <a
-                      href="#"
-                      class="btn"
-                      style="width: 200px; height: 50px; font-size: 20px"
-                      >收藏</a
-                    >
+                  <div class="ppp2">
+                    <div class="row float-right">
+                      <button
+                        href="#"
+                        class="btn"
+                        style="width: 200px; height: 50px; font-size: 20px"
+                        >查看評論</button
+                      >
+                      <button
+                        href="#"
+                        class="btn"
+                        style="width: 200px; height: 50px; font-size: 20px"
+                        >收藏</button
+                      >
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-
+          </div>
+<!--  
             <div class="panel panel-default">
               <div class="panel-body">
                 <div class="ppp">
@@ -182,9 +191,27 @@
                 </div>
               </div>
             </div>
+-->
           </div>
-
+          <!--熱門搜尋  -->
           <div class="col-lg-3 text-left">
+            <div id="app"
+              v-for = "post in info"
+              class = "post"
+            > 
+              <div class="photo">
+                <img
+                  src="../assets/圖片1.png"
+                  alt="internsandwich"
+                  height="100px"
+                />
+              </div>
+              <div class="intro">
+                <h5 align="left">{{post.title}}</h5>
+                <h6 align="left">{{post.title}}</h6>
+              </div>
+            </div>
+<!--  
             <div class="photo">
               <img
                 src="../assets/圖片1.png"
@@ -220,34 +247,62 @@
               <a>OOO股份有限公司</a><br />
               <a>OOO實習生</a>
             </div>
-
-            <div class="photo">
-              <img
-                src="../assets/圖片1.png"
-                alt="internsandwich"
-                height="100px"
-              />
-            </div>
-            <div class="intro">
-              <a>OOO股份有限公司</a><br />
-              <a>OOO實習生</a>
-            </div>
+-->
           </div>
         </div>
 
         <br />
-
+        <!-- 換頁按鈕 -->
         <ul
           class="pagination pagination-sm justify-content-center"
           style="margin: 20px 0"
         >
           <li class="page-item disabled">
-            <a class="page-link" href="#">上一頁</a>
+            <button class="page-link" href="#">上一頁</button>
           </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item"><a class="page-link" href="#">下一頁</a></li>
+          <li class="page-item"><button class="page-link" href="#">1</button></li>
+          <li class="page-item"><button class="page-link" href="#">2</button></li>
+          <li class="page-item"><button class="page-link" href="#">3</button></li>
+          <li class="page-item"><button class="page-link" href="#">下一頁</button></li>
         </ul>
       </div>
 </template>
+
+<script>
+  import axios from 'axios'
+
+  export default({
+  name: '#app',
+  data () {
+    return {
+      info: null
+    }
+  },
+  created () {
+    const api = 'https://jsonplaceholder.typicode.com/posts/'
+    const params = {userId:2}
+    axios.get(api,{params})
+    .then(response => (this.info = response.data))
+    .catch(function (error) { // 请求失败处理
+      console.log(error);
+    });
+  }
+})
+
+/*export default({
+  name: '#user',
+  data () {
+    return {
+      info: null
+    }
+  },
+  created () {
+    const api = 'localhost:3000/api/test'
+    axios.get(api)
+    .then(response => (this.info = response))
+    .catch(function (error) { // 请求失败处理
+      console.log(error);
+    });
+  }
+})*/
+</script>
