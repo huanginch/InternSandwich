@@ -3,7 +3,7 @@
     <div id="app">
       <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navbar">
         <a class="navbar-brand" href="#"
-          ><img src="./client/assets/圖片1.png" width="50px"
+          ><img src="./assets/圖片1.png" width="50px"
         /></a>
 
         <button
