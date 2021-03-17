@@ -20,11 +20,14 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav nav-tabs">
             <router-link class="nav-item nav-link" to="/">找實習</router-link>
-            <router-link class="nav-item nav-link" to="/search"
+            <router-link class="nav-item nav-link" to="/resume"
               >履歷模板</router-link
             >
+            <router-link class="nav-item nav-link" to="/resume"
+              >找實習生</router-link
+            >
             <router-link class="nav-item nav-link" to="/about"
-              >聯絡我們</router-link
+              >履歷信箱</router-link
             >
             <!-- <a
               class="nav-item nav-link"
@@ -34,18 +37,12 @@
             > -->
           </div>
           <div class="navbar-nav nav-tabs ml-auto">
-            <a
-              class="nav-item nav-link"
-              data-toggle="tab"
-              href="./client/views/login.vue"
-              >企業登入 <span class="glyphicon glyphicon-log-in"></span
-            ></a>
-            <a
-              class="nav-item nav-link"
-              data-toggle="tab"
-              href="./client/views/login.vue"
-              >學生登入</a
-            >
+            <router-link class="nav-item nav-link" data-toggle="tab" to="/login"
+              >登入<span class="glyphicon glyphicon-log-in"></span
+            ></router-link>
+            <router-link class="nav-item nav-link" data-toggle="tab" to="/register"
+              >註冊<span class="glyphicon glyphicon-log-in"></span
+            ></router-link>
           </div>
         </div>
       </nav>
