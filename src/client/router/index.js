@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/home.vue'
-import Search from '../views/search.vue'
-import Register from '../views/register.vue'
-import Login from '../views/login.vue'
-import Intern from '../views/intern.vue'
-import Resume from '../views/resume.vue'
-import Enterprise from '../views/enterprise.vue'
+import Home from '../views/Home.vue'
+import Search from '../views/Search.vue'
+import Register from '../views/Register.vue'
+import Login from '../views/Login.vue'
+import Intern from '../views/Intern.vue'
+import Resume from '../views/Resume.vue'
+import Enterprise from '../views/Enterprise.vue'
 
 
 Vue.use(VueRouter)
