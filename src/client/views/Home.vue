@@ -110,7 +110,7 @@
       <div class="col-lg-9 text-left">
         <!-- 實習貼文 -->
         <!--eslint-disable-next-line-->
-        <div id="app" v-for="post in info" class="post">
+        <div id="#fb_post" v-for="posts in fb_info" class="posts">
           <div class="panel panel-default">
             <div class="panel-body">
               <div class="ppp">
@@ -122,9 +122,9 @@
                   />
                 </div>
 
-                <h1 style="font-size: 25px" align="left">{{ post.title }}</h1>
-                <p style="font-size: 20px" align="left">{{ post.id }}</p>
-                <p style="font-size: 15px" align="center">{{ post.body }}</p>
+                <h1 style="font-size: 25px" align="left">{{ posts.link }}</h1>
+                <p style="font-size: 20px" align="left">{{ posts.cp_name }}</p>
+                <p style="font-size: 15px" align="left">{{ posts.requirement }}</p>
               </div>
 
               <div class="ppp2">
@@ -225,7 +225,7 @@
       <!--熱門搜尋  -->
       <div class="col-lg-3 text-left">
           <!--eslint-disable-next-line-->
-        <div id="app" v-for="post in info" class="post">
+        <div id="fb_post" v-for="posts in fb_info" class="posts">
           <div class="photo">
             <img
               src="../assets/圖片1.png"
@@ -234,8 +234,8 @@
             />
           </div>
           <div class="intro">
-            <h5 align="left">{{ post.title }}</h5>
-            <h6 align="left">{{ post.title }}</h6>
+            <h5 align="left">{{ posts.link }}</h5>
+            <h6 align="left">{{ posts.cp_name }}</h6>
           </div>
         </div>
         <!--  
@@ -296,22 +296,22 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "../js/axios.js";
 export default {
-  name: "#app",
+  name: "#fb_post",
   data() {
     return {
-      info: null,
+      fb_info: null,
     };
   },
   created() {
-    const api = "https://jsonplaceholder.typicode.com/posts/";
-    const params = { userId: 2 };
+    const api = "/api/posts";
+    //const params = { userId: 2 };
     axios
-      .get(api, { params })
-      .then((response) => (this.info = response.data))
+      .get(api)
+      .then((response) => (this.fb_info = response.data))
       .catch(function (error) {
-        // 请求失败处理
+        // 請求失敗處理
         console.log(error);
       });
   },
