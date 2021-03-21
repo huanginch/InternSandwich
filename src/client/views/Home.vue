@@ -1,100 +1,32 @@
 <template>
-  <div style="padding: 100px 100px 10px">
-    <!-- 搜尋欄 -->
+  <div style="padding: 100px 100px 10px" >
+    <!-- Searchbar -->
     <form class="bs-example bs-example-form" role="form">
       <div class="row align-items-center">
         <div class="col-lg-12">
-          <div class="input-group mt-3 mb-3">
-            <input type="text" class="form-control" />
-            <div>
-              <b-dropdown id="dropdown-1" text="類別" class="btn btn-default">
-                <b-dropdown-item>First Action</b-dropdown-item>
-                <b-dropdown-item>Second Action</b-dropdown-item>
-                <b-dropdown-item>Third Action</b-dropdown-item>
-                <b-dropdown-divider></b-dropdown-divider>
-                <b-dropdown-item active>Active action</b-dropdown-item>
-                <b-dropdown-item disabled>Disabled action</b-dropdown-item>
-              </b-dropdown>
-            </div>
-
-            <div>
-              <b-dropdown id="dropdown-1" text="地區" class="btn btn-default">
-                <b-dropdown-item>台北</b-dropdown-item>
-                <b-dropdown-item>台中</b-dropdown-item>
-                <b-dropdown-item>台南</b-dropdown-item>
-                <b-dropdown-divider></b-dropdown-divider>
-                <b-dropdown-item active>Active action</b-dropdown-item>
-                <b-dropdown-item disabled>Disabled action</b-dropdown-item>
-              </b-dropdown>
-            </div>
-
-            <div>
-              <b-dropdown id="dropdown-1" text="薪資" class="btn btn-default">
-                <b-dropdown-item>First Action</b-dropdown-item>
-                <b-dropdown-item>Second Action</b-dropdown-item>
-                <b-dropdown-item>Third Action</b-dropdown-item>
-                <b-dropdown-divider></b-dropdown-divider>
-                <b-dropdown-item active>Active action</b-dropdown-item>
-                <b-dropdown-item disabled>Disabled action</b-dropdown-item>
-              </b-dropdown>
-            </div>
-
-            <!-- <div class="input-group-btn">
-                 
-                  <button
-                    type="button"
-                    class="btn btn-default dropdown-toggle"
-                    data-toggle="dropdown"
-                  >
-                    類別
-                    <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu pull-right">
-                    <li><a href="#">資訊科技</a></li>
-                    <li><a href="#">文書行政</a></li>
-                    <li><a href="#">工科設計</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">其他</a></li>
-                  </ul>
-                </div>
-                <div class="input-group-btn">
-                  
-                  <button
-                    type="button"
-                    class="btn btn-default dropdown-toggle"
-                    data-toggle="dropdown"
-                  >
-                    地區
-                    <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li><a href="#">台北</a></li>
-                    <li><a href="#">台中</a></li>
-                    <li><a href="#">台南</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">其他</a></li>
-                  </ul>
-                </div>
-                <div class="input-group-btn">
-                  
-                  <button
-                    type="button"
-                    class="btn btn-default dropdown-toggle"
-                    data-toggle="dropdown"
-                  >
-                    薪資
-                    <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li><a href="#">最低薪資</a></li>
-                    <li><a href="#">22000/month</a></li>
-                    <li><a href="#">28000/month</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">其他</a></li>
-                  </ul>
-                </div> -->
-
-            <button class="btn">
+          <div class="input-group mt-3 mb-3" >
+            <!-- 搜尋欄 -->
+            <input v-model="keyword" type="text" placeholder="輸入關鍵字" class="form-control" @keyup.enter="filteredPosts"/>
+            <!-- 類別關鍵字下拉選單 -->
+            <select v-model="select_jobclass" class="btn btn-default">
+              <option disabled value="" >類別</option>
+              <option v-for="jobclass in jobclasses" v-bind:value="jobclass.value">
+                {{jobclass.text}}
+              </option>
+            </select>
+            <select v-model="select_area" class="btn btn-default">
+              <option disabled value="">地區</option>
+              <option v-for="area in areas" v-bind:value="area.value">
+                {{area.text}}
+              </option>
+            </select>
+            <select v-model="select_salary" class="btn btn-default">
+              <option disabled value="" >薪資</option>
+              <option v-for="salary in salaries" v-bind:value="salary.value">
+                {{salary.text}}
+              </option>
+            </select>
+            <button class="btn" v-model="keyword" @click="filteredPosts">
               <span class="glyphicon glyphicon-search"></span>搜尋<span
                 class="caret"
               ></span>
@@ -102,15 +34,14 @@
           </div>
         </div>
       </div>
-    </form>
-
+    </form>    
     <br />
-
+    <!--實習貼文與熱門搜尋  -->
     <div class="row">
       <div class="col-lg-9 text-left">
         <!-- 實習貼文 -->
         <!--eslint-disable-next-line-->
-        <div id="#fb_post" v-for="posts in fb_info" class="posts">
+        <div id="Home" v-for="(posts, index) in searchResult.slice(pageStart, pageStart + countOfPage)" class="posts" >
           <div class="panel panel-default">
             <div class="panel-body">
               <div class="ppp">
@@ -225,7 +156,7 @@
       <!--熱門搜尋  -->
       <div class="col-lg-3 text-left">
           <!--eslint-disable-next-line-->
-        <div id="fb_post" v-for="posts in fb_info" class="posts">
+        <div id="Home" v-for="(posts, index) in fb_info.slice(pageStart, pageStart + countOfPage)" class="posts">
           <div class="photo">
             <img
               src="../assets/圖片1.png"
@@ -280,16 +211,17 @@
     <!-- 換頁按鈕 -->
     <ul
       class="pagination pagination-sm justify-content-center"
-      style="margin: 20px 0"
+      style="margin: 20px 0" 
     >
-      <li class="page-item disabled">
-        <button class="page-link" href="#">上一頁</button>
+      <li v-bind:class="{'disabled': (currPage === 1)}"
+          @click.prevent="setPage(currPage-1)"><button class="page-link" href="#">上一頁</button>
       </li>
-      <li class="page-item"><button class="page-link" href="#">1</button></li>
-      <li class="page-item"><button class="page-link" href="#">2</button></li>
-      <li class="page-item"><button class="page-link" href="#">3</button></li>
-      <li class="page-item">
-        <button class="page-link" href="#">下一頁</button>
+      <li v-for="n in totalPage"
+          v-bind:class="{'active': (currPage === (n))}"
+          @click.prevent="setPage(n)"><button class="page-link" href="#">{{n}}</button>
+      </li>
+      <li v-bind:class="{'disabled': (currPage === totalPage)}"
+          @click.prevent="setPage(currPage+1)"><button class="page-link" href="#">下一頁</button>
       </li>
     </ul>
   </div>
@@ -297,19 +229,82 @@
 
 <script>
 import axios from "../js/axios.js";
+//import Searchbar from "../components/Searchbar.vue";
+
 export default {
-  name: "#fb_post",
+  name: "Home",
+  /*componemts:{
+    Searchbar
+  },*/
   data() {
     return {
       fb_info: null,
+      searchResult:null,
+      countOfPage: 5,
+      currPage: 1,
+      select_jobclass:"",
+      select_area:"",
+      select_salary:"",
+      keyword:"",
+      jobclasses:[
+        {text:"科技", value:"科技"},
+        {text:"設計", value:"設計"},
+        {text:"餐飲", value:"餐飲"}
+      ],
+      areas:[
+          {text:"台北", value:"台北"},
+          {text:"台中", value:"台中"},
+          {text:"高雄", value:"高雄"}
+      ],
+      salaries:[
+          {text:"月薪22k", value:"月薪22k"},
+          {text:"月薪30k", value:"月薪30k"},
+          {text:"月薪40k", value:"月薪40k"}
+      ]
     };
   },
-  created() {
+  computed:{
+    //設定頁首
+    pageStart: function(){
+      return (this.currPage - 1) * this.countOfPage;
+    },
+    //設定總頁數
+    totalPage: function(){
+      return Math.ceil(this.searchResult.length / this.countOfPage);
+    }
+  },
+  methods:{
+    //依照關鍵字搜尋貼文
+    filteredPosts: function(){
+      // 因為 JavaScript 的 filter 有分大小寫，
+      // 所以這裡將 keyword 與 fb_info[n].cp_name 通通轉小寫方便比對。
+      var keyword = this.keyword.toLowerCase();
+
+      // 如果 filter_name 有內容，回傳過濾後的資料，否則將原本的 fb_posts 回傳。
+      if ( this.keyword.trim() !== '' ) {
+        this.searchResult = this.fb_info.filter(function(d){ return d.cp_name.toLowerCase().indexOf(keyword) > -1; })
+      }
+      else{
+        this.searchResult = this.fb_info;
+      }
+    },
+    //設定當前頁面
+    setPage: function(idx){
+      if( idx <= 0 || idx > this.totalPage ){
+        return;
+      }
+      this.currPage = idx;
+    },
+  },
+  created(){
+    //axios獲取後臺資料
     const api = "/api/posts";
-    //const params = { userId: 2 };
+      //const params = { userId: 2 };
     axios
       .get(api)
-      .then((response) => (this.fb_info = response.data))
+      .then((response) => {
+        this.fb_info = response.data 
+        this.searchResult = response.data})
       .catch(function (error) {
         // 請求失敗處理
         console.log(error);
