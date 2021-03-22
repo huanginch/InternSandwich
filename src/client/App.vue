@@ -23,10 +23,10 @@
             <router-link class="nav-item nav-link" to="/resume"
               >履歷模板</router-link
             >
-            <router-link class="nav-item nav-link" to="/resume"
+            <router-link class="nav-item nav-link" to="/finder"
               >找實習生</router-link
             >
-            <router-link class="nav-item nav-link" to="/about"
+            <router-link class="nav-item nav-link" to="/mailbox"
               >履歷信箱</router-link
             >
             <!-- <a
@@ -124,14 +124,6 @@
   outline: none;
 }
 
-.photo {
-  float: left;
-}
-.intro {
-  font-size: 20px;
-  float: left;
-  height: 100px;
-}
 .glyphicon {
   position: relative;
   top: 1px;
@@ -143,10 +135,8 @@
   line-height: 1;
   -moz-osx-font-smoothing: grayscale;
 }
-.ppp {
-  height: 160px;
-}
-.ppp2 {
+
+.ppp2_btn {
   height: 40px;
 }
 </style>
