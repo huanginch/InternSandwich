@@ -4,7 +4,7 @@ const mysql = require('mysql2')
 const config = {
     host:'140.123.173.109',
     port:'3307',
-    database:'post',
+    database:'internsandwich',
     user : 'sandwich',
     password:'sandwich'
 }
