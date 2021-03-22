@@ -1,12 +1,19 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import Search from '../views/Search.vue'
-import Register from '../views/Register.vue'
-import Login from '../views/Login.vue'
-import Intern from '../views/Intern.vue'
-import Resume from '../views/Resume.vue'
-import Enterprise from '../views/Enterprise.vue'
+
+import Home from '../views/Home.vue' //找實習
+import Intern from '../views/Intern.vue' //實習內容頁面
+
+import Login from '../views/Login.vue' //登入
+import Register from '../views/Register.vue' //註冊
+
+import Finder from '../views/Finder.vue' //找實習生
+import Profile from '../views/Profile.vue' //實習生內容頁面
+
+import Resume from '../views/Resume.vue' //履歷模板
+import Mailbox from '../views/Mailbox.vue' //履歷信箱
+
+
 
 
 Vue.use(VueRouter)
@@ -17,17 +24,9 @@ const routes = [{
   component: Home
 },
 {
-  path: '/about',
-  name: 'About',
-  // route level code-splitting
-  // this generates a separate chunk (about.[hash].js) for this route
-  // which is lazy-loaded when the route is visited.
-  component: () => import( /* webpackChunkName: "about" */ '../views/About.vue')
-},
-{
-  path: '/search',
-  name: 'Search',
-  component: Search
+  path: '/intern',
+  name: 'Intern',
+  component: Intern
 },
 {
   path: '/login',
@@ -40,19 +39,24 @@ const routes = [{
   component: Register
 },
 {
+  path: '/finder',
+  name: 'Finder',
+  component: Finder
+},
+{
+  path: '/profile',
+  name: 'Profile',
+  component: Profile
+},
+{
   path: '/resume',
   name: 'Resume',
   component: Resume
 },
 {
-  path: '/intern',
-  name: 'Intern',
-  component: Intern
-},
-{
-  path: '/enterprise',
-  name: 'Enterprise',
-  component: Enterprise
+  path: '/mailbox',
+  name: 'Mailbox',
+  component: Mailbox
 }
 ]
 
