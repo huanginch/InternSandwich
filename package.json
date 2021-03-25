@@ -14,6 +14,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "axios": "^0.21.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "bootstrap-vue": "^2.17.3",
     "build-client": "^1.0.12",
@@ -23,13 +24,16 @@
     "express": "^4.17.1",
     "express-vue": "^5.16.0",
     "js-cookie": "^2.2.1",
+    "jsonwebtoken": "^8.5.1",
     "mutationobserver-shim": "^0.3.7",
-    "mysql": "^2.18.1",
     "mysql2": "^2.2.5",
+    "qs": "^6.10.1",
     "view-design": "^4.5.0",
     "vue": "^2.5.2",
     "vue-axios": "^3.2.4",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuex": "^3.6.2",
+    "vuex-persistedstate": "^4.0.0-beta.3"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -60,6 +64,7 @@
     "node-notifier": "^5.1.2",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^1.2.0",
+    "popper.js": "^1.16.1",
     "portfinder": "^1.0.13",
     "postcss-import": "^11.0.0",
     "postcss-loader": "^2.0.8",
@@ -74,12 +79,12 @@
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",
-    "popper.js": "^1.16.1",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.9.1",
     "webpack-merge": "^4.1.0"
   },
+  "proxy": "http://localhost:3000/api",
   "engines": {
     "node": ">= 6.0.0",
     "npm": ">= 3.0.0"
