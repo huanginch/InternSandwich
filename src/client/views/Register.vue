@@ -15,17 +15,21 @@
     <div class="panel panel-default col-md-6 offset-3">
       <div class="panel-body" style="padding: 50px">
         <form>
+          <!-- <p v-if="msg">{{ msg }}</p> -->
           <div class="form-group col-md-12 text-left">
-            <label for="userId">姓 名</label>
+            <label>姓名</label>
             <input
+              v-model="name"
               type="text"
               class="form-control"
               placeholder="請輸入真實姓名"
-              id="userId"
-              name="userId"
             />
             <br />
-            <label for="password">生 日</label>
+            <label>性別</label>
+            <br/>
+            <input v-model="gender" type="radio" value=0 /><label>男</label>
+            <input v-model="gender" type="radio" value=1 /><label>女</label>
+            <!-- <label for="password">生 日</label>
             <input
               type="password"
               class="form-control"
@@ -50,69 +54,118 @@
               placeholder="範例:OO大學"
               id="password"
               name="password"
-            />
+            /> -->
             <br />
-            <label for="password">電話</label>
+            <label>電話</label>
             <input
-              type="password"
+              v-model="phone"
               class="form-control"
               placeholder="範例:0987654321"
-              id="password"
-              name="password"
             />
             <br />
-            <label for="password">Email</label>
+            <label>Email</label>
             <input
-              type="password"
+              v-model="email"
               class="form-control"
               placeholder="範例:oooo@gmail.com"
-              id="password"
-              name="password"
             />
             <br />
-            <label for="password">帳號</label>
+            <label>帳號</label>
             <input
-              type="password"
+              v-model="account"
+              type="text"
               class="form-control"
               placeholder="請輸入欲申請帳號"
-              id="password"
-              name="password"
             />
             <br />
-            <label for="password">密碼</label>
+            <label>密碼</label>
             <input
+              v-model="password"
               type="password"
               class="form-control"
               placeholder="請輸入8位以上字元或數字"
-              id="password"
-              name="password"
             />
             <br />
-            <label for="password">確認密碼</label>
+            <label>確認密碼</label>
             <input
+              v-model="password_repeat"
               type="password"
               class="form-control"
               placeholder="請確認兩次密碼輸入相同"
-              id="password"
-              name="password"
             />
           </div>
           <br />
           <div class="checkbox">
             <label class="form-check-label" for="gridCheck">
-              <input class="form-check-input" type="checkbox" />
+              <input class="form-check-input" type="checkbox" v-model="checked"/>
               同意服務條款
             </label>
             <br /><br />
-            <input
-              type="submit"
+            <!--eslint-disable-next-line-->
+            <button class="btn" @click="singup">
+              <span class="glyphicon glyphicon-search"></span>立即註冊
+            </button>
+            <!-- <input
               value="立即註冊"
               class="btn"
-              style="width: 400px; height: 60px; font-size: 30px margin:0px auto;"
-            />
+              style="width: 400px; height: 60px; font-size: 30px; margin:0px auto;"
+              @click="singup"
+            /> -->
           </div>
         </form>
       </div>
     </div>
   </div>
 </template>
+<script>
+import axios from "../js/axios.js";
+import qs from 'qs';
+
+  export default {
+    name:"Register",
+    data() {
+      return {
+        name: "",
+        gender: Number,
+        phone: "",
+        email: "",
+        account: "",
+        password: "",
+        password_repeat: "",
+        msg: "",
+        checked: false,
+      };
+    },
+    methods: {
+      //註冊
+      singup: function() {
+        if(!this.checked){
+          alert("請同意服務條款")
+        }
+        else{
+          const credentials = {
+            name:this.name,
+            gender:this.gender,
+            phone:this.phone,
+            email:this.email,
+            account: this.account,
+            password: this.password,
+            password_repeat: this.password_repeat
+          };
+          const api = "/api/user-register"
+
+          axios
+            .post(api,  qs.stringify(credentials))
+            .then(response => {
+              this.msg = response.data.msg
+              alert(this.msg)
+            })
+            .catch(err =>{
+              this.msg = err.response.data.msg;
+              alert(this.msg)
+            })
+        }
+      },
+    } 
+  }
+  </script>
