@@ -18,7 +18,7 @@ exports.db = (sql, sqlParams) =>{
             if(!err){
                 conn.query(sql, sqlParams, (e, results) => {
                     if(!e){
-                        console.log(results)
+                        //console.log(results)
                         resolve(results)
                         conn.destroy()
                     }
