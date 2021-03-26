@@ -10,7 +10,7 @@
           <div class="form-group col-md-12 text-left">
             <label for="userId">帳 號</label>
             <input
-              v-model = "userId"
+              v-model="account"
               type="text"
               class="form-control"
               placeholder="請輸入帳號"
@@ -22,7 +22,7 @@
           <div class="form-group col-md-12 text-left">
             <label for="password">密 碼</label>
             <input
-              v-model = "password"
+              v-model="password"
               type="password"
               class="form-control"
               placeholder="請輸入密碼"
@@ -41,8 +41,8 @@
               type="submit"
               value="立即登入"
               class="btn"
-              style="width: 400px; height: 60px; font-size: 30px margin:0px auto;"
-              v-on:click="login"
+              style="width: 400px; height: 60px; font-size: 30px; margin:0px auto;"
+              @click="login"
             />
           </div>
         </form>
@@ -52,23 +52,51 @@
 </template>
 
 <script>
-export default {
-  data(){
-    return{
-      userId:"",
-      password:""
-    };
-  },
-  methods: {
-    login() {
-      //write login authencation logic here!
-      if (this.userId === "abcd" && this.password === "1234") {
-        localStorage.setItem("token","ImLogin");
-        this.$router.push("/");
-      } else {
-        alert("login failed");
-      }
+  import axios from "../js/axios.js";
+
+  export default {
+    name:"Login",
+    data(){
+      return{
+        account:"",
+        password:"",
+        msg:"",
+      };
     },
-  },
-};
+    methods: {
+      //登入
+      login: function() {
+        const credentials = {
+          account: this.account,
+          password: this.password
+        };
+        const api = "/api/user-login"
+        axios
+        .post(api, credentials)
+        .then(response => {
+          this.msg = response.data.msg
+
+          const token = response.data.token;
+          const user = response.data.user;
+
+          this.$store.dispatch('login', { token, user });
+
+          alert(this.msg);
+
+          this.$router.push('/');
+        })
+        .catch(err =>{
+          this.msg = err.response.data.msg;
+          alert(this.msg);
+        })
+
+        
+      },
+      // //登出
+      // logout(){
+      //   cookie.removeItem('token');
+      //   this.$router.push('/login');
+      // }
+    } 
+  }
 </script>
