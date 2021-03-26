@@ -9,7 +9,7 @@ const userMiddleware = require('./middleware/users.js');
 
 //貼文
 router.get('/posts', (req, res, next) => {
-  const sql = 'select * from fb_post'
+  const sql = 'select * from web_post'
   db(sql)
   .then(results =>{
     res.send(results);
