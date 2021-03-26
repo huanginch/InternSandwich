@@ -1,16 +1,20 @@
 const jwt = require("jsonwebtoken");
 module.exports = {
   validateRegister: (req, res, next) => {
+    //輸入欄位有空值
+    if(!req.body.name || !req.body.gender || !req.body.phone || !req.body.email){
+      return res.status(400).send({msg:"欄位不得為空"});
+    }
     // username min length 3
     if (!req.body.account || req.body.account.length < 3) {
       return res.status(400).send({
-        msg: 'Please enter a username with min. 3 chars'
+        msg: '請至少輸3入個字以上的帳號'
       });
     }
-    // password min 6 chars
+    // password min 8 chars
     if (!req.body.password || req.body.password.length < 8) {
       return res.status(400).send({
-        msg: 'Please enter a password with min. 6 chars'
+        msg: '請至少輸入8個字以上的密碼'
       });
     }
     // password (repeat) does not match
@@ -19,7 +23,7 @@ module.exports = {
       req.body.password != req.body.password_repeat
     ) {
       return res.status(400).send({
-        msg: 'Both passwords must match'
+        msg: '密碼與確認密碼不符'
       });
     }
     next();
