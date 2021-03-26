@@ -322,7 +322,7 @@ export default {
       var select_area = this.select_area.toLowerCase();
 
       // 如果 filter_name 有內容，回傳過濾後的資料，否則將原本的 fb_posts 回傳。
-      if (this.keyword.trim() !== "") {
+      if (this.keyword.trim() !== "" || this.select_jobclass.trim() !== "" || this.select_area.trim() !== "") {
         this.searchResult = this.fb_info.filter(function (d) {
           return d.cp_name.toLowerCase().indexOf(keyword) > -1; //過濾關鍵字
         });
