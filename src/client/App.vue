@@ -19,15 +19,12 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav nav-tabs">
-            <router-link class="nav-item nav-link" to="/">找實習</router-link>
-            <router-link class="nav-item nav-link" to="/resume"
-              >履歷模板</router-link
+            <router-link class="nav-item nav-link" to="/" v-if = "token === ImLogin && token !== null">找實習</router-link>
+            <router-link class="nav-item nav-link" to="/resume" v-else>履歷模板</router-link
             >
-            <router-link class="nav-item nav-link" to="/finder"
-              >找實習生</router-link
+            <router-link class="nav-item nav-link" to="/finder" >找實習生</router-link
             >
-            <router-link class="nav-item nav-link" to="/mailbox"
-              >履歷信箱</router-link
+            <router-link class="nav-item nav-link" to="/mailbox" >履歷信箱</router-link
             >
             <!-- <a
               class="nav-item nav-link"
@@ -43,6 +40,8 @@
             <router-link class="nav-item nav-link" data-toggle="tab" to="/register"
               >註冊<span class="glyphicon glyphicon-log-in"></span
             ></router-link>
+            <button class="btn" @click.prevent="logout">登出</button>
+            <p></p>
           </div>
         </div>
       </nav>
@@ -140,3 +139,19 @@
   height: 40px;
 }
 </style>
+
+<script>
+export default {
+  data(){
+    return{
+       token:window.localStorage.getItem("token")
+    };
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem("token");
+      this.$router.push("/");
+    },
+  },
+};
+</script>
