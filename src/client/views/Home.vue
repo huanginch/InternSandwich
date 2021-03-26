@@ -16,7 +16,7 @@
             />
             <!-- 類別關鍵字下拉選單 -->
             <select v-model="select_jobclass" class="btn btn-default">
-              <option disabled value="">類別</option>
+              <option value="">類別</option>
               <!--eslint-disable-next-line-->
               <option
                 v-for="jobclass in jobclasses"
@@ -26,21 +26,14 @@
               </option>
             </select>
             <select v-model="select_area" class="btn btn-default">
-              <option disabled value="">地區</option>
+              <option value="">地區</option>
               <!--eslint-disable-next-line-->
               <option v-for="area in areas" v-bind:value="area.value">
                 {{ area.text }}
               </option>
             </select>
-            <select v-model="select_salary" class="btn btn-default">
-              <option disabled value="">薪資</option>
-              <!--eslint-disable-next-line-->
-              <option v-for="salary in salaries" v-bind:value="salary.value">
-                {{ salary.text }}
-              </option>
-            </select>
             <!--eslint-disable-next-line-->
-            <button class="btn" v-model="keyword" @click="filteredPosts">
+            <button class="btn" v-model="keyword,select_area" @click="filteredPosts">
               <span class="glyphicon glyphicon-search"></span>搜尋<span
                 class="caret"
               ></span>
@@ -69,7 +62,7 @@
 
                 <div class="col-lg-10">
                   <h1 style="font-size: 25px" align="left">
-                    {{ posts.link }}
+                    {{ posts.title }}
                   </h1>
                   <p style="font-size: 20px" align="left">
                     {{ posts.cp_name }}
@@ -202,8 +195,8 @@
                   />
                 </div>
                 <div class="col-lg-9">
-                  <p style="font-size: 20px" align="left">{{ posts.link }}</p>
-                  <p style="font-size: 20px" align="left">
+                  <p style="font-size: 25px" align="left">{{ posts.title }}</p>
+                  <p style="font-size: 18px" align="left">
                     {{ posts.cp_name }}
                   </p>
                 </div>
@@ -292,27 +285,21 @@ export default {
     return {
       fb_info: null,
       searchResult: null,
-      countOfPage: 5,
+      countOfPage: 15,
       currPage: 1,
       select_jobclass: "",
       select_area: "",
-      select_salary: "",
       keyword: "",
       jobclasses: [
-        { text: "科技", value: "科技" },
+        { text: "暑期", value: "暑期" },
         { text: "設計", value: "設計" },
         { text: "餐飲", value: "餐飲" },
       ],
       areas: [
-        { text: "台北", value: "台北" },
+        { text: "台灣", value: "台灣" },
         { text: "台中", value: "台中" },
         { text: "高雄", value: "高雄" },
-      ],
-      salaries: [
-        { text: "月薪22k", value: "月薪22k" },
-        { text: "月薪30k", value: "月薪30k" },
-        { text: "月薪40k", value: "月薪40k" },
-      ],
+      ]
     };
   },
   computed: {
@@ -331,13 +318,22 @@ export default {
       // 因為 JavaScript 的 filter 有分大小寫，
       // 所以這裡將 keyword 與 fb_info[n].cp_name 通通轉小寫方便比對。
       var keyword = this.keyword.toLowerCase();
+      var select_jobclass = this.select_jobclass.toLowerCase();
+      var select_area = this.select_area.toLowerCase();
 
       // 如果 filter_name 有內容，回傳過濾後的資料，否則將原本的 fb_posts 回傳。
       if (this.keyword.trim() !== "") {
         this.searchResult = this.fb_info.filter(function (d) {
-          return d.cp_name.toLowerCase().indexOf(keyword) > -1;
+          return d.cp_name.toLowerCase().indexOf(keyword) > -1; //過濾關鍵字
         });
-      } else {
+        this.searchResult = this.searchResult.filter(function (d) {
+          return d.cp_name.toLowerCase().indexOf(select_jobclass) > -1; //過濾類別
+        });
+        this.searchResult = this.searchResult.filter(function (d) {
+          return d.cp_name.toLowerCase().indexOf(select_area) > -1; //過濾地區
+        });
+      }
+      else {
         this.searchResult = this.fb_info;
       }
     },

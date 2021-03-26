@@ -10,11 +10,10 @@
           <div class="form-group col-md-12 text-left">
             <label for="userId">帳 號</label>
             <input
+              v-model = "userId"
               type="text"
               class="form-control"
               placeholder="請輸入帳號"
-              id="userId"
-              name="userId"
             />
           </div>
 
@@ -23,11 +22,10 @@
           <div class="form-group col-md-12 text-left">
             <label for="password">密 碼</label>
             <input
+              v-model = "password"
               type="password"
               class="form-control"
               placeholder="請輸入密碼"
-              id="password"
-              name="password"
             />
           </div>
 
@@ -44,6 +42,7 @@
               value="立即登入"
               class="btn"
               style="width: 400px; height: 60px; font-size: 30px margin:0px auto;"
+              v-on:click="login"
             />
           </div>
         </form>
@@ -51,3 +50,25 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data(){
+    return{
+      userId:"",
+      password:""
+    };
+  },
+  methods: {
+    login() {
+      //write login authencation logic here!
+      if (this.userId === "abcd" && this.password === "1234") {
+        localStorage.setItem("token","ImLogin");
+        this.$router.push("/");
+      } else {
+        alert("login failed");
+      }
+    },
+  },
+};
+</script>
