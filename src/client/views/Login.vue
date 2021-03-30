@@ -8,12 +8,12 @@
       <div class="panel-body" style="padding: 50px">
         <form>
           <div class="form-group col-md-12 text-left">
-            <label for="userId">帳 號</label>
+            <label for="userId">Email</label>
             <input
-              v-model="account"
+              v-model="email"
               type="text"
               class="form-control"
-              placeholder="請輸入帳號"
+              placeholder="請輸入email"
             />
           </div>
 
@@ -58,7 +58,7 @@
     name:"Login",
     data(){
       return{
-        account:"",
+        email:"",
         password:"",
         msg:"",
       };
@@ -67,7 +67,7 @@
       //登入
       login: function() {
         const credentials = {
-          account: this.account,
+          email: this.email,
           password: this.password
         };
         const api = "/api/user-login"

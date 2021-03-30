@@ -29,6 +29,31 @@
             <br/>
             <input v-model="gender" type="radio" value=0 /><label>男</label>
             <input v-model="gender" type="radio" value=1 /><label>女</label>
+
+            <br />
+            <label>生日</label>
+            <input
+              v-model="birth"
+              type="text"
+              class="form-control"
+              placeholder="範例: xxxx-xx-xx"
+            />
+            <br />
+            <label>身分證字號</label>
+            <input
+              v-model="id_card"
+              type="text"
+              class="form-control"
+              placeholder="範例: A123456789"
+            />
+            <br />
+            <label>學校</label>
+            <input
+              v-model="school"
+              type="text"
+              class="form-control"
+              placeholder="範例:OO大學"
+            />
             <!-- <label for="password">生 日</label>
             <input
               type="password"
@@ -68,14 +93,6 @@
               v-model="email"
               class="form-control"
               placeholder="範例:oooo@gmail.com"
-            />
-            <br />
-            <label>帳號</label>
-            <input
-              v-model="account"
-              type="text"
-              class="form-control"
-              placeholder="請輸入欲申請帳號"
             />
             <br />
             <label>密碼</label>
@@ -127,9 +144,11 @@ import qs from 'qs';
       return {
         name: "",
         gender: Number,
+        birth: "",
+        id_card: "",
+        school: "",
         phone: "",
         email: "",
-        account: "",
         password: "",
         password_repeat: "",
         msg: "",
@@ -146,9 +165,12 @@ import qs from 'qs';
           const credentials = {
             name:this.name,
             gender:this.gender,
+            birth:this.birth,
+            id_card:this.id_card,
+            school:this.school,
             phone:this.phone,
             email:this.email,
-            account: this.account,
+            //account: this.account,
             password: this.password,
             password_repeat: this.password_repeat
           };
