@@ -2,11 +2,11 @@ const jwt = require("jsonwebtoken");
 module.exports = {
   validateRegister: (req, res, next) => {
     //輸入欄位有空值
-    if(!req.body.name || !req.body.gender || !req.body.phone || !req.body.email){
+    if(!req.body.name || !req.body.gender || !req.body.phone || !req.body.birth || !req.body.id_card || !req.body.school){
       return res.status(400).send({msg:"欄位不得為空"});
     }
     // username min length 3
-    if (!req.body.account || req.body.account.length < 3) {
+    if (!req.body.email || req.body.email.length < 3) {
       return res.status(400).send({
         msg: '請至少輸3入個字以上的帳號'
       });
