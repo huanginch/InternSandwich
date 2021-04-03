@@ -26,14 +26,14 @@
               </option>
             </select>
             <select v-model="select_area" class="btn btn-default">
-              <option value="">地區</option>
+              <option  value="">地區</option>
               <!--eslint-disable-next-line-->
               <option v-for="area in areas" v-bind:value="area.value">
                 {{ area.text }}
               </option>
             </select>
             <!--eslint-disable-next-line-->
-            <button class="btn" v-model="keyword,select_area" @click="filteredPosts">
+            <button class="btn" v-model="keyword, select_area" @click="filteredPosts">
               <span class="glyphicon glyphicon-search"></span>搜尋<span
                 class="caret"
               ></span>
@@ -89,7 +89,7 @@
                   <router-link
                     class="btn"
                     style="width: 200px; height: 50px; font-size: 20px"
-                    to="/intern"
+                    :to="{ name: 'Intern', params: { post_id: posts.id }}"
                   >
                     查看評論
                   </router-link>
@@ -183,7 +183,7 @@
       <div class="col-lg-3">
         <p class="text-left"><strong>熱門實習</strong></p>
         <!--eslint-disable-next-line-->
-        <div id="Home" v-for="(posts, index) in fb_info.slice(pageStart, pageStart + countOfPage)" class="posts" >
+        <div id="Home" v-for="(posts, index) in intern_info.slice(pageStart, pageStart + countOfPage)" class="posts" >
           <div class="panel">
             <div class="panel-body">
               <div class="row">
@@ -274,16 +274,12 @@
 
 <script>
 import axios from "../js/axios.js";
-//import Searchbar from "../components/Searchbar.vue";
 
 export default {
   name: "Home",
-  /*componemts:{
-    Searchbar
-  },*/
   data() {
     return {
-      fb_info: null,
+      intern_info: null,
       searchResult: null,
       countOfPage: 15,
       currPage: 1,
@@ -299,7 +295,7 @@ export default {
         { text: "台灣", value: "台灣" },
         { text: "台中", value: "台中" },
         { text: "高雄", value: "高雄" },
-      ]
+      ],
     };
   },
   computed: {
@@ -316,25 +312,27 @@ export default {
     //依照關鍵字搜尋貼文
     filteredPosts: function () {
       // 因為 JavaScript 的 filter 有分大小寫，
-      // 所以這裡將 keyword 與 fb_info[n].cp_name 通通轉小寫方便比對。
+      // 所以這裡將 keyword 與 intern_info[n].cp_name 通通轉小寫方便比對。
       var keyword = this.keyword.toLowerCase();
-      var select_jobclass = this.select_jobclass.toLowerCase();
-      var select_area = this.select_area.toLowerCase();
+      var select_jobclass = this.select_jobclass;
+      var select_area = this.select_area;
 
       // 如果 filter_name 有內容，回傳過濾後的資料，否則將原本的 fb_posts 回傳。
       if (this.keyword.trim() !== "" || this.select_jobclass.trim() !== "" || this.select_area.trim() !== "") {
-        this.searchResult = this.fb_info.filter(function (d) {
+        this.searchResult = this.intern_info.filter(function (d) {
           return d.cp_name.toLowerCase().indexOf(keyword) > -1; //過濾關鍵字
         });
+
         this.searchResult = this.searchResult.filter(function (d) {
           return d.cp_name.toLowerCase().indexOf(select_jobclass) > -1; //過濾類別
         });
+
         this.searchResult = this.searchResult.filter(function (d) {
           return d.cp_name.toLowerCase().indexOf(select_area) > -1; //過濾地區
         });
-      }
-      else {
-        this.searchResult = this.fb_info;
+
+      } else {
+        this.searchResult = this.intern_info;
       }
     },
     //設定當前頁面
@@ -352,7 +350,7 @@ export default {
     axios
       .get(api)
       .then((response) => {
-        this.fb_info = response.data;
+        this.intern_info = response.data;
         this.searchResult = response.data;
       })
       .catch(function (error) {
@@ -360,6 +358,7 @@ export default {
         console.log(error);
       });
   },
+  
 };
 /*export default({
   name: '#user',

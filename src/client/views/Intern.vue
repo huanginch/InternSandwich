@@ -16,8 +16,8 @@
                     />
                   </div>
                   <div class="col-lg-10">
-                    <p style="font-size: 35px"><strong>採購實習生</strong></p>
-                    <p style="font-size: 30px">全聯大賣場股份有限公司</p>
+                    <pre style="font-size: 35px"><strong >{{post_info[post_id].title}}</strong></pre>
+                    <pre style="font-size: 30px" v-bind="post_info ,post_id">{{post_info[post_id].cp_name}}</pre>
                   </div>
                 </div>
               </div>
@@ -48,8 +48,17 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="ppp-inten1">
-              <a style="font-size: 30px">實習資訊</a><br /><br />
-              <a style="font-size: 25px">類別</a>&nbsp;<a
+
+              <a style="font-size: 30px" >條件要求</a><br /><br />
+              <pre style="font-size: 25px" v-bind="post_info ,post_id">{{post_info[post_id].requirement}}</pre>
+              <br />
+              <hr border-style="solid" />
+
+              <a style="font-size: 30px" >薪資待遇</a><br /><br />
+              <pre style="font-size: 15px" v-bind="post_info ,post_id">{{post_info[post_id].benefits}}</pre
+              ><br />
+              <hr border-style="solid" />
+              <!-- <a
                 style="font-size: 18px"
                 >行政、勞力</a
               ><br />
@@ -64,18 +73,13 @@
               <a style="font-size: 25px">其他</a><br /><a
                 style="font-size: 15px"
                 >我是描述我是描述我是描述我是描述我是描述</a
-              ><br />
-              <hr style="solid" />
+              ><br /> -->
 
-              <a style="font-size: 30px">實習內容</a><br /><br />
-              <a style="font-size: 15px"
-                >我是工作內容我是工作內容我是工作內容我是工作內容我是工作內容我是工作內容我是工作內容
-                我是工作內容我是工作內容我是工作內容我是工作內容我是工作內容我是工作內容我是工作內容</a
-              ><br />
-              <hr style="solid" />
-
-              <a style="font-size: 30px">條件要求</a><br /><br />
-              <a style="font-size: 25px">學歷科系</a>&nbsp;<a
+              <a style="font-size: 30px" >實習內容</a><br /><br />
+              <pre style="font-size: 15px" v-bind="post_info ,post_id">{{post_info[post_id].job_desc}}</pre>
+              <br />
+              <hr border-style="solid" />
+              <!-- &nbsp;<a
                 style="font-size: 18px"
                 >不限</a
               ><br />
@@ -86,11 +90,15 @@
               <a style="font-size: 25px">熟悉工具</a>&nbsp;<a
                 style="font-size: 18px"
                 >要會騎機車</a
-              ><br />
-              <hr style="solid" />
+              ><br /> -->
+              <a style="font-size: 30px">實習地點</a><br /><br />
+              <pre style="font-size: 25px" v-bind="post_info ,post_id">{{post_info[post_id].location}}</pre>
+              <br />
+              <hr border-style="solid" />
 
-              <a style="font-size: 30px">聯絡方式</a><br /><br />
-              <a style="font-size: 25px">聯絡人</a>&nbsp;<a
+              <a style="font-size: 30px">其他</a><br /><br />
+              <pre style="font-size: 25px" v-bind="post_info ,post_id">{{post_info[post_id].others}}</pre>
+              <!-- &nbsp;<a
                 style="font-size: 18px"
                 >嚕嚕媽媽</a
               ><br />
@@ -101,11 +109,11 @@
               <a style="font-size: 25px">電話</a>&nbsp;<a
                 style="font-size: 18px"
                 >0917162934</a
-              ><br /><br />
+              ><br /><br /> -->
             </div>
           </div>
         </div>
-        <hr style="solid" />
+        <hr border-style="solid" />
       </div>
 
       <div class="col-lg-3 text-left">
@@ -162,11 +170,29 @@
       <div class="col-lg-8 text-left">
         <div class="input-group mt-3 mb-3 input-group-lg">
           <input
+          v-if="!isLoggedIn"
+          disabled
+          type="text"
+          class="form-control"
+          placeholder="登入以留下評論......"
+          />
+          <textarea
+            v-else-if="!hascomment || editing"
+            v-model="my_comment"
+            class="form-control"
+            placeholder="留下評論......"
+          ></textarea>
+          <a
+            v-else
+            v-model="my_comment"
             type="text"
             class="form-control"
-            placeholder="登入以留下評論......"
-          />
-          <button class="btn" type="button">發佈評論</button>
+          >{{my_comment}}</a>
+          <button class="btn" type="button" @click="pushcomment" v-if="isLoggedIn && !hascomment">發佈評論</button>
+          <button class="btn" type="button" @click="editcomment" v-if="isLoggedIn && hascomment && !editing">編輯留言</button>
+          <button class="btn" type="button" @click="deletecomment" v-if="isLoggedIn && hascomment && !editing">刪除留言</button>
+          <button class="btn" type="button" @click="finishedit" v-if="editing">完成</button>
+          <button class="btn" type="button" @click="canceledit" v-if="editing">取消</button>
           <div class="input-group-btn"></div>
         </div>
       </div>
@@ -192,24 +218,26 @@
         </div>
       </div> -->
 
-      <div class="col-lg-3"></div>
+      <!-- 其他實習生評論 -->
+      <div class="col-lg-3" ></div>
 
-      <div class="col-lg-1">
-        <img src="../assets/圖片1.png" alt="internsandwich" height="100px" />
+      <div class="col-lg-9" v-for="comment in comment_info" >
+        <div class="col-lg-1">
+          <img src="../assets/圖片1.png" alt="internsandwich" height="100px" />
+        </div>
       </div>
-      <div class="col-lg-6 text-left">
+      <div class="col-lg-9 text-left" v-for="comment in comment_info" >
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="ppp-inten1">
-              <a style="font-size: 20px"
-                >真是個好實習啊！工作了一週我學會貨比三家～</a
-              ><br /><br />
+              <p style="font-size: 20px">{{comment.context}}</p>
+              <br /><br />
             </div>
           </div>
         </div>
       </div>
 
-      <div class="col-lg-5"></div>
+      <!-- <div class="col-lg-5"></div>
 
       <div class="col-lg-1">
         <img src="../assets/圖片1.png" alt="internsandwich" height="100px" />
@@ -223,7 +251,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <br />
@@ -242,6 +270,147 @@
     </ul>
   </div>
 </template>
+
+<script>
+import axios from '../js/axios.js'
+
+export default {
+  name: "Intern",
+  data(){
+    return{
+      post_id:"",
+      post_info:"",
+      user_info:"",
+      user_id:"",
+      comment_info:"",
+      my_comment:"",
+      hascomment:false,
+      editing:false,
+      temp_comment:""
+    };
+  },
+  computed:{
+    isLoggedIn: function(){ 
+      return this.$store.getters.isLoggedIn
+    },
+  },
+  methods:{
+    //整理貼文格式
+    jsonEscape: function(str) {
+      str = JSON.stringify(str).replace(/[\s]/g,'');
+      return JSON.parse(str);
+    },
+
+    //顯示評論
+    showcomments:function(){
+      var api = '/api/show-comments'
+      var params = {
+        p_id:this.post_id,
+      }
+      axios
+        .get(api,{params})
+        .then(response =>{
+          this.comment_info = response.data
+          
+          //如果登入就找到自己的評論
+          if(this.isLoggedIn){
+            this.my_comment = this.comment_info.filter(result => result.U_ID === this.user_id)
+
+            //找到就顯示有評論
+            if(this.my_comment){
+              this.my_comment = this.my_comment[0]['context']
+              this.hascomment = true
+            }
+            
+            this.comment_info = this.comment_info.filter(result => result.U_ID != this.user_id)
+          }
+        })
+        .catch(error =>{
+          console.log(error)
+        })
+    },
+
+    //留下評論
+    pushcomment: function(){
+      if(this.my_comment){
+        this.hascomment = true
+
+        //存入資料庫
+        var api = '/api/comment'
+        var params = {
+          p_id:this.post_id,
+          u_id:this.user_id,
+          context:this.my_comment
+        }
+
+        axios
+          .post(api,params)
+          .then(response =>{
+          })
+          .catch(error =>{
+            console.log(error)
+          })
+        }
+    },
+
+    //編輯評論
+    editcomment: function(){
+      this.editing = true
+      this.temp_comment = this.my_comment
+    },
+
+    //完成編輯評論
+    finishedit: function(){
+      this.editing = false
+
+      //存入資料庫
+      var api = '/api/modify-comment'
+        var params = {
+          p_id:this.post_id,
+          u_id:this.user_id,
+          context:this.my_comment
+        }
+
+        axios
+          .patch(api,params)
+          .then(response =>{
+          })
+          .catch(error =>{
+            console.log(error)
+          })
+    },
+
+    //取消編輯評論
+    canceledit: function(){
+      this.my_comment = this.temp_comment
+      this.editing = false
+    },
+
+    //刪除評論
+    deletecomment: function(){
+      //do axios.delete
+      this.hascomment = false
+    }
+  },
+  created(){
+    this.user_info = this.$store.getters.getUser
+    this.user_id = this.user_info['ID']
+    this.post_id = this.$route.params.post_id;
+    var api = '/api/posts/';
+
+    axios
+      .get(api)
+      .then(response =>{
+        this.post_info = response.data;
+        this.post_info = this.jsonEscape(this.post_info)
+        this.showcomments()
+      })
+      .catch(error =>{
+        console.log(error);
+      })
+  },
+}
+</script>
 
 <style>
 .ppp-inten1 {
