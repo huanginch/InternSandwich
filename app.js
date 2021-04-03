@@ -3,12 +3,12 @@ const express = require('express')
 const cookieParser = require('cookie-parser')
 const path = require('path')
 const app = express()
-const route = require('./src/server/route')
-const cors = require('cors')
+const route = require('./src/server/route')//匯入後端路由
+const cors = require('cors')//跨域資源請求設定
 
 app.use(cors({origin:"http://localhost:8080",credentials:true}))
-app.use(express.urlencoded({extended: true}))
-app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+app.use(express.json())//body-parser
 app.use(cookieParser())
 
 //引入dist
