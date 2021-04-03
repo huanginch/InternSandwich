@@ -24,9 +24,9 @@ const routes = [{
   component: Home
 },
 {
-  path: '/intern',
+  path: '/intern/:post_id',
   name: 'Intern',
-  component: Intern
+  component: Intern,
 },
 {
   path: '/login',
