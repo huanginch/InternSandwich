@@ -23,7 +23,7 @@ router.get('/posts', (req, res, next) => {
 
 //取得貼文評論
 router.get('/show-comments', (req, res, next) => {
-  var sqlparams = req.query.p_id;
+  var sqlparams = [req.query.p_id, req.query.u_id];
   var sql = 'select * from comment WHERE P_ID = ?';
 
   db(sql,sqlparams)
@@ -64,7 +64,7 @@ router.patch('/modify-comment', (req, res, next) => {
 })
 
 //刪除留言
-router.delete('/modify-comment', (req, res, next) => {
+router.delete('/deltet-comment', (req, res, next) => {
   const sqlparams = [req.body.context, escape(req.body.p_id), escape(req.body.u_id)];
   var sql = 'DELETE FROM comment WHERE P_ID = ? AND U_ID = ?';
 
