@@ -8,8 +8,11 @@
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:8080
+# frontend with hot reload at localhost:8080
 npm run dev
+
+# backend with hot reload at localhost:3000
+npm run serve
 
 # build for production with minification
 npm run build
