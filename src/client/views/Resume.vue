@@ -171,7 +171,7 @@
                 type="submit"
                 value="送出履歷"
                 class="btn"
-                style="width: 400px; height: 60px; font-size: 30px margin:0px auto;"
+                style="width: 400px; height: 60px; font-size: 30px; margin:0px auto;"
               />
             </div>
           </div>

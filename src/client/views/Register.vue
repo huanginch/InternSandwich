@@ -181,6 +181,7 @@ import qs from 'qs';
             .then(response => {
               this.msg = response.data.msg
               alert(this.msg)
+              this.$router.push('/')
             })
             .catch(err =>{
               this.msg = err.response.data.msg;

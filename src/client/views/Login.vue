@@ -4,6 +4,8 @@
     <br />
     <h3>會員登入</h3>
     <br />
+    <router-link class="text-right" to="/login_business">企業登入</router-link>
+    
     <div class="panel panel-default col-md-6 offset-3">
       <div class="panel-body" style="padding: 50px">
         <form>

@@ -3,9 +3,12 @@ import VueRouter from 'vue-router'
 
 import Home from '../views/Home.vue' //找實習
 import Intern from '../views/Intern.vue' //實習內容頁面
+import Save from '../views/Save.vue'
 
-import Login from '../views/Login.vue' //登入
-import Register from '../views/Register.vue' //註冊
+import Login from '../views/Login.vue' //實習生登入
+import Login_business from '../views/Login_business'//企業登入
+import Register from '../views/Register.vue' //實習生註冊
+import Register_business from '../views/Register_business.vue'//企業註冊
 
 import Finder from '../views/Finder.vue' //找實習生
 import Profile from '../views/Profile.vue' //實習生內容頁面
@@ -34,14 +37,29 @@ const routes = [{
   component: Login
 },
 {
+  path: '/login_business',
+  name: 'Log in_business',
+  component: Login_business
+},
+{
   path: '/register',
   name: 'Register',
   component: Register
 },
 {
+  path: '/register_business',
+  name: 'Register_business',
+  component: Register_business
+},
+{
   path: '/finder',
   name: 'Finder',
   component: Finder
+},
+{
+  path: '/save',
+  name: 'Save',
+  component: Save
 },
 {
   path: '/profile',

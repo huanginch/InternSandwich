@@ -17,20 +17,20 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav nav-tabs">
-            <router-link class="nav-item nav-link" to="/">找實習</router-link>
-            <router-link class="nav-item nav-link" to="/save" v-if="isLoggedIn"
+            <router-link class="nav-item nav-link" to="/" v-if=!business_isLoggedIn>找實習</router-link>
+            <router-link class="nav-item nav-link" to="/save" v-if="user_isLoggedIn"
               >我的收藏</router-link
             >
             <router-link
               class="nav-item nav-link"
               to="/resume"
-              v-if="isLoggedIn"
+              v-if="user_isLoggedIn"
               >履歷模板</router-link
             >
             <router-link
               class="nav-item nav-link"
               to="/finder"
-              v-if="isLoggedIn"
+              v-if="business_isLoggedIn"
               >找實習生</router-link
             >
             <router-link class="nav-item nav-link" to="/post" v-if="isLoggedIn"
@@ -39,7 +39,7 @@
             <router-link
               class="nav-item nav-link"
               to="/mailbox"
-              v-if="isLoggedIn"
+              v-if="business_isLoggedIn"
               >履歷信箱</router-link
             >
             <!-- <a
@@ -54,14 +54,14 @@
               class="nav-item nav-link"
               data-toggle="tab"
               to="/login"
-              v-if="!isLoggedIn"
+              v-if="!(user_isLoggedIn || business_isLoggedIn)"
               >登入<span class="glyphicon glyphicon-log-in"></span
             ></router-link>
             <router-link
               class="nav-item nav-link"
               data-toggle="tab"
               to="/register"
-              v-if="!isLoggedIn"
+              v-if="!(user_isLoggedIn || business_isLoggedIn)"
               >註冊<span class="glyphicon glyphicon-log-in"></span
             ></router-link>
             <button class="btn" @click.prevent="logout" v-else>登出</button>
@@ -77,8 +77,11 @@
 <script>
 export default {
   computed: {
-    isLoggedIn: function () {
-      return this.$store.getters.isLoggedIn;
+    user_isLoggedIn: function () {
+      return this.$store.getters.getUser.school;
+    },
+    business_isLoggedIn: function () {
+      return this.$store.getters.getUser.address;
     },
   },
   methods: {
