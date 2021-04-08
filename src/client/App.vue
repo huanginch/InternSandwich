@@ -33,7 +33,7 @@
               v-if="business_isLoggedIn"
               >找實習生</router-link
             >
-            <router-link class="nav-item nav-link" to="/post" v-if="isLoggedIn"
+            <router-link class="nav-item nav-link" to="/post" v-if="business_isLoggedIn"
               >企業發文</router-link
             >
             <router-link

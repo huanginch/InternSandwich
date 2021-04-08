@@ -39,6 +39,8 @@
               ></span>
             </button>
           </div>
+          <button class="btn" @click="sortNewtoOld">由新到舊</button>
+          <button class="btn" @click="sortOldtoNew">由舊到新</button>
         </div>
       </div>
     </form>
@@ -342,6 +344,18 @@ export default {
       }
       this.currPage = idx;
     },
+    //貼文排序由新到舊
+    sortNewtoOld: function(){
+      this.searchResult.sort(function(p1, p2){
+        return (p2.id-p1.id)
+      });
+    },
+    //貼文排序由舊到新
+    sortOldtoNew: function(){
+      this.searchResult.sort(function (p1, p2) {
+        return (p1.id-p2.id)
+      });
+    }
   },
   created() {
     //axios獲取後臺資料
