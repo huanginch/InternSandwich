@@ -16,8 +16,10 @@
                     />
                   </div>
                   <div class="col-lg-10">
-                    <p style="font-size: 35px"><strong>黃小明</strong></p>
-                    <p style="font-size: 30px">資管系學生</p>
+                    <p style="font-size: 40px">
+                      <strong>黃小明</strong>
+                    </p>
+                    <p style="font-size: 40px">資管系學生</p>
                   </div>
                 </div>
               </div>
@@ -48,38 +50,46 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="ppp-inten1">
-              <a style="font-size: 30px">實習資訊</a><br /><br />
-              <a style="font-size: 25px">類別</a>&nbsp;<a
+              <a style="font-size: 30px">基本資料</a><br /><br />
+              <a style="font-size: 25px">性別</a>&nbsp;<a
                 style="font-size: 18px"
-                >行政、勞力</a
+                >女</a
               ><br />
-              <a style="font-size: 25px">地點</a>&nbsp;<a
+              <a style="font-size: 25px">生日</a>&nbsp;<a
                 style="font-size: 18px"
-                >嘉義縣民雄鄉</a
+                >19991029</a
               ><br />
               <a style="font-size: 25px">薪水</a>&nbsp;<a
                 style="font-size: 18px"
                 >月薪22KKK</a
               ><br />
-              <a style="font-size: 25px">其他</a><br /><a
+              <a style="font-size: 25px">學校</a>&nbsp;<a
                 style="font-size: 15px"
-                >我是描述我是描述我是描述我是描述我是描述</a
+                >鳳梨大學</a
               ><br />
               <hr style="solid" />
 
-              <a style="font-size: 30px">實習內容</a><br /><br />
-              <a style="font-size: 15px"
-                >我是工作內容我是工作內容我是工作內容我是工作內容我是工作內容我是工作內容我是工作內容
-                我是工作內容我是工作內容我是工作內容我是工作內容我是工作內容我是工作內容我是工作內容</a
+              <a style="font-size: 30px">實習期望</a><br /><br />
+              <a style="font-size: 25px">期望職位</a>&nbsp;<a
+                style="font-size: 18px"
+                >女</a
+              ><br />
+              <a style="font-size: 25px">期望待遇</a>&nbsp;<a
+                style="font-size: 18px"
+                >女</a
+              ><br />
+              <a style="font-size: 25px">期望工作地</a>&nbsp;<a
+                style="font-size: 18px"
+                >女</a
               ><br />
               <hr style="solid" />
 
-              <a style="font-size: 30px">條件要求</a><br /><br />
-              <a style="font-size: 25px">學歷科系</a>&nbsp;<a
+              <a style="font-size: 30px">學經歷</a><br /><br />
+              <a style="font-size: 25px">學歷</a>&nbsp;<a
                 style="font-size: 18px"
                 >不限</a
               ><br />
-              <a style="font-size: 25px">語言能力</a>&nbsp;<a
+              <a style="font-size: 25px">經歷</a>&nbsp;<a
                 style="font-size: 18px"
                 >英文、日文</a
               ><br />
@@ -89,11 +99,19 @@
               ><br />
               <hr style="solid" />
 
-              <a style="font-size: 30px">聯絡方式</a><br /><br />
-              <a style="font-size: 25px">聯絡人</a>&nbsp;<a
+
+              <a style="font-size: 30px">技能專長</a><br /><br />
+              <a style="font-size: 25px">語言能力</a>&nbsp;<a
                 style="font-size: 18px"
-                >嚕嚕媽媽</a
+                >不限</a
               ><br />
+              <a style="font-size: 25px">熟悉工具</a>&nbsp;<a
+                style="font-size: 18px"
+                >英文、日文</a
+              ><br />
+              <hr style="solid" />
+
+              <a style="font-size: 30px">聯絡方式</a><br /><br />
               <a style="font-size: 25px">Email</a>&nbsp;<a
                 style="font-size: 18px"
                 >Lulu@gmail.com</a

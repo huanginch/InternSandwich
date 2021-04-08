@@ -1,11 +1,11 @@
-<!-- 註冊 -->
+<!-- 實習生註冊 -->
 <template>
   <div style="padding: 100px 100px 10px">
     <br />
     <h3>實習生註冊</h3>
     <br />
 
-    <router-link class="text-right" to="/login">企業註冊</router-link>
+    <router-link class="text-right" to="/register_business">企業註冊</router-link>
     <!-- <button
       type="btn"
       value="企業註冊"

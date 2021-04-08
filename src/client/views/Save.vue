@@ -1,4 +1,4 @@
-<!-- 履歷信箱 -->
+<!-- 我的收藏 -->
 <template>
   <div style="padding: 100px 100px 10px">
     <form class="bs-example bs-example-form" role="form">
@@ -10,21 +10,25 @@
                 <div class="row">
                   <div class="col-lg-2">
                     <img
-                      src="../assets/圖片3.png"
+                      src="../assets/圖片4.png"
                       alt="internsandwich"
                       height="150px"
                     />
                   </div>
                   <div class="col-lg-10">
                     <p style="font-size: 40px">
-                      <strong>蓋房子股份有限公司</strong>
+                      <strong>黃小明</strong>
                     </p>
                     <div class="row">
                       <div class="col-lg-3">
-                        <p style="font-size: 20px">公司名稱：設計業、建築業</p>
-                        <p style="font-size: 20px">地址：台北、台中</p>
-                        <p style="font-size: 20px">電話：設計業、建築業</p>
-                        <p style="font-size: 20px">email：台北、台中</p>
+                        <p style="font-size: 20px">姓名：OOO</p>
+                        <p style="font-size: 20px">性別：台北、台中</p>
+                        <p style="font-size: 20px">生日：最低時薪160</p>
+                      </div>
+                      <div class="col-lg-3">
+                        <p style="font-size: 20px">學校：設計業、建築業</p>
+                        <p style="font-size: 20px">電話：台北、台中</p>
+                        <p style="font-size: 20px">email：最低時薪160</p>
                       </div>
                     </div>
                   </div>
@@ -38,55 +42,6 @@
 
     <div class="row">
       <div class="col-lg-9">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-lg-2">
-                <img
-                  src="../assets/圖片2.png"
-                  alt="internsandwich"
-                  style="vertical-align: bottom; height: 100px"
-                />
-              </div>
-
-              <div class="col-lg-10">
-                <h2 style="font-size: 25px" align="left">黃小明</h2>
-                <p style="font-size: 20px" align="left">資管系學生</p>
-                <p
-                  style="
-                    font-size: 15px;
-                    height: 40px;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    display: -webkit-box;
-                    -webkit-line-clamp: 3;
-                    -webkit-box-orient: vertical;
-                  "
-                  align="left"
-                >
-                  擅長打會議記錄、會攝影、會畫畫、會唱歌、會跳舞，可以負重當工具人，有機車可以當司機。擅長打會議記錄、會攝影、會畫畫、會唱歌、會跳舞，可以負重當工具人，有機車可以當司機。
-                </p>
-              </div>
-            </div>
-            <div class="ppp2_btn">
-              <div class="row float-right">
-                <a
-                  href="#"
-                  class="btn"
-                  style="width: 150px; height: 50px; font-size: 20px"
-                  >立即聯絡</a
-                >
-                <a
-                  href="#"
-                  class="btn"
-                  style="width: 150px; height: 50px; font-size: 20px"
-                  >刪除履歷</a
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-
         <!--eslint-disable-next-line-->
         <div id="Home" v-for="(posts, index) in searchResult.slice(pageStart, pageStart + countOfPage)" class="posts" >
           <div class="panel panel-default">
@@ -94,7 +49,7 @@
               <div class="row">
                 <div class="col-lg-2">
                   <img
-                    src="../assets/圖片2.png"
+                    src="../assets/圖片1.png"
                     alt="internsandwich"
                     style="vertical-align: bottom; height: 100px"
                   />
@@ -127,13 +82,13 @@
                     href="#"
                     class="btn"
                     style="width: 150px; height: 50px; font-size: 20px"
-                    >立即聯絡</a
+                    >立即應徵</a
                   >
                   <a
                     href="#"
                     class="btn"
                     style="width: 150px; height: 50px; font-size: 20px"
-                    >刪除履歷</a
+                    >取消收藏</a
                   >
                 </div>
               </div>
@@ -259,20 +214,4 @@ export default {
       });
   },
 };
-/*export default({
-  name: '#user',
-  data () {
-    return {
-      info: null
-    }
-  },
-  created () {
-    const api = 'localhost:3000/api/test'
-    axios.get(api)
-    .then(response => (this.info = response))
-    .catch(function (error) { // 请求失败处理
-      console.log(error);
-    });
-  }
-})*/
 </script>

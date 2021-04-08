@@ -1,0 +1,135 @@
+<!-- 企業註冊 -->
+<template>
+  <div style="padding: 100px 100px 10px">
+    <br />
+    <h3>企業註冊</h3>
+    <br />
+    <div class="panel panel-default col-md-6 offset-3">
+      <div class="panel-body" style="padding: 50px">
+        <form>
+          <!-- <p v-if="msg">{{ msg }}</p> -->
+          <div class="form-group col-md-12 text-left">
+            <label>公司名稱</label>
+            <input
+              v-model="name"
+              type="text"
+              class="form-control"
+              placeholder="請輸入公司名稱"
+            />
+            <br />
+            <label>地址</label>
+            <br />
+            <input
+              v-model="name"
+              type="text"
+              class="form-control"
+              placeholder="請輸入公司名稱"
+            />
+            <br />
+            <label>電話</label>
+            <input
+              v-model="phone"
+              class="form-control"
+              placeholder="範例:0987654321"
+            />
+            <br />
+            <label>Email</label>
+            <input
+              v-model="email"
+              class="form-control"
+              placeholder="範例:oooo@gmail.com"
+            />
+            <br />
+            <label>密碼</label>
+            <input
+              v-model="password"
+              type="password"
+              class="form-control"
+              placeholder="請輸入8位以上字元或數字"
+            />
+            <br />
+            <label>確認密碼</label>
+            <input
+              v-model="password_repeat"
+              type="password"
+              class="form-control"
+              placeholder="請確認兩次密碼輸入相同"
+            />
+          </div>
+          <br />
+          <div class="checkbox">
+            <label class="form-check-label" for="gridCheck">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                v-model="checked"
+              />
+              同意服務條款
+            </label>
+            <br /><br />
+            <!--eslint-disable-next-line-->
+            <button class="btn" @click="singup">
+              <span class="glyphicon glyphicon-search"></span>立即註冊
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import axios from "../js/axios.js";
+import qs from "qs";
+
+export default {
+  name: "Register",
+  data() {
+    return {
+      name: "",
+      gender: Number,
+      birth: "",
+      id_card: "",
+      school: "",
+      phone: "",
+      email: "",
+      password: "",
+      password_repeat: "",
+      msg: "",
+      checked: false,
+    };
+  },
+  methods: {
+    //註冊
+    singup: function () {
+      if (!this.checked) {
+        alert("請同意服務條款");
+      } else {
+        const credentials = {
+          name: this.name,
+          gender: this.gender,
+          birth: this.birth,
+          id_card: this.id_card,
+          school: this.school,
+          phone: this.phone,
+          email: this.email,
+          //account: this.account,
+          password: this.password,
+          password_repeat: this.password_repeat,
+        };
+        const api = "/api/user-register";
+
+        axios
+          .post(api, qs.stringify(credentials))
+          .then((response) => {
+            this.msg = response.data.msg;
+            alert(this.msg);
+          })
+          .catch((err) => {
+            this.msg = err.response.data.msg;
+            alert(this.msg);
+          });
+      }
+    },
+  },
+};
+</script>
