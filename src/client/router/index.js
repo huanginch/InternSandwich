@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 
 import Home from '../views/Home.vue' //找實習
 import Intern from '../views/Intern.vue' //實習內容頁面
-import Save from '../views/Save.vue'
+import Save from '../views/Save.vue'//收藏
 
 import Login from '../views/Login.vue' //實習生登入
 import Login_business from '../views/Login_business'//企業登入
