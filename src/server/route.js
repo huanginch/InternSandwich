@@ -137,7 +137,7 @@ router.post('/user-register', userMiddleware.validateRegister, (req, res, next) 
         } 
         else {
           // has hashed pw => add to database
-          const params = [escape(req.body.name), req.body.gender, escape(req.body.phone), escape(req.body.email), hash, escape(req.body.id_card), escape(req.body.birth), escape(req.body.school)];
+          const params = [escape(req.body.name), req.body.gender, escape(req.body.phone), escape(req.body.email), hash, escape(req.body.id_card), escape(req.body.birth), req.body.school];
           sql = "INSERT INTO user_info (name, gender, phone, email, password, id_card, birth, school) VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
           db(sql,params)
           .then(result => {
