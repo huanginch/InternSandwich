@@ -197,53 +197,22 @@
               placeholder="登入以留下評論......"
             />
             <textarea
-              v-else-if="!hascomment || editing"
-              v-model="my_comment"
+              v-else
+              v-model="myNewComment"
               class="form-control"
               placeholder="留下評論......"
+              @keyup.enter="pushcomment"
             ></textarea>
-            <a v-else v-model="my_comment" type="text" class="form-control">{{
-              my_comment
-            }}</a>
+            <!-- <a v-else v-model="myNewComment" type="text" class="form-control">{{
+              myNewComment
+            }}</a> -->
             <button
               class="btn"
               type="button"
               @click="pushcomment"
-              v-if="isLoggedIn && !hascomment"
+              v-if="isLoggedIn"
             >
               發佈評論
-            </button>
-            <button
-              class="btn"
-              type="button"
-              @click="editcomment"
-              v-if="isLoggedIn && hascomment && !editing"
-            >
-              編輯留言
-            </button>
-            <button
-              class="btn"
-              type="button"
-              @click="deletecomment"
-              v-if="isLoggedIn && hascomment && !editing"
-            >
-              刪除留言
-            </button>
-            <button
-              class="btn"
-              type="button"
-              @click="finishedit"
-              v-if="editing"
-            >
-              完成
-            </button>
-            <button
-              class="btn"
-              type="button"
-              @click="canceledit"
-              v-if="editing"
-            >
-              取消
             </button>
             <div class="input-group-btn"></div>
           </div>
@@ -286,23 +255,62 @@
         </div> -->
         <!-- 其他實習生評論 -->
         <!--eslint-disable-next-line-->
-        <div v-for="comment in comment_info">
+        <div v-for="(comment,index) in comment_info" :key='comment.ID'>
           <div class="col-lg-1">
             <img
               src="../assets/圖片1.png"
               alt="internsandwich"
               height="100px"
             />
+            <p>{{comment.U_ID}}</p>
           </div>
           <div class="col-lg-8">
-            <div class="panel panel-default">
+            <div class="panel panel-default" v-show="comment.ID != temp_comment.ID || !editing">
               <div class="panel-body">
                 <div class="ppp-intern">
-                  <p style="font-size: 20px">{{ comment.context }}</p>
+                  <p style="font-size: 20px" >{{ comment.context }}</p>
+                  
                   <!-- <p style="font-size: 20px">test</p> -->
                 </div>
               </div>
             </div>
+            <textarea
+              v-show="comment.ID === temp_comment.ID && editing"
+              v-model="comment.context"
+              class="form-control"
+            ></textarea>
+            <button
+            class="btn"
+            type="button"
+            @click="editcomment(comment)"
+            v-show="isMycomment(comment.U_ID) && !editing"
+          >
+            編輯留言
+          </button>
+          <button
+            class="btn"
+            type="button"
+            @click="deletecomment(comment.ID)"
+            v-show="isMycomment(comment.U_ID) && !editing"
+          >
+            刪除留言
+          </button>
+          <button
+            class="btn"
+            type="button"
+            @click="finishedit"
+            v-show="comment.ID === temp_comment.ID && editing"
+          >
+            完成
+          </button>
+          <button
+            class="btn"
+            type="button"
+            @click="canceledit(index)"
+            v-show="comment.ID === temp_comment.ID && editing"
+          >
+            取消
+          </button>
           </div>
         </div>
         <div class="col-lg-3"></div>
@@ -341,8 +349,7 @@ export default {
       user_info: "",
       user_id: "",
       comment_info: "",
-      my_comment: "",
-      hascomment: false,
+      myNewComment: "",
       editing: false,
       temp_comment: "",
     };
@@ -370,22 +377,25 @@ export default {
         .then((response) => {
           this.comment_info = response.data;
 
-          //如果登入就找到自己的評論
-          if (this.isLoggedIn) {
-            this.my_comment = this.comment_info.filter(
-              (result) => result.U_ID === this.user_id
-            );
+          //評論排序由新到舊
+          this.comment_info.sort(function(p1, p2){
+              return (p2.ID-p1.ID)
+          });
+          // //如果登入就找到自己的評論
+          // if (this.isLoggedIn) {
+          //   this.myNewComment = this.comment_info.filter(
+          //     (result) => result.U_ID === this.user_id
+          //   );
 
-            //找到就顯示有評論
-            if (this.my_comment) {
-              this.my_comment = this.my_comment[0]["context"];
-              this.hascomment = true;
-            }
+          //   //找到就顯示有評論
+          //   if (this.myNewComment) {
+          //     this.myNewComment = this.myNewComment[0]["context"];
+          //   }
 
-            this.comment_info = this.comment_info.filter(
-              (result) => result.U_ID != this.user_id
-            );
-          }
+          //   this.comment_info = this.comment_info.filter(
+          //     (result) => result.U_ID != this.user_id
+          //   );
+          // }
         })
         .catch((error) => {
           console.log(error);
@@ -394,20 +404,23 @@ export default {
 
     //留下評論
     pushcomment: function () {
-      if (this.my_comment) {
-        this.hascomment = true;
+      if (this.myNewComment) {
 
         //存入資料庫
         var api = "/api/comment";
         var params = {
           p_id: this.post_id,
           u_id: this.user_id,
-          context: this.my_comment,
+          context: this.myNewComment,
         };
 
         axios
           .post(api, params)
-          .then((response) => {})
+          .then((response) => {
+            //即時更新留言
+            this.showcomments()
+            this.myNewComment = ''
+          })
           .catch((error) => {
             console.log(error);
           });
@@ -415,9 +428,9 @@ export default {
     },
 
     //編輯評論
-    editcomment: function () {
+    editcomment: function (comment) {
       this.editing = true;
-      this.temp_comment = this.my_comment;
+      this.temp_comment = comment;
     },
 
     //完成編輯評論
@@ -427,9 +440,8 @@ export default {
       //存入資料庫
       var api = "/api/modify-comment";
       var params = {
-        p_id: this.post_id,
-        u_id: this.user_id,
-        context: this.my_comment,
+        ID:this.temp_comment.ID,
+        context: this.temp_comment.context,
       };
 
       axios
@@ -441,16 +453,30 @@ export default {
     },
 
     //取消編輯評論
-    canceledit: function () {
-      this.my_comment = this.temp_comment;
+    canceledit: function (index) {
+      this.comment_info[index]['context'] = this.temp_comment.context;
       this.editing = false;
     },
 
     //刪除評論
-    deletecomment: function () {
-      //do axios.delete
-      this.hascomment = false;
+    deletecomment: function (ID) {
+      //this.comment_info.splice(ID,1)
+      
+      var api = "/api/delete-comment";
+      var params = {ID:ID};
+      axios
+          .delete(api, {data:params})
+          .then((response) => {
+            //即時更新留言
+            this.showcomments()
+          })
+          .catch((error) => {
+            console.log(error);
+          });
     },
+    isMycomment: function(u_id){
+      return u_id === this.user_id
+    }
   },
   created() {
     this.user_info = this.$store.getters.getUser;
