@@ -255,7 +255,7 @@
         </div> -->
         <!-- 其他實習生評論 -->
         <!--eslint-disable-next-line-->
-        <div v-for="(comment,index) in comment_info" :key='comment.ID'>
+        <ul v-for="(comment,index) in comment_info" :key='comment.ID'>
           <div class="col-lg-1">
             <img
               src="../assets/圖片1.png"
@@ -312,7 +312,7 @@
             取消
           </button>
           </div>
-        </div>
+        </ul>
         <div class="col-lg-3"></div>
       </div>
 
