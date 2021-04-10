@@ -1,18 +1,43 @@
 const jwt = require("jsonwebtoken");
+const rules ={
+  email:/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/,
+  birth:/^\d{4}-\d{2}-\d{2}$/,
+  ID:/^[A-Z]\d{9}$/,
+  phone:/^09\d{8}$/,
+  password:/\w{8,20}$/
+};
 module.exports = {
   validateRegister: (req, res, next) => {
     //輸入欄位有空值
-    if(!req.body.name || !req.body.gender || !req.body.phone || !req.body.birth || !req.body.id_card || !req.body.school){
+    if(!req.body.name || !req.body.gender || !req.body.school){
       return res.status(400).send({msg:"請填入正確資料"});
     }
-    // username min length 3
-    if (!req.body.email || req.body.email.length < 3) {
+    // email格式確認
+    if (!rules.email.test(req.body.email)) {
       return res.status(400).send({
         msg: '請輸入正確Email格式'
       });
     }
+    //生日格式確認
+    if (!rules.birth.test(req.body.birth)) {
+      return res.status(400).send({
+        msg: '請輸入正確生日格式'
+      });
+    }
+    //身分證格式確認
+    if (!rules.ID.test(req.body.id_card)) {
+      return res.status(400).send({
+        msg: '請輸入正確身分證格式'
+      });
+    }
+    //電話格式確認
+    if (!rules.phone.test(req.body.phone)) {
+      return res.status(400).send({
+        msg: '請輸入正確電話格式'
+      });
+    }
     // password min 8 chars
-    if (!req.body.password || req.body.password.length < 8) {
+    if (!rules.password.test(req.body.password)) {
       return res.status(400).send({
         msg: '請至少輸入8個字以上的密碼'
       });

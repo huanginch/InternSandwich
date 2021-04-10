@@ -211,7 +211,6 @@ import qs from 'qs';
             school:this.school,
             phone:this.phone,
             email:this.email,
-            //account: this.account,
             password: this.password,
             password_repeat: this.password_repeat
           };

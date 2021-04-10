@@ -17,22 +17,24 @@
               class="form-control"
               placeholder="請輸入公司名稱"
             />
+            <font size='2' color='red' v-if="invalidName">*該欄位不得為空</font>
             <br />
             <label>地址</label>
-            <br />
             <input
-              v-model="name"
+              v-model="address"
               type="text"
               class="form-control"
-              placeholder="請輸入公司名稱"
+              placeholder="請輸入公司地址"
             />
+            <font size='2' color='red' v-if="invalidAddress">*該欄位不得為空</font>
             <br />
             <label>電話</label>
             <input
               v-model="phone"
               class="form-control"
-              placeholder="範例:0987654321"
+              placeholder="範例:0987654321 或 02-1234567"
             />
+            <font size='2' color='red' v-if="invalidPhone">*請輸入0987654321 或 02-1234567</font>
             <br />
             <label>Email</label>
             <input
@@ -40,6 +42,7 @@
               class="form-control"
               placeholder="範例:oooo@gmail.com"
             />
+            <font size='2' color='red' v-if="invalidEmail">*請輸入正確的Email格式</font>
             <br />
             <label>密碼</label>
             <input
@@ -48,6 +51,7 @@
               class="form-control"
               placeholder="請輸入8位以上字元或數字"
             />
+            <font size='2' color='red' v-if="invalidPW">*請輸入8位以上字元或數字</font>
             <br />
             <label>確認密碼</label>
             <input
@@ -56,6 +60,7 @@
               class="form-control"
               placeholder="請確認兩次密碼輸入相同"
             />
+            <font size='2' color='red' v-if="invalidPWRepeat">*請確認兩次密碼輸入相同</font>
           </div>
           <br />
           <div class="checkbox">
@@ -87,17 +92,41 @@ export default {
   data() {
     return {
       name: "",
-      gender: Number,
-      birth: "",
-      id_card: "",
-      school: "",
+      address:"",
       phone: "",
       email: "",
       password: "",
       password_repeat: "",
       msg: "",
       checked: false,
+      invalidName:false,
+      invalidAddress:false,
+      invalidPhone:false,
+      invalidEmail:false,
+      invalidPW:false,
+      invalidPWRepeat:false
     };
+  },
+  watch:{
+    name: function(newValue){
+        this.invalidName = !newValue
+    },
+    address: function(newValue){
+        this.invalidAddress = !newValue
+    },
+    phone: function(newValue){
+      //手機為0912345678、市話為地區碼(2~4碼)-電話號碼(5~8碼)
+      this.invalidPhone = ! (/^09\d{8}$/.test(newValue) || /^0\d{1,3}-\d{5,8}$/.test(newValue))
+    },
+    email: function(newValue){
+      this.invalidEmail = !/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/.test(newValue)
+    },
+    password: function(newValue){
+      this.invalidPW = !/\w{8,20}$/.test(newValue)
+    },
+    password_repeat: function(newValue){
+      this.invalidPWRepeat = (this.password != newValue)
+    },
   },
   methods: {
     //註冊
@@ -107,17 +136,13 @@ export default {
       } else {
         const credentials = {
           name: this.name,
-          gender: this.gender,
-          birth: this.birth,
-          id_card: this.id_card,
-          school: this.school,
+          address: this.address,
           phone: this.phone,
           email: this.email,
-          //account: this.account,
           password: this.password,
           password_repeat: this.password_repeat,
         };
-        const api = "/api/user-register";
+        const api = "/api/company-register";
 
         axios
           .post(api, qs.stringify(credentials))

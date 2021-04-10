@@ -1,18 +1,30 @@
 const jwt = require("jsonwebtoken");
+const rules ={
+  email:/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/,
+  cellphone:/^09\d{8}$/,
+  phone:/^0\d{1,3}-\d{5,8}$/,
+  password:/\w{8,20}$/
+};
 module.exports = {
   validateRegister: (req, res, next) => {
     //輸入欄位有空值
-    if(!req.body.name || !req.body.address || !req.body.phone){
-      return res.status(400).send({msg:"欄位不得為空"});
+    if(!req.body.name || !req.body.address){
+      return res.status(400).send({msg:"請填入正確資料"});
     }
-    // username min length 3
-    if (!req.body.email || req.body.email.length < 3) {
+    // email格式確認
+    if (!rules.email.test(req.body.email)) {
       return res.status(400).send({
-        msg: '請至少輸3入個字以上的帳號'
+        msg: '請輸入正確Email格式'
+      });
+    }
+    //電話格式確認
+    if (!rules.cellphone.test(req.body.phone) && !rules.phone.test(req.body.phone)) {
+      return res.status(400).send({
+        msg: '請輸入正確電話格式'
       });
     }
     // password min 8 chars
-    if (!req.body.password || req.body.password.length < 8) {
+    if (!rules.password.test(req.body.password)) {
       return res.status(400).send({
         msg: '請至少輸入8個字以上的密碼'
       });
