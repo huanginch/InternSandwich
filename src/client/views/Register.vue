@@ -24,12 +24,12 @@
               class="form-control"
               placeholder="請輸入真實姓名"
             />
+            <font size='2' color='red' v-if="invalidName">*該欄位不得為空</font>
             <br />
             <label>性別</label>
             <br/>
             <input v-model="gender" type="radio" value=0 /><label>男</label>
             <input v-model="gender" type="radio" value=1 /><label>女</label>
-
             <br />
             <label>生日</label>
             <input
@@ -38,6 +38,7 @@
               class="form-control"
               placeholder="範例: xxxx-xx-xx"
             />
+            <font size='2' color='red' v-if="invalidBirth">*請輸入xxxx-xx-xx</font>
             <br />
             <label>身分證字號</label>
             <input
@@ -46,6 +47,7 @@
               class="form-control"
               placeholder="範例: A123456789"
             />
+            <font size='2' color='red' v-if="invalidID">*請輸入正確的身分證格式</font>
             <br />
             <label>學校</label>
             <input
@@ -54,6 +56,7 @@
               class="form-control"
               placeholder="範例:OO大學"
             />
+            <font size='2' color='red' v-if="invalidSchool">*該欄位不得為空</font>
             <!-- <label for="password">生 日</label>
             <input
               type="password"
@@ -87,6 +90,7 @@
               class="form-control"
               placeholder="範例:0987654321"
             />
+            <font size='2' color='red' v-if="invalidPhone">*請輸入正確的手機格式</font>
             <br />
             <label>Email</label>
             <input
@@ -94,6 +98,7 @@
               class="form-control"
               placeholder="範例:oooo@gmail.com"
             />
+            <font size='2' color='red' v-if="invalidEmail">*請輸入正確的Email格式</font>
             <br />
             <label>密碼</label>
             <input
@@ -102,6 +107,7 @@
               class="form-control"
               placeholder="請輸入8位以上字元或數字"
             />
+            <font size='2' color='red' v-if="invalidPW">*請輸入8位以上字元或數字</font>
             <br />
             <label>確認密碼</label>
             <input
@@ -111,6 +117,7 @@
               placeholder="請確認兩次密碼輸入相同"
             />
           </div>
+          <font size='2' color='red' v-if="invalidPWRepeat">*請確認兩次密碼輸入相同</font>
           <br />
           <div class="checkbox">
             <label class="form-check-label" for="gridCheck">
@@ -153,7 +160,41 @@ import qs from 'qs';
         password_repeat: "",
         msg: "",
         checked: false,
+        invalidName:false,
+        invalidBirth:false,
+        invalidID:false,
+        invalidPhone:false,
+        invalidSchool:false,
+        invalidEmail:false,
+        invalidPW:false,
+        invalidPWRepeat:false
       };
+    },
+    watch:{
+      name: function(newValue){
+        this.invalidName = !newValue
+      },
+      birth: function(newValue){
+        this.invalidBirth = !/^\d{4}-\d{2}-\d{2}$/.test(newValue)
+      },
+      id_card: function(newValue){
+        this.invalidID = !/^[A-Z]\d{9}$/.test(newValue)
+      },
+      phone: function(newValue){
+        this.invalidPhone = !/^09\d{8}$/.test(newValue)
+      },
+      School: function(newValue){
+        this.invalidSchool = !newValue
+      },
+      email: function(newValue){
+        this.invalidEmail = !/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/.test(newValue)
+      },
+      password: function(newValue){
+        this.invalidPW = !/\w{8,20}$/.test(newValue)
+      },
+      password_repeat: function(newValue){
+        this.invalidPWRepeat = (this.password != newValue)
+      },
     },
     methods: {
       //註冊
