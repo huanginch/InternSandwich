@@ -55,35 +55,35 @@
           <div class="panel-body">
             <div class="ppp-intern">
               <a style="font-size: 30px">實習內容</a><br /><br />
-              <pre style="font-size: 15px" v-bind="(post_info, post_id)">{{
+              <pre style="font-size: 18px" v-bind="(post_info, post_id)">{{
                 post_info[post_id].job_desc
               }}</pre>
               <br />
               <hr border-style="solid" />
 
               <a style="font-size: 30px">薪資待遇</a><br /><br />
-              <pre style="font-size: 15px" v-bind="(post_info, post_id)">{{
+              <pre style="font-size: 18px" v-bind="(post_info, post_id)">{{
                 post_info[post_id].benefits
               }}</pre>
               <br />
               <hr border-style="solid" />
 
               <a style="font-size: 30px">條件要求</a><br /><br />
-              <pre style="font-size: 15px" v-bind="(post_info, post_id)">{{
+              <pre style="font-size: 18px" v-bind="(post_info, post_id)">{{
                 post_info[post_id].requirement
               }}</pre>
               <br />
               <hr border-style="solid" />
 
               <a style="font-size: 30px">實習地點</a><br /><br />
-              <pre style="font-size: 15px" v-bind="(post_info, post_id)">{{
+              <pre style="font-size: 18px" v-bind="(post_info, post_id)">{{
                 post_info[post_id].location
               }}</pre>
               <br />
               <hr border-style="solid" />
 
               <a style="font-size: 30px">其他</a><br /><br />
-              <pre style="font-size: 15px" v-bind="(post_info, post_id)">{{
+              <pre style="font-size: 18px" v-bind="(post_info, post_id)">{{
                 post_info[post_id].others
               }}</pre>
 
@@ -134,8 +134,29 @@
         </div>
         <hr border-style="solid" />
       </div>
-      <RecommendPost title="推薦實習" :recommend_posts = "recommend" />
-      <!-- <br />
+
+      <div class="col-lg-3 text-left">
+        <p class="text-left"><strong>推薦實習</strong></p>
+        <div class="panel">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-lg-3">
+                <img
+                  src="../assets/圖片1.png"
+                  alt="internsandwich"
+                  style="height: 70px"
+                />
+              </div>
+              <div class="col-lg-9">
+                <p style="font-size: 20px" align="left">OOO股份有限公司</p>
+                <p style="font-size: 20px" align="left">OOO實習生</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <br />
         <div><a>熱門實習</a></div>
         <hr style="solid" />
         <div class="photo">
@@ -162,43 +183,44 @@
           <a>OOO實習生</a>
         </div> -->
 
-      <div class="row">
-        <div class="col-lg-1">
-          <img src="../assets/圖片1.png" alt="internsandwich" height="100px" />
-        </div>
-
-        <div class="col-lg-8 text-left">
-          <div class="input-group mt-3 mb-3 input-group-lg">
-            <input
-              v-if="!isLoggedIn"
-              disabled
-              type="text"
-              class="form-control"
-              placeholder="登入以留下評論......"
-            />
-            <textarea
-              v-else
-              v-model="myNewComment"
-              class="form-control"
-              placeholder="留下評論......"
-              @keyup.enter="pushcomment"
-            ></textarea>
-            <!-- <a v-else v-model="myNewComment" type="text" class="form-control">{{
+    <div class="row">
+      <div class="col-lg-1">
+        <img src="../assets/圖片5.png" alt="internsandwich" height="120px" />
+      </div>
+      <div class="col-lg-8 text-left">
+        <div class="input-group mt-3 mb-3 input-group-lg">
+          <input
+            v-if="!isLoggedIn"
+            disabled
+            type="text"
+            class="form-control"
+            placeholder="登入以留下評論......"
+          />
+          <textarea
+            v-else
+            v-model="myNewComment"
+            class="form-control"
+            placeholder="留下評論......"
+            @keyup.enter="pushcomment"
+          ></textarea>
+          <!-- <a v-else v-model="myNewComment" type="text" class="form-control">{{
               myNewComment
             }}</a> -->
-            <button
-              class="btn"
-              type="button"
-              @click="pushcomment"
-              v-if="isLoggedIn"
-            >
-              發佈評論
-            </button>
-            <div class="input-group-btn"></div>
-          </div>
+          <button
+            class="btn"
+            type="button"
+            @click="pushcomment"
+            v-if="isLoggedIn"
+          >
+            發佈評論
+          </button>
+          <div class="input-group-btn"></div>
         </div>
+      </div>
+      <div class="col-lg-3"></div>
+    </div>
 
-        <!-- <div class="col-lg-8 text-left">
+    <!-- <div class="col-lg-8 text-left">
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="ppp-intern">
@@ -216,9 +238,8 @@
           </div>
         </div>
       </div> -->
-        <div class="col-lg-3"></div>
 
-        <!-- <div class="col-lg-1">
+    <!-- <div class="col-lg-1">
           <img src="../assets/圖片1.png" alt="internsandwich" height="100px" />
         </div>
 
@@ -233,24 +254,105 @@
             />
           </div>
         </div> -->
-        <!-- 其他實習生評論 -->
-        <!--eslint-disable-next-line-->
-        <ul v-for="(comment,index) in comment_info" :key='comment.ID'>
+    <!-- 其他實習生評論 -->
+    <!--eslint-disable-next-line-->
+
+        <div v-for="(comment, index) in comment_info" :key="comment.ID">
+          <div class="row">
+            <div class="col-lg-1">
+              <img
+                src="../assets/圖片2.png"
+                alt="internsandwich"
+                height="75px"
+              />
+            </div>
+            <!-- <p style="font-size: 15px">{{ comment.U_ID }}</p> -->
+            <div class="col-lg-6 text-left">
+              <div
+                class="panel panel-default"
+                v-show="comment.ID != temp_comment.ID || !editing"
+              >
+                <div class="panel-body">
+                  <div class="ppp-intern">
+                    <p style="font-size: 20px">{{ comment.context }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="input-group mt-3 mb-3">
+               <textarea
+                v-show="comment.ID === temp_comment.ID && editing"
+                v-model="comment.context"
+                class="form-control"
+              ></textarea>
+              
+              <button
+                class="btn"
+                type="button"
+                
+                @click="finishedit"
+                v-show="comment.ID === temp_comment.ID && editing"
+              >
+                完成
+              </button>
+              <button
+                class="btn"
+                type="button"
+                
+                @click="canceledit(index)"
+                v-show="comment.ID === temp_comment.ID && editing"
+              >
+                取消
+              </button>
+              <div class="input-group-btn"></div>
+              </div>
+              
+              
+
+            </div>
+            <div class="col-lg-3 text-left">
+           <button
+                class="btn"
+                type="button"
+                style="width: 95px; height: 80px"
+                @click="editcomment(comment)"
+                v-show="isMycomment(comment.U_ID) && !editing"
+              >
+                編輯
+              </button>
+              <button
+                class="btn"
+                type="button"
+                style="width: 95px; height: 80px"
+                @click="deletecomment(comment.ID)"
+                v-show="isMycomment(comment.U_ID) && !editing"
+              >
+                刪除
+              </button>
+              
+            </div>
+          </div>
+        </div>
+      
+
+    <!-- <div v-for="(comment, index) in comment_info" :key="comment.ID">
           <div class="col-lg-1">
             <img
               src="../assets/圖片1.png"
               alt="internsandwich"
               height="100px"
             />
-            <p>{{comment.U_ID}}</p>
+            <p>{{ comment.U_ID }}</p>
           </div>
           <div class="col-lg-8">
-            <div class="panel panel-default" v-show="comment.ID != temp_comment.ID || !editing">
+            <div
+              class="panel panel-default"
+              v-show="comment.ID != temp_comment.ID || !editing"
+            >
               <div class="panel-body">
                 <div class="ppp-intern">
-                  <p style="font-size: 20px" >{{ comment.context }}</p>
-                  
-                  <!-- <p style="font-size: 20px">test</p> -->
+                  <p style="font-size: 20px">{{ comment.context }}</p>
+
+                  <p style="font-size: 20px">test</p>
                 </div>
               </div>
             </div>
@@ -260,43 +362,42 @@
               class="form-control"
             ></textarea>
             <button
-            class="btn"
-            type="button"
-            @click="editcomment(comment)"
-            v-show="isMycomment(comment.U_ID) && !editing"
-          >
-            編輯留言
-          </button>
-          <button
-            class="btn"
-            type="button"
-            @click="deletecomment(comment.ID)"
-            v-show="isMycomment(comment.U_ID) && !editing"
-          >
-            刪除留言
-          </button>
-          <button
-            class="btn"
-            type="button"
-            @click="finishedit"
-            v-show="comment.ID === temp_comment.ID && editing"
-          >
-            完成
-          </button>
-          <button
-            class="btn"
-            type="button"
-            @click="canceledit(index)"
-            v-show="comment.ID === temp_comment.ID && editing"
-          >
-            取消
-          </button>
+              class="btn"
+              type="button"
+              @click="editcomment(comment)"
+              v-show="isMycomment(comment.U_ID) && !editing"
+            >
+              編輯留言
+            </button>
+            <button
+              class="btn"
+              type="button"
+              @click="deletecomment(comment.ID)"
+              v-show="isMycomment(comment.U_ID) && !editing"
+            >
+              刪除留言
+            </button>
+            <button
+              class="btn"
+              type="button"
+              @click="finishedit"
+              v-show="comment.ID === temp_comment.ID && editing"
+            >
+              完成
+            </button>
+            <button
+              class="btn"
+              type="button"
+              @click="canceledit(index)"
+              v-show="comment.ID === temp_comment.ID && editing"
+            >
+              取消
+            </button>
           </div>
-        </ul>
-        <div class="col-lg-3"></div>
-      </div>
+        </div>
+        <div class="col-lg-3"></div> -->
 
-      <!-- <div class="col-lg-5"></div>
+    <!-- <div class="col-lg-5"></div>
 
       <div class="col-lg-1">
         <img src="../assets/圖片1.png" alt="internsandwich" height="100px" />
@@ -311,7 +412,6 @@
           </div>
         </div>
       </div> -->
-    </div>
 
     <br />
   </div>
@@ -362,8 +462,8 @@ export default {
           this.comment_info = response.data;
 
           //評論排序由新到舊
-          this.comment_info.sort(function(p1, p2){
-              return (p2.ID-p1.ID)
+          this.comment_info.sort(function (p1, p2) {
+            return p2.ID - p1.ID;
           });
           // //如果登入就找到自己的評論
           // if (this.isLoggedIn) {
@@ -389,7 +489,6 @@ export default {
     //留下評論
     pushcomment: function () {
       if (this.myNewComment) {
-
         //存入資料庫
         var api = "/api/comment";
         var params = {
@@ -402,8 +501,8 @@ export default {
           .post(api, params)
           .then((response) => {
             //即時更新留言
-            this.showcomments()
-            this.myNewComment = ''
+            this.showcomments();
+            this.myNewComment = "";
           })
           .catch((error) => {
             console.log(error);
@@ -424,7 +523,7 @@ export default {
       //存入資料庫
       var api = "/api/modify-comment";
       var params = {
-        ID:this.temp_comment.ID,
+        ID: this.temp_comment.ID,
         context: this.temp_comment.context,
       };
 
@@ -438,29 +537,29 @@ export default {
 
     //取消編輯評論
     canceledit: function (index) {
-      this.comment_info[index]['context'] = this.temp_comment.context;
+      this.comment_info[index]["context"] = this.temp_comment.context;
       this.editing = false;
     },
 
     //刪除評論
     deletecomment: function (ID) {
       //this.comment_info.splice(ID,1)
-      
+
       var api = "/api/delete-comment";
-      var params = {ID:ID};
+      var params = { ID: ID };
       axios
-          .delete(api, {data:params})
-          .then((response) => {
-            //即時更新留言
-            this.showcomments()
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        .delete(api, { data: params })
+        .then((response) => {
+          //即時更新留言
+          this.showcomments();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
-    isMycomment: function(u_id){
-      return u_id === this.user_id
-    }
+    isMycomment: function (u_id) {
+      return u_id === this.user_id;
+    },
   },
   created() {
     this.user_info = this.$store.getters.getUser;
@@ -485,6 +584,8 @@ export default {
 
 <style>
 .ppp-intern {
+  white-space:normal;
+  word-break: break-all;
   height: auto;
 }
 ul {
