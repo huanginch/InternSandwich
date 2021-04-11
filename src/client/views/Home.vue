@@ -52,6 +52,7 @@
         <!--eslint-disable-next-line-->
         <div id="Home" v-for="(posts, index) in searchResult.slice(pageStart, pageStart + countOfPage)" class="posts" >
           <div class="panel panel-default">
+            <router-link class="nav-item nav-link" :to="{ name: 'Intern', params: { post_id: posts.id }}">
             <div class="panel-body">
               <div class="row">
                 <div class="col-lg-2">
@@ -116,6 +117,7 @@
                 </div>
               </div>
             </div>
+          </router-link>
           </div>
         </div>
         <!--  
@@ -445,5 +447,8 @@ export default {
 <style>
   .hidden {
   display: none;
+}
+#Home a {
+  color: black;
 }
 </style>
