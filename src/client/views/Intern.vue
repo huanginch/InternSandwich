@@ -4,8 +4,9 @@
     <form class="bs-example bs-example-form" role="form">
       <div class="row align-items-center">
         <div class="col-lg-12 text-left">
+          <br>
           <div class="panel panel-default">
-            <div class="panel-body">
+            <div class="panel-body" style="border-style: ridge"><!-- ridge groove inset outset -->
               <div class="ppp-intern1">
                 <div class="row">
                   <div class="col-lg-2">
@@ -52,7 +53,7 @@
     <div class="row">
       <div class="col-lg-9 text-left">
         <div class="panel panel-default">
-          <div class="panel-body">
+          <div class="panel-body" style="border-style: ridge"><!-- ridge groove inset outset -->
             <div class="ppp-intern">
               <a style="font-size: 30px">實習內容</a><br /><br />
               <pre style="font-size: 18px" v-bind="(post_info, post_id)">{{
@@ -137,7 +138,7 @@
 
       <div class="col-lg-3 text-left">
         <p class="text-left"><strong>推薦實習</strong></p>
-        <div class="panel">
+        <div class="panel_polular">
           <div class="panel-body">
             <div class="row">
               <div class="col-lg-3">
@@ -154,6 +155,7 @@
             </div>
           </div>
         </div>
+        <hr border-style="solid" />
       </div>
     </div>
     <!-- <br />

@@ -43,18 +43,20 @@
       </div>
     </form>
     <br />
+
     <!--實習貼文與熱門搜尋  -->
     <div class="row">
       <div class="col-lg-9">
-        <button class="btn float-right" @click="sortNewtoOld">由新到舊</button>
-        <button class="btn float-right" @click="sortOldtoNew">由舊到新</button>
-        <br><br>
+        <button class="btn float-right" style="font-size:17px" @click="sortNewtoOld">由新到舊</button>
+        <button class="btn float-right" style="font-size:17px" @click="sortOldtoNew">由舊到新</button>
+        <br />
+        
         <!-- 實習貼文 -->
         <!--eslint-disable-next-line-->
         <div id="Home" v-for="(posts, index) in searchResult.slice(pageStart, pageStart + countOfPage)" class="posts" >
           <div class="panel panel-default">
+            <div class="panel-body" style="border-style: ridge"><!-- ridge groove inset outset -->
             <router-link class="nav-item nav-link" :to="{ name: 'Intern', params: { post_id: posts.id }}">
-            <div class="panel-body">
               <div class="row">
                 <div class="col-lg-2">
                   <img
@@ -115,8 +117,8 @@
                   </div>
                 </div>
               </div>
+              </router-link>
             </div>
-          </router-link>
           </div>
         </div>
         <!--  
