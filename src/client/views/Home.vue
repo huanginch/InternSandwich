@@ -192,11 +192,12 @@
             </div>
 -->
       </div>
+      <RecommendPost title="熱門實習" :recommend_posts="intern_info" />
       <!--熱門搜尋  -->
-      <div class="col-lg-3">
-        <p class="text-left"><strong>熱門實習</strong></p>
+      <!-- <div class="col-lg-3">
+        <p class="text-left"><strong>熱門實習</strong></p> -->
         <!--eslint-disable-next-line-->
-        <div id="Home" v-for="(posts, index) in intern_info.slice(pageStart, pageStart + countOfPage)" class="posts" >
+        <!-- <div id="Home" v-for="(posts, index) in intern_info.slice(pageStart, pageStart + countOfPage)" class="posts" >
           <div class="panel">
             <div class="panel-body">
               <div class="row">
@@ -217,42 +218,8 @@
             </div>
           </div>
         </div>
-        <!--  
-            <div class="photo">
-              <img
-                src="../assets/圖片1.png"
-                alt="internsandwich"
-                height="100px"
-              />
-            </div>
-            <div class="intro">
-              <a>OOO股份有限公司</a><br />
-              <a>OOO實習生</a>
-            </div>
-            <div class="photo">
-              <img
-                src="../assets/圖片1.png"
-                alt="internsandwich"
-                height="100px"
-              />
-            </div>
-            <div class="intro">
-              <a>OOO股份有限公司</a><br />
-              <a>OOO實習生</a>
-            </div>
-            <div class="photo">
-              <img
-                src="../assets/圖片1.png"
-                alt="internsandwich"
-                height="100px"
-              />
-            </div>
-            <div class="intro">
-              <a>OOO股份有限公司</a><br />
-              <a>OOO實習生</a>
-            </div>
--->
-      </div>
+       
+      </div> -->
     </div>
 
     <br />
@@ -287,9 +254,12 @@
 
 <script>
 import axios from "../js/axios.js";
-
+import RecommendPost from "../components/RecommendPost.vue"
 export default {
   name: "Home",
+  components:{
+    RecommendPost
+  },
   data() {
     return {
       intern_info: null,

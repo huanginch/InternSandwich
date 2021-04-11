@@ -134,27 +134,7 @@
         </div>
         <hr border-style="solid" />
       </div>
-
-      <div class="col-lg-3 text-left">
-        <p class="text-left"><strong>推薦實習</strong></p>
-        <div class="panel">
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-lg-3">
-                <img
-                  src="../assets/圖片1.png"
-                  alt="internsandwich"
-                  style="height: 70px"
-                />
-              </div>
-              <div class="col-lg-9">
-                <p style="font-size: 20px" align="left">OOO股份有限公司</p>
-                <p style="font-size: 20px" align="left">OOO實習生</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <RecommendPost title="推薦實習" :recommend_posts = "recommend" />
       <!-- <br />
         <div><a>熱門實習</a></div>
         <hr style="solid" />
@@ -339,9 +319,12 @@
 
 <script>
 import axios from "../js/axios.js";
-
+import RecommendPost from "../components/RecommendPost.vue"
 export default {
   name: "Intern",
+  components:{
+    RecommendPost
+  },
   data() {
     return {
       post_id: "",
@@ -352,6 +335,7 @@ export default {
       myNewComment: "",
       editing: false,
       temp_comment: "",
+      recommend:[],
     };
   },
   computed: {
@@ -488,6 +472,7 @@ export default {
       .get(api)
       .then((response) => {
         this.post_info = response.data;
+        this.recommend = [this.post_info[1]];//推薦實習，之後再寫
         this.post_info = this.jsonEscape(this.post_info);
         this.showcomments();
       })
@@ -501,5 +486,10 @@ export default {
 <style>
 .ppp-intern {
   height: auto;
+}
+ul {
+  display: inline-block;
+  list-style-type: none;
+  padding: 0;
 }
 </style>
