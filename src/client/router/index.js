@@ -12,6 +12,7 @@ import Register_business from '../views/Register_business.vue'//企業註冊
 
 import Finder from '../views/Finder.vue' //找實習生
 import Profile from '../views/Profile.vue' //實習生內容頁面
+import Post from '../views/Post.vue'//發文頁面
 
 import Resume from '../views/Resume.vue' //履歷模板
 import Mailbox from '../views/Mailbox.vue' //履歷信箱
@@ -70,6 +71,11 @@ const routes = [{
   path: '/resume',
   name: 'Resume',
   component: Resume
+},
+{
+  path: '/post',
+  name: 'Post',
+  component: Post
 },
 {
   path: '/mailbox',

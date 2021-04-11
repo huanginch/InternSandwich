@@ -46,7 +46,7 @@
       <div class="col-lg-9 text-left">
         <!-- 實習貼文 -->
         <!--eslint-disable-next-line-->
-        <div id="Home" v-for="(posts, index) in searchResult.slice(pageStart, pageStart + countOfPage)" class="posts" >
+        <div id="Home" v-for="(users, index) in searchResult.slice(pageStart, pageStart + countOfPage)" class="posts" >
           <div class="panel panel-default">
             <div class="panel-body">
               <div class="row">
@@ -60,10 +60,10 @@
 
                 <div class="col-lg-10">
                   <h1 style="font-size: 25px" align="left">
-                    {{ posts.link }}
+                    {{ users.name }}
                   </h1>
                   <p style="font-size: 20px" align="left">
-                    {{ posts.cp_name }}
+                    {{ users.edu_and_exp }}
                   </p>
                   <p
                     style="
@@ -77,7 +77,7 @@
                     "
                     align="left"
                   >
-                    {{ posts.requirement }}
+                    {{ users.skills }}
                   </p>
                 </div>
               </div>
@@ -103,141 +103,9 @@
             </div>
           </div>
         </div>
-        <!--  
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <div class="ppp">
-                  <div class="photo">
-                    <img
-                      src="../assets/圖片1.png"
-                      alt="internsandwich"
-                      height="150px"
-                    />
-                  </div>
-                  <a style="font-size: 25px">採購實習生</a><br />
-                  <a style="font-size: 20px">全聯大賣場股份有限公司</a><br />
-                  <a style="font-size: 15px"
-                    >1.原物料採購(國內/進口料)、結帳作業。 2.供應商資料維護。
-                    3.收料、庫存管理。 4. 原料退稅作業。 5. 主管交辦事項。</a
-                  ><br />
-                </div>
-                <div class="ppp2">
-                  <div class="row float-right">
-                    <a
-                      href="#"
-                      class="btn"
-                      style="width: 200px; height: 50px; font-size: 20px"
-                      >查看評論</a
-                    >
-                    <a
-                      href="#"
-                      class="btn"
-                      style="width: 200px; height: 50px; font-size: 20px"
-                      >收藏</a
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <div class="ppp">
-                  <div class="photo">
-                    <img
-                      src="../assets/圖片1.png"
-                      alt="internsandwich"
-                      height="150px"
-                    />
-                  </div>
-                  <a style="font-size: 25px">資安實習生</a><br />
-                  <a style="font-size: 20px">中正大學研發處</a><br />
-                  <a style="font-size: 15px"
-                    >協助資安檢測工具研發，包含分析、設計、程式撰寫及軟體測試 -
-                    協助軟體開發文件之撰寫與維護 -
-                    協助新技術、法規與產品的研究</a
-                  ><br />
-                </div>
-                <div class="ppp2">
-                  <div class="row float-right">
-                    <a
-                      href="#"
-                      class="btn"
-                      style="width: 200px; height: 50px; font-size: 20px"
-                      >查看評論</a
-                    >
-                    <a
-                      href="#"
-                      class="btn"
-                      style="width: 200px; height: 50px; font-size: 20px"
-                      >收藏</a
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
--->
       </div>
       <!--熱門搜尋  -->
-      <div class="col-lg-3">
-        <p class="text-left"><strong>熱門實習生</strong></p>
-        <!--eslint-disable-next-line-->
-        <div id="Home" v-for="(posts, index) in fb_info.slice(pageStart, pageStart + countOfPage)" class="posts" >
-          <div class="panel">
-            <div class="panel-body">
-              <div class="row">
-                <div class="col-lg-3">
-                  <img
-                    src="../assets/圖片2.png"
-                    alt="internsandwich"
-                    style="height: 70px"
-                  />
-                </div>
-                <div class="col-lg-9">
-                  <p style="font-size: 20px" align="left">{{ posts.link }}</p>
-                  <p style="font-size: 20px" align="left">
-                    {{ posts.cp_name }}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--  
-            <div class="photo">
-              <img
-                src="../assets/圖片1.png"
-                alt="internsandwich"
-                height="100px"
-              />
-            </div>
-            <div class="intro">
-              <a>OOO股份有限公司</a><br />
-              <a>OOO實習生</a>
-            </div>
-            <div class="photo">
-              <img
-                src="../assets/圖片1.png"
-                alt="internsandwich"
-                height="100px"
-              />
-            </div>
-            <div class="intro">
-              <a>OOO股份有限公司</a><br />
-              <a>OOO實習生</a>
-            </div>
-            <div class="photo">
-              <img
-                src="../assets/圖片1.png"
-                alt="internsandwich"
-                height="100px"
-              />
-            </div>
-            <div class="intro">
-              <a>OOO股份有限公司</a><br />
-              <a>OOO實習生</a>
-            </div>
--->
-      </div>
+      <Recommend title="熱門實習生" :recommend_users="users_info"/>
     </div>
 
     <br />
@@ -263,17 +131,17 @@
 
 <script>
 import axios from "../js/axios.js";
-//import Searchbar from "../components/Searchbar.vue";
+import Recommend from "../components/RecommendUser.vue"
 
 export default {
-  name: "Home",
-  /*componemts:{
-    Searchbar
-  },*/
+  name: "Finder",
+  components:{
+    Recommend
+  },
   data() {
     return {
-      fb_info: null,
-      searchResult:null,
+      users_info: [],
+      searchResult:"",
       countOfPage: 5,
       currPage: 1,
       select_school:"",
@@ -310,7 +178,7 @@ export default {
     }
   },
   methods:{
-    //依照關鍵字搜尋貼文
+    //依照關鍵字搜尋實習生
     filteredPosts: function(){
       // 因為 JavaScript 的 filter 有分大小寫，
       // 所以這裡將 keyword 與 fb_info[n].cp_name 通通轉小寫方便比對。
@@ -318,10 +186,10 @@ export default {
 
       // 如果 filter_name 有內容，回傳過濾後的資料，否則將原本的 fb_posts 回傳。
       if ( this.keyword.trim() !== '' ) {
-        this.searchResult = this.fb_info.filter(function(d){ return d.cp_name.toLowerCase().indexOf(keyword) > -1; })
+        this.searchResult = this.users_info.filter(function(d){ return d.edu_and_exp.toLowerCase().indexOf(keyword) > -1; })
       }
       else{
-        this.searchResult = this.fb_info;
+        this.searchResult = this.users_info;
       }
     },
     //設定當前頁面
@@ -334,33 +202,17 @@ export default {
   },
   created(){
     //axios獲取後臺資料
-    const api = "/api/posts";
-      //const params = { userId: 2 };
+    const api = "/api/resume";
     axios
       .get(api)
       .then((response) => {
-        this.fb_info = response.data 
-        this.searchResult = response.data})
+        this.users_info = response.data
+        this.searchResult = this.users_info
+      })
       .catch(function (error) {
         // 請求失敗處理
         console.log(error);
       });
   },
 };
-/*export default({
-  name: '#user',
-  data () {
-    return {
-      info: null
-    }
-  },
-  created () {
-    const api = 'localhost:3000/api/test'
-    axios.get(api)
-    .then(response => (this.info = response))
-    .catch(function (error) { // 请求失败处理
-      console.log(error);
-    });
-  }
-})*/
 </script>
