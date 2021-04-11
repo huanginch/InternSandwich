@@ -21,6 +21,19 @@ router.get('/posts', (req, res, next) => {
   })
 })
 
+//取得實習生資訊
+router.get('/resume', (req, res, next) => {
+  var sql = 'select * from resume';
+
+  db(sql)
+  .then(results =>{
+    res.send(results);
+  })
+  .catch(err =>{
+    res.status(500).send("err:",err)
+  })
+})
+
 //取得貼文評論
 router.get('/show-comments', (req, res, next) => {
   var sqlparams = req.query.p_id;
