@@ -26,7 +26,7 @@
               </option>
             </select>
             <select v-model="select_area" class="btn btn-default">
-              <option value="">地區</option>
+              <option  value="">地區</option>
               <!--eslint-disable-next-line-->
               <option v-for="area in areas" v-bind:value="area.value">
                 {{ area.text }}
@@ -42,19 +42,19 @@
         </div>
       </div>
     </form>
-
+    <br />
     <!--實習貼文與熱門搜尋  -->
     <div class="row">
       <div class="col-lg-9">
         <button class="btn float-right" @click="sortNewtoOld">由新到舊</button>
         <button class="btn float-right" @click="sortOldtoNew">由舊到新</button>
-
-        <br /><br />
+        <br><br>
         <!-- 實習貼文 -->
         <!--eslint-disable-next-line-->
         <div id="Home" v-for="(posts, index) in searchResult.slice(pageStart, pageStart + countOfPage)" class="posts" >
           <div class="panel panel-default">
-            <div class="panel-body" style="border-style: ridge"><!--groove inset outset -->
+            <router-link class="nav-item nav-link" :to="{ name: 'Intern', params: { post_id: posts.id }}">
+            <div class="panel-body">
               <div class="row">
                 <div class="col-lg-2">
                   <img
@@ -63,7 +63,6 @@
                     style="vertical-align: bottom; height: 120px"
                   />
                 </div>
-
                 <div class="col-lg-10">
                   <h1 style="font-size: 25px" align="left">
                     {{ posts.title }}
@@ -83,30 +82,41 @@
                     "
                     align="left"
                   >
-                    {{ posts.requirement }}
+                    {{ posts.job_desc }}
                   </p>
                 </div>
               </div>
-
               <div class="ppp2_btn">
                 <div class="row float-right">
                   <router-link
                     class="btn"
                     style="width: 200px; height: 50px; font-size: 20px"
-                    :to="{ name: 'Intern', params: { post_id: posts.id } }"
+                    :to="{ name: 'Intern', params: { post_id: posts.id }}"
                   >
                     查看評論
                   </router-link>
-                  <button
-                    href="#"
-                    class="btn"
-                    style="width: 200px; height: 50px; font-size: 20px"
-                  >
-                    收藏
-                  </button>
+                  <div v-bind:class="{hidden: saved_posts.indexOf(posts.id) != -1}">
+                    <button
+                      @click='save(posts.id)'
+                      class="btn"
+                      style="width: 200px; height: 50px; font-size: 20px"
+                    >
+                      收藏
+                    </button>
+                  </div>
+                  <div v-bind:class="{hidden: saved_posts.indexOf(posts.id) === -1}">
+                    <button
+                      @click="unsave(posts.id)"
+                      class="btn"
+                      style="width: 200px; height: 50px; font-size: 20px"
+                    >
+                      取消收藏
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
+          </router-link>
           </div>
         </div>
         <!--  
@@ -183,13 +193,13 @@
             </div>
 -->
       </div>
-      <RecommendPost title="熱門實習" :recommend_posts="intern_info" />
+      <RecommendPost title="推薦實習" :recommend_posts="intern_info" />
       <!--熱門搜尋  -->
       <!-- <div class="col-lg-3">
         <p class="text-left"><strong>熱門實習</strong></p> -->
         <!--eslint-disable-next-line-->
         <!-- <div id="Home" v-for="(posts, index) in intern_info.slice(pageStart, pageStart + countOfPage)" class="posts" >
-          <div class="panel_popular">
+          <div class="panel">
             <div class="panel-body">
               <div class="row">
                 <div class="col-lg-3">
@@ -208,47 +218,10 @@
               </div>
             </div>
           </div>
-          <hr border-style="solid" />
         </div>
-        </div> -->
-        <!--  
-            <div class="photo">
-              <img
-                src="../assets/圖片1.png"
-                alt="internsandwich"
-                height="100px"
-              />
-            </div>
-            <div class="intro">
-              <a>OOO股份有限公司</a><br />
-              <a>OOO實習生</a>
-            </div>
-            <div class="photo">
-              <img
-                src="../assets/圖片1.png"
-                alt="internsandwich"
-                height="100px"
-              />
-            </div>
-            <div class="intro">
-              <a>OOO股份有限公司</a><br />
-              <a>OOO實習生</a>
-            </div>
-            <div class="photo">
-              <img
-                src="../assets/圖片1.png"
-                alt="internsandwich"
-                height="100px"
-              />
-            </div>
-            <div class="intro">
-              <a>OOO股份有限公司</a><br />
-              <a>OOO實習生</a>
-            </div>
--->
-      </div>
+       
+      </div> -->
     </div>
-
     <br />
     <!-- 換頁按鈕 -->
     <ul
@@ -278,14 +251,13 @@
     </ul>
   </div>
 </template>
-
 <script>
 import axios from "../js/axios.js";
 import RecommendPost from "../components/RecommendPost.vue"
 export default {
   name: "Home",
   components:{
-  RecommendPost
+    RecommendPost
   },
   data() {
     return {
@@ -306,6 +278,7 @@ export default {
         { text: "台中", value: "台中" },
         { text: "高雄", value: "高雄" },
       ],
+      saved_posts:[]
     };
   },
   computed: {
@@ -317,6 +290,9 @@ export default {
     totalPage: function () {
       return Math.ceil(this.searchResult.length / this.countOfPage);
     },
+    isLoggedIn: function(){
+      return this.$store.getters.isLoggedIn;
+    },
   },
   methods: {
     //依照關鍵字搜尋貼文
@@ -326,21 +302,14 @@ export default {
       var keyword = this.keyword.toLowerCase();
       var select_jobclass = this.select_jobclass;
       var select_area = this.select_area;
-
       // 如果 filter_name 有內容，回傳過濾後的資料，否則將原本的 fb_posts 回傳。
-      if (
-        this.keyword.trim() !== "" ||
-        this.select_jobclass.trim() !== "" ||
-        this.select_area.trim() !== ""
-      ) {
+      if (this.keyword.trim() !== "" || this.select_jobclass.trim() !== "" || this.select_area.trim() !== "") {
         this.searchResult = this.intern_info.filter(function (d) {
           return d.cp_name.toLowerCase().indexOf(keyword) > -1; //過濾關鍵字
         });
-
         this.searchResult = this.searchResult.filter(function (d) {
           return d.cp_name.toLowerCase().indexOf(select_jobclass) > -1; //過濾類別
         });
-
         this.searchResult = this.searchResult.filter(function (d) {
           return d.cp_name.toLowerCase().indexOf(select_area) > -1; //過濾地區
         });
@@ -356,21 +325,66 @@ export default {
       this.currPage = idx;
     },
     //貼文排序由新到舊
-    sortNewtoOld: function () {
-      this.searchResult.sort(function (p1, p2) {
-        return p2.id - p1.id;
+    sortNewtoOld: function(){
+      this.searchResult.sort(function(p1, p2){
+        return (p2.id-p1.id)
       });
     },
     //貼文排序由舊到新
-    sortOldtoNew: function () {
+    sortOldtoNew: function(){
       this.searchResult.sort(function (p1, p2) {
-        return p1.id - p2.id;
+        return (p1.id-p2.id)
       });
+    },
+    //收藏
+    save: function(p_id){
+      
+      if(this.isLoggedIn){
+        const u_id = this.$store.getters.getUser.ID
+        const api = "api/save"
+        const params = {
+          p_id:p_id,
+          u_id:u_id
+        }
+        axios
+          .post(api,params)
+          .then((response) => {
+            alert(response.data.msg)
+            this.saved_posts.splice(this.saved_posts.length, 0, p_id)
+          })
+          .catch((error) =>{
+            console.log(error)
+          });
+      }
+      else{
+        // 沒有登入會導向登入頁面
+        alert("您尚未登入")
+        this.$router.push("/login")
+      }
+    },
+    //取消收藏
+    unsave: function(p_id){
+      const api = "/api/unsave"
+      const u_id = this.$store.getters.getUser.ID
+      var params = {
+        u_id: u_id,
+        p_id: p_id
+      }
+      axios
+      .delete(api,{data:params})
+      .then(response =>{
+        alert(response.data.msg)
+        var index = this.saved_posts.indexOf(p_id)
+        this.saved_posts.splice(index,1)
+      })
+      .catch(error =>{
+        console.log(error)
+      })
     },
   },
   created() {
     //axios獲取後臺資料
-    const api = "/api/posts";
+    var api = "/api/posts";
     //const params = { userId: 2 };
     axios
       .get(api)
@@ -382,7 +396,27 @@ export default {
         // 請求失敗處理
         console.log(error);
       });
+    
+    if(this.isLoggedIn){
+      api = "/api/show-save"
+      var u_id = this.$store.getters.getUser.ID
+      var params = {u_id: u_id}
+      axios
+      .get(api,{params})
+      .then(response =>{
+        
+        //saved_posts只存p_id
+        this.saved_posts = response.data.map(function(items, index){
+          return items.p_id;
+        })
+      })
+      .catch(error =>{
+        console.log(error)
+      })
+    }
+    
   },
+  
 };
 /*export default({
   name: '#user',
@@ -402,7 +436,10 @@ export default {
 })*/
 </script>
 <style>
-#panel_popular {
-  background-color: #ebf2ff54;
+  .hidden {
+  display: none;
+}
+#Home a {
+  color: black;
 }
 </style>
