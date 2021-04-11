@@ -137,7 +137,7 @@ router.post('/user-register', userMiddleware.validateRegister, (req, res, next) 
         } 
         else {
           // has hashed pw => add to database
-          const params = [escape(req.body.name), req.body.gender, escape(req.body.phone), escape(req.body.email), hash, escape(req.body.id_card), escape(req.body.birth), req.body.school];
+          const params = [escape(req.body.name), req.body.gender, escape(req.body.phone), escape(req.body.email), hash, escape(req.body.id_card), req.body.birth, req.body.school];
           sql = "INSERT INTO user_info (name, gender, phone, email, password, id_card, birth, school) VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
           db(sql,params)
           .then(result => {
@@ -229,6 +229,58 @@ router.post('/company-register', companyMiddleware.validateRegister, (req, res, 
   })
   .catch(err =>{
     res.status(400).send("err:",err)
+  })
+})
+
+//取得收藏貼文
+router.get('/show-save', (req, res, next) => {
+  const params = escape(req.query.u_id);
+  var sql = "SELECT id, u_id, save.p_id, title, cp_name, job_desc FROM save INNER JOIN intern_post ON save.p_id = intern_post.id WHERE u_id = ?"
+  db(sql, params)
+  .then(results =>{
+    res.send(results);
+  })
+  .catch(err =>{
+    res.status(500).send("err:",err)
+  })
+});
+
+//收藏貼文
+router.post('/save', userMiddleware.isLoggedIn, (req, res, next) => {
+  const params = [escape(req.body.p_id), escape(req.body.u_id)];
+  var sql = "SELECT * FROM save WHERE p_id = ? AND u_id = ?"
+  db(sql, params)
+  .then(results =>{
+    if (results.length) {
+      res.status(409).send({msg:"已收藏"});
+    }
+    else{
+      const sql = 'INSERT INTO save (p_id, u_id) VALUES (?, ?);'
+      db(sql,params)
+      .then(results =>{
+        res.status(200).send({msg:"收藏成功"})      
+      })
+      .catch(error =>{
+        res.status(400)
+      })
+    }
+  })
+  .catch(err =>{
+    res.status(400).send("err:",err)
+  })
+});
+
+//取消收藏
+router.delete('/unsave', (req, res, next) => {
+  const sqlparams = [req.body.u_id, req.body.p_id];
+  var sql = 'DELETE FROM save WHERE u_id = ? AND p_id = ?';
+
+  db(sql,sqlparams)
+  .then(results =>{
+    res.send({msg:"取消收藏成功"});
+  })
+  .catch(err =>{
+    res.status(500).send("err:",err)
   })
 })
 

@@ -81,7 +81,7 @@
                     "
                     align="left"
                   >
-                    {{ posts.requirement }}
+                    {{ posts.job_desc }}
                   </p>
                 </div>
               </div>
@@ -95,13 +95,24 @@
                   >
                     查看評論
                   </router-link>
-                  <button
-                    href="#"
-                    class="btn"
-                    style="width: 200px; height: 50px; font-size: 20px"
-                  >
-                    收藏
-                  </button>
+                  <div v-bind:class="{hidden: saved_posts.indexOf(posts.id) != -1}">
+                    <button
+                      @click='save(posts.id)'
+                      class="btn"
+                      style="width: 200px; height: 50px; font-size: 20px"
+                    >
+                      收藏
+                    </button>
+                  </div>
+                  <div v-bind:class="{hidden: saved_posts.indexOf(posts.id) === -1}">
+                    <button
+                      @click="unsave(posts.id)"
+                      class="btn"
+                      style="width: 200px; height: 50px; font-size: 20px"
+                    >
+                      取消收藏
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -298,6 +309,7 @@ export default {
         { text: "台中", value: "台中" },
         { text: "高雄", value: "高雄" },
       ],
+      saved_posts:[]
     };
   },
   computed: {
@@ -308,6 +320,9 @@ export default {
     //設定總頁數
     totalPage: function () {
       return Math.ceil(this.searchResult.length / this.countOfPage);
+    },
+    isLoggedIn: function(){
+      return this.$store.getters.isLoggedIn;
     },
   },
   methods: {
@@ -355,11 +370,57 @@ export default {
       this.searchResult.sort(function (p1, p2) {
         return (p1.id-p2.id)
       });
-    }
+    },
+    //收藏
+    save: function(p_id){
+      
+      if(this.isLoggedIn){
+        const u_id = this.$store.getters.getUser.ID
+        const api = "api/save"
+        const params = {
+          p_id:p_id,
+          u_id:u_id
+        }
+
+        axios
+          .post(api,params)
+          .then((response) => {
+            alert(response.data.msg)
+            this.saved_posts.splice(this.saved_posts.length, 0, p_id)
+          })
+          .catch((error) =>{
+            console.log(error)
+          });
+      }
+      else{
+        // 沒有登入會導向登入頁面
+        alert("您尚未登入")
+        this.$router.push("/login")
+      }
+    },
+    //取消收藏
+    unsave: function(p_id){
+      const api = "/api/unsave"
+      const u_id = this.$store.getters.getUser.ID
+      var params = {
+        u_id: u_id,
+        p_id: p_id
+      }
+      axios
+      .delete(api,{data:params})
+      .then(response =>{
+        alert(response.data.msg)
+        var index = this.saved_posts.indexOf(p_id)
+        this.saved_posts.splice(index,1)
+      })
+      .catch(error =>{
+        console.log(error)
+      })
+    },
   },
   created() {
     //axios獲取後臺資料
-    const api = "/api/posts";
+    var api = "/api/posts";
     //const params = { userId: 2 };
     axios
       .get(api)
@@ -371,6 +432,25 @@ export default {
         // 請求失敗處理
         console.log(error);
       });
+    
+    if(this.isLoggedIn){
+      api = "/api/show-save"
+      var u_id = this.$store.getters.getUser.ID
+      var params = {u_id: u_id}
+      axios
+      .get(api,{params})
+      .then(response =>{
+        
+        //saved_posts只存p_id
+        this.saved_posts = response.data.map(function(items, index){
+          return items.p_id;
+        })
+      })
+      .catch(error =>{
+        console.log(error)
+      })
+    }
+    
   },
   
 };
@@ -391,3 +471,9 @@ export default {
   }
 })*/
 </script>
+
+<style>
+  .hidden {
+  display: none;
+}
+</style>

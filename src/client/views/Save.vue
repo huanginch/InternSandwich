@@ -1,7 +1,7 @@
 <!-- 我的收藏 -->
 <template>
   <div style="padding: 100px 100px 10px">
-    <form class="bs-example bs-example-form" role="form">
+    <form class="bs-example bs-example-form" role="form" v-bind="user_info">
       <div class="row align-items-center">
         <div class="col-lg-12 text-left">
           <div class="panel panel-default">
@@ -17,18 +17,18 @@
                   </div>
                   <div class="col-lg-10">
                     <p style="font-size: 40px">
-                      <strong>黃小明</strong>
+                      <strong>{{user_info.name}}</strong>
                     </p>
                     <div class="row">
                       <div class="col-lg-3">
-                        <p style="font-size: 20px">姓名：OOO</p>
-                        <p style="font-size: 20px">性別：台北、台中</p>
-                        <p style="font-size: 20px">生日：最低時薪160</p>
+                        <p style="font-size: 20px">性別：{{user_info.gender}}</p>
+                        <p style="font-size: 20px">生日：{{user_info.birth}}</p>
+                        <p style="font-size: 20px">身分證字號：{{user_info.id_card}}</p>
                       </div>
                       <div class="col-lg-3">
-                        <p style="font-size: 20px">學校：設計業、建築業</p>
-                        <p style="font-size: 20px">電話：台北、台中</p>
-                        <p style="font-size: 20px">email：最低時薪160</p>
+                        <p style="font-size: 20px">學校：{{user_info.school}}</p>
+                        <p style="font-size: 20px">電話：{{user_info.phone}}</p>
+                        <p style="font-size: 20px">email：{{user_info.email}}</p>
                       </div>
                     </div>
                   </div>
@@ -43,7 +43,7 @@
     <div class="row">
       <div class="col-lg-9">
         <!--eslint-disable-next-line-->
-        <div id="Home" v-for="(posts, index) in searchResult.slice(pageStart, pageStart + countOfPage)" class="posts" >
+        <div id="Home" v-for="(posts, index) in saved_posts.slice(pageStart, pageStart + countOfPage)" class="posts" >
           <div class="panel panel-default">
             <div class="panel-body">
               <div class="row">
@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="col-lg-10">
-                  <h2 style="font-size: 25px" align="left">{{ posts.link }}</h2>
+                  <h2 style="font-size: 25px" align="left">{{ posts.title }}</h2>
                   <p style="font-size: 20px" align="left">
                     {{ posts.cp_name }}
                   </p>
@@ -72,23 +72,22 @@
                     "
                     align="left"
                   >
-                    {{ posts.requirement }}
+                    {{ posts.job_desc }}
                   </p>
                 </div>
               </div>
               <div class="ppp2_btn">
                 <div class="row float-right">
-                  <a
-                    href="#"
+                  <router-link
                     class="btn"
                     style="width: 150px; height: 50px; font-size: 20px"
-                    >立即應徵</a
-                  >
-                  <a
-                    href="#"
+                    :to="{ name: 'Intern', params: { post_id: posts.id }}"
+                    >立即應徵</router-link>
+                  <button
+                    @click="unsave(posts.id)"
                     class="btn"
                     style="width: 150px; height: 50px; font-size: 20px"
-                    >取消收藏</a
+                    >取消收藏</button
                   >
                 </div>
               </div>
@@ -137,31 +136,10 @@ export default {
   },*/
   data() {
     return {
-      fb_info: null,
-      searchResult: null,
+      saved_posts: [],
+      user_info:null,
       countOfPage: 5,
       currPage: 1,
-      select_school: "",
-      select_grade: "",
-      select_expertise: "",
-      keyword: "",
-      schools: [
-        { text: "抬青椒承", value: "抬青椒承" },
-        { text: "忠自倍", value: "忠自倍" },
-        { text: "地名大學", value: "地名大學" },
-        { text: "其他", value: "其他" },
-      ],
-      grades: [
-        { text: "高中", value: "高中" },
-        { text: "大學", value: "大學" },
-        { text: "研究所", value: "研究所" },
-        { text: "其他", value: "其他" },
-      ],
-      expertises: [
-        { text: "科技", value: "科技" },
-        { text: "設計", value: "設計" },
-        { text: "餐飲", value: "餐飲" },
-      ],
     };
   },
   computed: {
@@ -171,25 +149,10 @@ export default {
     },
     //設定總頁數
     totalPage: function () {
-      return Math.ceil(this.searchResult.length / this.countOfPage);
+      return Math.ceil(this.saved_posts.length / this.countOfPage);
     },
   },
   methods: {
-    //依照關鍵字搜尋貼文
-    filteredPosts: function () {
-      // 因為 JavaScript 的 filter 有分大小寫，
-      // 所以這裡將 keyword 與 fb_info[n].cp_name 通通轉小寫方便比對。
-      var keyword = this.keyword.toLowerCase();
-
-      // 如果 filter_name 有內容，回傳過濾後的資料，否則將原本的 fb_posts 回傳。
-      if (this.keyword.trim() !== "") {
-        this.searchResult = this.fb_info.filter(function (d) {
-          return d.cp_name.toLowerCase().indexOf(keyword) > -1;
-        });
-      } else {
-        this.searchResult = this.fb_info;
-      }
-    },
     //設定當前頁面
     setPage: function (idx) {
       if (idx <= 0 || idx > this.totalPage) {
@@ -197,16 +160,43 @@ export default {
       }
       this.currPage = idx;
     },
+    setBirth: function(){
+    },
+    //取消收藏
+    unsave: function(p_id){
+      const api = "/api/unsave"
+      const u_id = this.user_info.ID
+      var params = {
+        u_id: u_id,
+        p_id: p_id
+      }
+      axios
+      .delete(api,{data:params})
+      .then(response =>{
+        alert(response.data.msg)
+        var index = this.saved_posts.map(function(items, index){
+          return items.p_id;
+        }).indexOf(p_id)
+        this.saved_posts.splice(index,1)
+      })
+      .catch(error =>{
+        console.log(error)
+      })
+    },
   },
   created() {
-    //axios獲取後臺資料
-    const api = "/api/posts";
-    //const params = { userId: 2 };
+    //從store取得使用者資料
+    this.user_info = this.$store.getters.getUser
+    const u_id = this.user_info.ID
+    const api = "/api/show-save";
+    const params = { u_id: u_id };
+    
+
+    //axios取得後台收藏貼文資料
     axios
-      .get(api)
+      .get(api,{params})
       .then((response) => {
-        this.fb_info = response.data;
-        this.searchResult = response.data;
+        this.saved_posts = response.data;
       })
       .catch(function (error) {
         // 請求失敗處理

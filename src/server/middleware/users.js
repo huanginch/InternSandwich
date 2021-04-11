@@ -64,7 +64,7 @@ module.exports = {
       next();
     } catch (err) {
       return res.status(401).send({
-        msg: 'Your session is not valid!'
+        msg: '您尚未登入'
       });
     }
   }
