@@ -1,77 +1,88 @@
 <template>
-    <div id="app">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navbar">
-        <a class="navbar-brand" href="#"
-          ><img src="./assets/圖片1.png" width="50px"
-        /></a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarNavAltMarkup"
-          aria-controls="navbarNavAltMarkup"
-          aria-expanded="true"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav nav-tabs">
-            <router-link class="nav-item nav-link" to="/" v-if=!business_isLoggedIn>找實習</router-link>
-            <router-link class="nav-item nav-link" to="/save" v-if="user_isLoggedIn"
-              >我的收藏</router-link
-            >
-            <router-link
-              class="nav-item nav-link"
-              to="/resume"
-              v-if="user_isLoggedIn"
-              >履歷模板</router-link
-            >
-            <router-link
-              class="nav-item nav-link"
-              to="/finder"
-              v-if="business_isLoggedIn"
-              >找實習生</router-link
-            >
-            <router-link class="nav-item nav-link" to="/post" v-if="business_isLoggedIn"
-              >企業發文</router-link
-            >
-            <router-link
-              class="nav-item nav-link"
-              to="/mailbox"
-              v-if="business_isLoggedIn"
-              >履歷信箱</router-link
-            >
-            <!-- <a
+  <div id="app">
+    <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
+      <router-link class="navbar-brand" to="/"
+        ><img src="./assets/圖片1.png" width="50px"
+      /></router-link>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="true"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav nav-tabs">
+          <router-link
+            class="nav-item nav-link router-link-exact-active"
+            to="/"
+            v-if="!business_isLoggedIn"
+            >找實習</router-link
+          >
+          <router-link
+            class="nav-item nav-link"
+            to="/save"
+            v-if="user_isLoggedIn"
+            >我的收藏</router-link
+          >
+          <router-link
+            class="nav-item nav-link"
+            to="/resume"
+            v-if="user_isLoggedIn"
+            >履歷模板</router-link
+          >
+          <router-link
+            class="nav-item nav-link"
+            to="/finder"
+            v-if="business_isLoggedIn"
+            >找實習生</router-link
+          >
+          <router-link
+            class="nav-item nav-link"
+            to="/post"
+            v-if="business_isLoggedIn"
+            >企業發文</router-link
+          >
+          <router-link
+            class="nav-item nav-link"
+            to="/mailbox"
+            v-if="business_isLoggedIn"
+            >履歷信箱</router-link
+          >
+          <!-- <a
               class="nav-item nav-link"
               data-toggle="tab"
               href="./views/about.vue"
               >履歷模板</a
             > -->
-          </div>
-          <div class="navbar-nav nav-tabs ml-auto">
-            <router-link
-              class="nav-item nav-link"
-              data-toggle="tab"
-              to="/login"
-              v-if="!(user_isLoggedIn || business_isLoggedIn)"
-              >登入<span class="glyphicon glyphicon-log-in"></span
-            ></router-link>
-            <router-link
-              class="nav-item nav-link"
-              data-toggle="tab"
-              to="/register"
-              v-if="!(user_isLoggedIn || business_isLoggedIn)"
-              >註冊<span class="glyphicon glyphicon-log-in"></span
-            ></router-link>
-            <button class="btn" @click.prevent="logout" v-else>登出</button>
-            <p></p>
-          </div>
         </div>
-      </nav>
+        <div class="navbar-nav nav-tabs ml-auto">
+          <router-link
+            class="nav-item nav-link"
+            data-toggle="tab"
+            to="/login"
+            v-if="!(user_isLoggedIn || business_isLoggedIn)"
+            >登入<span class="glyphicon glyphicon-log-in"></span
+          ></router-link>
+          <router-link
+            class="nav-item nav-link"
+            data-toggle="tab"
+            to="/register"
+            v-if="!(user_isLoggedIn || business_isLoggedIn)"
+            >註冊<span class="glyphicon glyphicon-log-in"></span
+          ></router-link>
+          <button class="btn" @click.prevent="logout" v-else>登出</button>
+          <p></p>
+        </div>
+      </div>
+    </nav>
 
-      <router-view />
-    </div>
+    <router-view />
+  </div>
 </template>
 
 <script>
@@ -100,27 +111,26 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  /* background-color: #f8f9fa; */
+  /* background-color: #ebf2ff54; */
+  /* background-color: #dce2ec54; */
+  /* background-color: #bcddfc85; */
+  background-color: #bcddfc71;
 }
 #navbar {
   position: fixed;
   width: 100%;
   z-index: 1;
+  /* background-color: #f8f9fa; */
+  /* background-color:#bedae0; */
+  /* background-color: #57d5eb; */
+  background-color:#b8dcfd;
 }
+
 #nav {
   padding: 80px;
 }
-/*
-  #navbarNavAltMarkup	{
-    background: #57d4ebe3;
-  }
-  */
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+
 .container {
   width: 500px;
   height: 50px;
