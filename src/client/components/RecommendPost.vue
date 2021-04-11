@@ -3,7 +3,8 @@
   <p class="text-left">
     <strong>{{title}}</strong>
   </p>
-    <div class="Recommend" v-for="posts in recommend_posts" :key="posts.id">
+    <div id="Recommend" v-for="posts in recommend_posts" :key="posts.id">
+    <router-link :to="{ name: 'Intern', params: { post_id: posts.id }}" class="routerlink">
     <div class="panel">
       <div class="panel-body">
         <div class="row">
@@ -21,7 +22,9 @@
         </div>
       </div>
     </div>
+  </router-link>
   </div>
+
 </div>
 </template>
 
@@ -40,3 +43,10 @@ export default {
   },
 }
 </script>
+
+<style>
+ .routerlink{ 
+  color: black;
+}
+ 
+</style>
