@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
-      <router-link class="navbar-brand" to="/"
-        ><img src="./assets/圖片1.png" width="50px"
+      <router-link class="navbar-brand" to="#"
+        ><img src="./assets/圖片1-1.png" height="60px"
       /></router-link>
       <button
         class="navbar-toggler"
@@ -124,7 +124,8 @@ export default {
   /* background-color: #f8f9fa; */
   /* background-color:#bedae0; */
   /* background-color: #57d5eb; */
-  background-color:#b8dcfd;
+  /* background-color:#b8dcfd; 這是大家覺得ok的*/
+  background-color:rgb(174, 218, 246);
 }
 
 #nav {
