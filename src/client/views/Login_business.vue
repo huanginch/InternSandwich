@@ -85,7 +85,7 @@ export default {
 
           alert(this.msg);
 
-          this.$router.push("/");
+          this.$router.push("/finder");
         })
         .catch((err) => {
           this.msg = err.response.data.msg;

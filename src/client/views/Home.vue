@@ -307,13 +307,13 @@ export default {
       // 如果 filter_name 有內容，回傳過濾後的資料，否則將原本的 fb_posts 回傳。
       if (this.keyword.trim() !== "" || this.select_jobclass.trim() !== "" || this.select_area.trim() !== "") {
         this.searchResult = this.intern_info.filter(function (d) {
-          return d.cp_name.toLowerCase().indexOf(keyword) > -1; //過濾關鍵字
+          return d.title.toLowerCase().indexOf(keyword) > -1; //過濾關鍵字
         });
         this.searchResult = this.searchResult.filter(function (d) {
-          return d.cp_name.toLowerCase().indexOf(select_jobclass) > -1; //過濾類別
+          return d.title.toLowerCase().indexOf(select_jobclass) > -1; //過濾類別
         });
         this.searchResult = this.searchResult.filter(function (d) {
-          return d.cp_name.toLowerCase().indexOf(select_area) > -1; //過濾地區
+          return d.title.toLowerCase().indexOf(select_area) > -1; //過濾地區
         });
       } else {
         this.searchResult = this.intern_info;
@@ -420,23 +420,8 @@ export default {
   },
   
 };
-/*export default({
-  name: '#user',
-  data () {
-    return {
-      info: null
-    }
-  },
-  created () {
-    const api = 'localhost:3000/api/test'
-    axios.get(api)
-    .then(response => (this.info = response))
-    .catch(function (error) { // 请求失败处理
-      console.log(error);
-    });
-  }
-})*/
 </script>
+
 <style>
   .hidden {
   display: none;
