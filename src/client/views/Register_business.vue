@@ -3,9 +3,10 @@
   <div style="padding: 100px 100px 10px">
     <br />
     <h3>企業註冊</h3>
-    <br />
-    <router-link class="text-right" to="/register">實習生註冊</router-link>
-    <div class="panel panel-default col-md-6 offset-3">
+    <router-link style="font-size: 20px" to="/register">實習生註冊</router-link>
+    <div class="panel panel-default col-md-6 offset-3" style="border-style: ridge"
+    >
+      <!-- ridge groove inset outset -->
       <div class="panel-body" style="padding: 50px">
         <form>
           <!-- <p v-if="msg">{{ msg }}</p> -->

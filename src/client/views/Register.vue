@@ -3,16 +3,16 @@
   <div style="padding: 100px 100px 10px">
     <br />
     <h3>實習生註冊</h3>
-    <br />
-
-    <router-link class="text-right" to="/register_business">企業註冊</router-link>
+    <router-link style="font-size: 20px" to="/register_business">企業註冊</router-link>
     <!-- <button
       type="btn"
       value="企業註冊"
       class="btn"
       style="width: 200px; height: 60px; font-size: 30px"
     /> -->
-    <div class="panel panel-default col-md-6 offset-3">
+    <div class="panel panel-default col-md-6 offset-3" style="border-style: ridge"
+    >
+      <!-- ridge groove inset outset -->
       <div class="panel-body" style="padding: 50px">
         <form>
           <!-- <p v-if="msg">{{ msg }}</p> -->
@@ -28,9 +28,9 @@
             <br />
             <label>性別</label>
             <br/>
-            <input v-model="gender" type="radio" value=0 /><label>男</label>
+            <input v-model="gender" type="radio" value=0 /><label>男</label> &nbsp;&nbsp;&nbsp;
             <input v-model="gender" type="radio" value=1 /><label>女</label>
-            <br />
+            <br /><br />
             <label>生日</label>
             <input
               v-model="birth"

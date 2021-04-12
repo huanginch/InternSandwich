@@ -2,11 +2,13 @@
 <template>
   <div style="padding: 100px 100px 10px">
     <br />
-    <h3>會員登入</h3>
-    <br />
-    <router-link class="text-right" to="/login_business">企業登入</router-link>
-    
-    <div class="panel panel-default col-md-6 offset-3">
+    <h3>實習生登入</h3>
+    <router-link style="font-size: 20px" to="/login_business">企業登入</router-link>
+    <div
+      class="panel panel-default col-md-6 offset-3"
+      style="border-style: ridge"
+    >
+      <!-- ridge groove inset outset -->
       <div class="panel-body" style="padding: 50px">
         <form>
           <div class="form-group col-md-12 text-left">
@@ -31,19 +33,17 @@
             />
           </div>
 
-          <br />
-
           <div class="checkbox">
-            <label class="form-check-label" for="gridCheck">
-              <input class="form-check-input" type="checkbox" />
-              記住密碼
-            </label>
-            <br /><br />
             <input
               type="submit"
               value="立即登入"
               class="btn"
-              style="width: 400px; height: 60px; font-size: 30px; margin:0px auto;"
+              style="
+                width: 400px;
+                height: 60px;
+                font-size: 25px;
+                margin: 0px auto;
+              "
               @click="login"
             />
           </div>
@@ -54,51 +54,49 @@
 </template>
 
 <script>
-  import axios from "../js/axios.js";
+import axios from "../js/axios.js";
 
-  export default {
-    name:"Login",
-    data(){
-      return{
-        email:"",
-        password:"",
-        msg:"",
+export default {
+  name: "Login",
+  data() {
+    return {
+      email: "",
+      password: "",
+      msg: "",
+    };
+  },
+  methods: {
+    //登入
+    login: function () {
+      const credentials = {
+        email: this.email,
+        password: this.password,
       };
-    },
-    methods: {
-      //登入
-      login: function() {
-        const credentials = {
-          email: this.email,
-          password: this.password
-        };
-        const api = "/api/user-login"
-        axios
+      const api = "/api/user-login";
+      axios
         .post(api, credentials)
-        .then(response => {
-          this.msg = response.data.msg
+        .then((response) => {
+          this.msg = response.data.msg;
 
           const token = response.data.token;
           const user = response.data.user;
 
-          this.$store.dispatch('login', { token, user });
+          this.$store.dispatch("login", { token, user });
 
           alert(this.msg);
 
-          this.$router.push('/');
+          this.$router.push("/");
         })
-        .catch(err =>{
+        .catch((err) => {
           this.msg = err.response.data.msg;
           alert(this.msg);
-        })
-
-        
-      },
-      // //登出
-      // logout(){
-      //   cookie.removeItem('token');
-      //   this.$router.push('/login');
-      // }
-    } 
-  }
+        });
+    },
+    // //登出
+    // logout(){
+    //   cookie.removeItem('token');
+    //   this.$router.push('/login');
+    // }
+  },
+};
 </script>
