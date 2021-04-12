@@ -23,7 +23,7 @@ router.get('/posts', (req, res, next) => {
 
 //取得實習生資訊
 router.get('/resume', (req, res, next) => {
-  var sql = 'select * from resume';
+  var sql = 'select resume.ID, resume.u_id, name, id_card, birth, gender, phone, school, user_info.email, exp_position, exp_treatment, exp_location, edu_and_exp, skills, others from resume INNER JOIN user_info ON resume.u_id = user_info.ID';
 
   db(sql)
   .then(results =>{
