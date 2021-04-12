@@ -56,7 +56,8 @@
         <div id="Home" v-for="(posts, index) in searchResult.slice(pageStart, pageStart + countOfPage)" class="posts" >
           <div class="panel panel-default">
             <div class="panel-body" style="border-style: ridge"><!-- ridge groove inset outset -->
-            <router-link class="nav-item nav-link" :to="{ name: 'Intern', params: { post_id: posts.id }}">
+            <router-link class="nav-item nav-link" :to="{ name: 'Intern', params: { post_id: posts.id }}"
+            @click.native="addcounter(posts.id, posts.counter)">
               <div class="row">
                 <div class="col-lg-2">
                   <img
@@ -89,6 +90,9 @@
                 </div>
               </div>
               <div class="ppp2_btn">
+                <div class="row float-left" style="color: grey; padding-top: 20px">
+                  觀看次數: {{posts.counter}}
+                </div>
                 <div class="row float-right">
                   <router-link
                     class="btn"
@@ -195,12 +199,12 @@
             </div>
 -->
       </div>
-      <RecommendPost title="推薦實習" :recommend_posts="intern_info" />
+      <RecommendPost title="熱門實習" :recommend_posts="top5_post" />
       <!--熱門搜尋  -->
-      <!-- <div class="col-lg-3">
-        <p class="text-left"><strong>熱門實習</strong></p> -->
+      <!--<div class="col-lg-3">
+        <p class="text-left"><strong>熱門實習</strong></p>-->
         <!--eslint-disable-next-line-->
-        <!-- <div id="Home" v-for="(posts, index) in intern_info.slice(pageStart, pageStart + countOfPage)" class="posts" >
+        <!--<div id="Home" v-for="(posts, index) in top5_post" class="posts" >
           <div class="panel">
             <div class="panel-body">
               <div class="row">
@@ -222,7 +226,7 @@
           </div>
         </div>
        
-      </div> -->
+      </div>-->
     </div>
     <br />
     <!-- 換頁按鈕 -->
@@ -263,6 +267,7 @@ export default {
   },
   data() {
     return {
+      top5_post: null,
       intern_info: null,
       searchResult: null,
       countOfPage: 15,
@@ -297,6 +302,49 @@ export default {
     },
   },
   methods: {
+    //更新觀看次數
+    addcounter: function (p_id, counter) {
+      counter++
+      var api = "/api/add-counter"
+      const params = {
+        p_id: p_id,
+        counter: counter
+      }
+      axios
+        .post(api, params)
+        .then((response) => {
+          alert(response.data.msg)
+        })
+        .catch((error) => {
+          console.log(error)
+        });
+    },
+    //依照關鍵字搜尋貼文
+    filteredPosts: function () {
+      // 因為 JavaScript 的 filter 有分大小寫，
+      // 所以這裡將 keyword 與 intern_info[n].cp_name 通通轉小寫方便比對。
+      var keyword = this.keyword.toLowerCase();
+      var select_jobclass = this.select_jobclass;
+      var select_area = this.select_area;
+
+      // 如果 filter_name 有內容，回傳過濾後的資料，否則將原本的 fb_posts 回傳。
+      if (this.keyword.trim() !== "" || this.select_jobclass.trim() !== "" || this.select_area.trim() !== "") {
+        this.searchResult = this.intern_info.filter(function (d) {
+          return d.cp_name.toLowerCase().indexOf(keyword) > -1; //過濾關鍵字
+        });
+
+        this.searchResult = this.searchResult.filter(function (d) {
+          return d.cp_name.toLowerCase().indexOf(select_jobclass) > -1; //過濾類別
+        });
+
+        this.searchResult = this.searchResult.filter(function (d) {
+          return d.cp_name.toLowerCase().indexOf(select_area) > -1; //過濾地區
+        });
+
+      } else {
+        this.searchResult = this.intern_info;
+      }
+    },
     //依照關鍵字搜尋貼文
     filteredPosts: function () {
       // 因為 JavaScript 的 filter 有分大小寫，
@@ -307,13 +355,13 @@ export default {
       // 如果 filter_name 有內容，回傳過濾後的資料，否則將原本的 fb_posts 回傳。
       if (this.keyword.trim() !== "" || this.select_jobclass.trim() !== "" || this.select_area.trim() !== "") {
         this.searchResult = this.intern_info.filter(function (d) {
-          return d.title.toLowerCase().indexOf(keyword) > -1; //過濾關鍵字
+          return d.cp_name.toLowerCase().indexOf(keyword) > -1; //過濾關鍵字
         });
         this.searchResult = this.searchResult.filter(function (d) {
-          return d.title.toLowerCase().indexOf(select_jobclass) > -1; //過濾類別
+          return d.cp_name.toLowerCase().indexOf(select_jobclass) > -1; //過濾類別
         });
         this.searchResult = this.searchResult.filter(function (d) {
-          return d.title.toLowerCase().indexOf(select_area) > -1; //過濾地區
+          return d.cp_name.toLowerCase().indexOf(select_area) > -1; //過濾地區
         });
       } else {
         this.searchResult = this.intern_info;
@@ -416,12 +464,33 @@ export default {
         console.log(error)
       })
     }
+    api = "/api/show-top5"
+    axios
+      .get(api)
+      .then(response =>{
+        this.top5_post = response.data;
+      });
     
   },
   
 };
+/*export default({
+  name: '#user',
+  data () {
+    return {
+      info: null
+    }
+  },
+  created () {
+    const api = 'localhost:3000/api/test'
+    axios.get(api)
+    .then(response => (this.info = response))
+    .catch(function (error) { // 请求失败处理
+      console.log(error);
+    });
+  }
+})*/
 </script>
-
 <style>
   .hidden {
   display: none;
