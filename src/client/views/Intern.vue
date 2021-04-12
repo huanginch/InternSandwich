@@ -87,9 +87,10 @@
               <hr border-style="solid" />
 
               <a style="font-size: 30px">其他</a><br /><br />
-              <pre style="font-size: 18px" v-bind="(post_info, post_id)">{{
+              <pre v-if="post_info[post_id].others"style="font-size: 18px" v-bind="(post_info, post_id)">{{
                 post_info[post_id].others
               }}</pre>
+              <pre v-else style="font-size: 18px" v-bind="(post_info, post_id)">無</pre>
 
               <!-- <a
                 style="font-size: 18px"
@@ -138,8 +139,8 @@
         </div>
         <hr border-style="solid" />
       </div>
-
-      <div class="col-lg-3 text-left">
+      <RecommendPost title="推薦實習" :recommend_posts = "recommend" />
+      <!-- <div class="col-lg-3 text-left">
         <p class="text-left"><strong>推薦實習</strong></p>
         <div class="panel_polular">
           <div class="panel-body">
@@ -159,7 +160,7 @@
           </div>
         </div>
         <hr border-style="solid" />
-      </div>
+      </div> -->
     </div>
     <!-- <br />
         <div><a>熱門實習</a></div>
