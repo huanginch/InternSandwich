@@ -11,7 +11,7 @@
             <!-- 姓名的資料應該是直接從註冊資料庫抓出來? -->
             <div class="form-group col-md-4">
               <label for="inputEmail4">姓名</label><br />
-              這裡顯示姓名
+              {{resume_info[0].name}}
               <!-- <input
                 type="姓名"
                 class="form-control"
@@ -22,7 +22,7 @@
             <!-- 性別的資料應該是直接從註冊資料庫抓出來? -->
             <div class="form-group col-md-4">
               <label for="inputPassword4">性別</label><br />
-              這裡顯示性別
+              {{resume_info[0].gender}}
               <!-- <input
                 type="性別"
                 class="form-control"
@@ -33,7 +33,7 @@
             <!-- 生日的資料應該是直接從註冊資料庫抓出來? -->
             <div class="form-group col-md-4">
               <label for="inputPassword4">生日</label><br />
-              這裡顯示生日
+              {{resume_info[0].birth}}
               <!-- <input
                 type="生日"
                 class="form-control"
@@ -49,7 +49,7 @@
             <!-- 學校的資料應該是直接從註冊資料庫抓出來? -->
             <div class="form-group col-md-4">
               <label for="inputEmail4">學校</label><br />
-              這裡顯示學校
+              {{resume_info[0].school}}
               <!-- <input
                 type="學校"
                 class="form-control"
@@ -60,7 +60,7 @@
             <!-- 電話的資料應該是直接從註冊資料庫抓出來? -->
             <div class="form-group col-md-4">
               <label for="inputEmail4">電話</label><br />
-              這裡顯示電話
+              {{resume_info[0].phone}}
               <!-- <input
                 type="電話"
                 class="form-control"
@@ -71,7 +71,7 @@
             <!-- email的資料應該是直接從註冊資料庫抓出來? -->
             <div class="form-group col-md-4">
               <label for="inputPassword4">email</label><br />
-              這裡顯示email
+              {{resume_info[0].email}}
               <!-- <input
                 type="email"
                 class="form-control"
@@ -183,3 +183,41 @@
     </div>
   </div>
 </template>
+<script>
+import axios from "../js/axios.js";
+export default {
+  name: "Profile",
+  
+  data() {
+    return {
+      resume_id: "",
+      resume_info: [],
+    };
+  },
+  computed: {
+    isLoggedIn: function () {
+      return this.$store.getters.isLoggedIn;
+    },
+  },
+  methods: {
+    
+  },
+  created() {
+    this.resume_id = this.$store.getters.getUser.ID;
+    var api = "/api/resume";
+
+    axios
+      .get(api)
+      .then((response) => {
+        var _this = this
+        this.resume_info = response.data;
+        this.resume_info = this.resume_info.filter(function (d,index) {
+          return d.u_id.toString().indexOf(_this.resume_id) > -1; //過濾關鍵字
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+};
+</script>
