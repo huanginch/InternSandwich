@@ -17,6 +17,9 @@
                     />
                   </div>
                   <div class="col-lg-10">
+                    <div class="row float-right" style="color: grey; padding-right:50px">
+                      觀看次數: {{post_info[post_id].counter+1}}
+                    </div>
                     <pre
                       style="font-size: 35px"
                     ><strong >{{post_info[post_id].title}}</strong></pre>
@@ -36,24 +39,12 @@
                     style="width: 150px; height: 50px; font-size: 20px"
                     >立即應徵</a
                   >
-                  <div v-bind:class="{hidden: saved_posts.indexOf(post_id) != -1}">
-                    <button
-                      @click='save(post_id)'
-                      class="btn"
-                      style="width: 200px; height: 50px; font-size: 20px"
-                    >
-                      收藏
-                    </button>
-                  </div>
-                  <div v-bind:class="{hidden: saved_posts.indexOf(post_id) === -1}">
-                    <button
-                      @click="unsave(post_id)"
-                      class="btn"
-                      style="width: 200px; height: 50px; font-size: 20px"
-                    >
-                      取消收藏
-                    </button>
-                  </div>
+                  <a
+                    href="#"
+                    class="btn"
+                    style="width: 150px; height: 50px; font-size: 20px"
+                    >收藏</a
+                  >
                 </div>
               </div>
             </div>
@@ -147,7 +138,28 @@
         </div>
         <hr border-style="solid" />
       </div>
-      <RecommendPost title="推薦實習" :recommend_posts = "recommend" />
+
+      <div class="col-lg-3 text-left">
+        <p class="text-left"><strong>推薦實習</strong></p>
+        <div class="panel_polular">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-lg-3">
+                <img
+                  src="../assets/圖片1.png"
+                  alt="internsandwich"
+                  style="height: 70px"
+                />
+              </div>
+              <div class="col-lg-9">
+                <p style="font-size: 20px" align="left">OOO股份有限公司</p>
+                <p style="font-size: 20px" align="left">OOO實習生</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr border-style="solid" />
+      </div>
     </div>
     <!-- <br />
         <div><a>熱門實習</a></div>
@@ -429,7 +441,7 @@ export default {
       editing: false,
       temp_comment: "",
       recommend:[],
-      saved_posts:[]
+      counter: "",
     };
   },
   computed: {
@@ -442,52 +454,6 @@ export default {
     jsonEscape: function (str) {
       str = JSON.stringify(str).replace(/[\s]/g, "");
       return JSON.parse(str);
-    },
-
-    //收藏
-    save: function(p_id){ 
-      if(this.isLoggedIn){
-        const u_id = this.$store.getters.getUser.ID
-        const api = "api/save"
-        const params = {
-          p_id:p_id,
-          u_id:u_id
-        }
-        axios
-          .post(api,params)
-          .then((response) => {
-            alert(response.data.msg)
-            this.saved_posts.splice(this.saved_posts.length, 0, p_id)
-          })
-          .catch((error) =>{
-            console.log(error)
-          });
-      }
-      else{
-        // 沒有登入會導向登入頁面
-        alert("您尚未登入")
-        this.$router.push("/login")
-      }
-    },
-
-    //取消收藏
-    unsave: function(p_id){
-      const api = "/api/unsave"
-      const u_id = this.$store.getters.getUser.ID
-      var params = {
-        u_id: u_id,
-        p_id: p_id
-      }
-      axios
-      .delete(api,{data:params})
-      .then(response =>{
-        alert(response.data.msg)
-        var index = this.saved_posts.indexOf(p_id)
-        this.saved_posts.splice(index,1)
-      })
-      .catch(error =>{
-        console.log(error)
-      })
     },
 
     //顯示評論
@@ -618,23 +584,6 @@ export default {
       .catch((error) => {
         console.log(error);
       });
-
-      if(this.isLoggedIn){
-        api = "/api/show-save"
-        var u_id = this.$store.getters.getUser.ID
-        var params = {u_id: u_id}
-        axios
-        .get(api,{params})
-        .then(response =>{
-        //saved_posts只存p_id
-        this.saved_posts = response.data.map(function(items, index){
-          return items.p_id;
-        })
-      })
-      .catch(error =>{
-        console.log(error)
-      })
-    }
   },
 };
 </script>
@@ -649,12 +598,5 @@ ul {
   display: inline-block;
   list-style-type: none;
   padding: 0;
-}
-
- .hidden {
-  display: none;
-}
-#Intern a {
-  color: black;
 }
 </style>
