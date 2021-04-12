@@ -137,57 +137,7 @@
           </div>
         </div>
       </div>
-
-      <div class="col-lg-3 text-left">
-        <p class="text-left"><strong>推薦實習生</strong></p>
-        <div class="panel">
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-lg-3">
-                <img
-                  src="../assets/圖片2.png"
-                  alt="internsandwich"
-                  style="height: 70px"
-                />
-              </div>
-              <div class="col-lg-9">
-                <p style="font-size: 20px" align="left">Luku</p>
-                <p style="font-size: 20px" align="left">資工系學生</p>
-              </div>
-            </div>
-          </div>
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-lg-3">
-                <img
-                  src="../assets/圖片2.png"
-                  alt="internsandwich"
-                  style="height: 70px"
-                />
-              </div>
-              <div class="col-lg-9">
-                <p style="font-size: 20px" align="left">Ind</p>
-                <p style="font-size: 20px" align="left">資工系學生</p>
-              </div>
-            </div>
-          </div>
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-lg-3">
-                <img
-                  src="../assets/圖片2.png"
-                  alt="internsandwich"
-                  style="height: 70px"
-                />
-              </div>
-              <div class="col-lg-9">
-                <p style="font-size: 20px" align="left">Nimi</p>
-                <p style="font-size: 20px" align="left">資工系學生</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <RecommendUser title="推薦實習生" :recommend_users = "recommend" />
     </div>
   </div>
 </template>
@@ -218,6 +168,11 @@
         str = JSON.stringify(str).replace(/[\s]/g, "");
         return JSON.parse(str);
       },
+    },
+    watch:{
+      $route: function(){
+          this.$router.go(this.$router.currentRoute)
+      }
     },
     created() {
       this.resume_id = this.$route.params.resume_id;

@@ -568,6 +568,11 @@ export default {
       return u_id === this.user_id;
     },
   },
+  watch:{
+    $route: function(){
+        this.$router.go(this.$router.currentRoute)
+    }
+  },
   created() {
     this.user_info = this.$store.getters.getUser;
     this.user_id = this.user_info["ID"];
