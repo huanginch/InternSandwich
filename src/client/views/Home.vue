@@ -1,6 +1,7 @@
 <!-- 找實習 -->
 <template>
   <div style="padding: 100px 100px 10px">
+    <br>
     <!-- Searchbar -->
     <form class="bs-example bs-example-form" role="form">
       <div class="row align-items-center">

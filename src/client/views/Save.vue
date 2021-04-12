@@ -1,6 +1,7 @@
 <!-- 我的收藏 -->
 <template>
   <div style="padding: 100px 100px 10px">
+    <br>
     <form class="bs-example bs-example-form" role="form" v-bind="user_info">
       <div class="row align-items-center">
         <div class="col-lg-12 text-left">
