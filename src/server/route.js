@@ -34,6 +34,33 @@ router.get('/resume', (req, res, next) => {
   })
 })
 
+//更新觀看次數
+router.post('/add-counter', (req, res, next) => {
+  const sqlparams = [escape(req.body.counter), escape(req.body.p_id)];
+  var sql = 'UPDATE intern_post set counter = ? WHERE id = ?';
+
+  db(sql,sqlparams)
+  .then(results =>{
+    //res.send({msg:"完成觀看次數更新!"});
+  })
+  .catch(err =>{
+    res.status(500).send("err:",err)
+  })
+})
+
+//取得前五筆熱門貼文
+router.get('/show-top5', (req, res, next) => {
+  var sql = 'select * from intern_post ORDER BY counter DESC limit 5';
+
+  db(sql)
+  .then(results =>{
+    res.send(results);
+  })
+  .catch(err =>{
+    res.status(500).send("err:",err)
+  })
+})
+
 //取得貼文評論
 router.get('/show-comments', (req, res, next) => {
   var sqlparams = req.query.p_id;
