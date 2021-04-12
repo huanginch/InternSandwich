@@ -63,7 +63,7 @@ const routes = [{
   component: Save
 },
 {
-  path: '/profile',
+  path: '/profile/:resume_id',
   name: 'Profile',
   component: Profile
 },

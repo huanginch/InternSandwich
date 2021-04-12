@@ -20,12 +20,12 @@
                       <strong>{{user_info.name}}</strong>
                     </p>
                     <div class="row">
-                      <div class="col-lg-3">
+                      <div class="col-lg-4">
                         <p style="font-size: 20px">性別：{{user_info.gender}}</p>
                         <p style="font-size: 20px">生日：{{user_info.birth}}</p>
                         <p style="font-size: 20px">身分證字號：{{user_info.id_card}}</p>
                       </div>
-                      <div class="col-lg-3">
+                      <div class="col-lg-4">
                         <p style="font-size: 20px">學校：{{user_info.school}}</p>
                         <p style="font-size: 20px">電話：{{user_info.phone}}</p>
                         <p style="font-size: 20px">email：{{user_info.email}}</p>

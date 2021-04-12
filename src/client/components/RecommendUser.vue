@@ -2,7 +2,7 @@
 <div class="col-lg-3">
     <p class="text-left"><strong>{{title}}</strong></p>
     <div id="Recommend" v-for="users in recommend_users">
-        <router-link :to="{ name: 'Intern', params: { post_id: users.ID }}" class="routerlink">
+        <router-link :to="{ name: 'Profile', params: { resume_id: (users.ID)-1 }}" class="routerlink">
         <div class="panel">
         <div class="panel-body">
           <div class="row">

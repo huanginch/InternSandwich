@@ -17,9 +17,20 @@
                   </div>
                   <div class="col-lg-10">
                     <p style="font-size: 40px">
-                      <strong>黃小明</strong>
+                      <strong>{{resume_info[resume_id].name}}</strong>
                     </p>
-                    <p style="font-size: 40px">資管系學生</p>
+                    <div class="row">
+                      <div class="col-lg-4">
+                        <p style="font-size: 20px">性別：{{resume_info[resume_id].gender}}</p>
+                        <p style="font-size: 20px">生日：{{resume_info[resume_id].birth}}</p>
+                        <p style="font-size: 20px">身分證字號：{{resume_info[resume_id].id_card}}</p>
+                      </div>
+                      <div class="col-lg-4">
+                        <p style="font-size: 20px">學校：{{resume_info[resume_id].school}}</p>
+                        <p style="font-size: 20px">電話：{{resume_info[resume_id].phone}}</p>
+                        <p style="font-size: 20px">email：{{resume_info[resume_id].email}}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -29,13 +40,7 @@
                     href="#"
                     class="btn"
                     style="width: 150px; height: 50px; font-size: 20px"
-                    >立即應徵</a
-                  >
-                  <a
-                    href="#"
-                    class="btn"
-                    style="width: 150px; height: 50px; font-size: 20px"
-                    >收藏</a
+                    >立即聯繫</a
                   >
                 </div>
               </div>
@@ -50,76 +55,84 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="ppp-inten1">
-              <a style="font-size: 30px">基本資料</a><br /><br />
+              <!-- <a style="font-size: 30px">基本資料</a><br /><br />
               <a style="font-size: 25px">性別</a>&nbsp;<a
                 style="font-size: 18px"
-                >女</a
+                >{{ resume_info[resume_id].gender }}</a
               ><br />
               <a style="font-size: 25px">生日</a>&nbsp;<a
                 style="font-size: 18px"
-                >19991029</a
+                >{{ resume_info[resume_id].birth }}</a
               ><br />
               <a style="font-size: 25px">薪水</a>&nbsp;<a
                 style="font-size: 18px"
-                >月薪22KKK</a
-              ><br />
+                >月薪22KKK</a >
+              <br />
               <a style="font-size: 25px">學校</a>&nbsp;<a
                 style="font-size: 15px"
-                >鳳梨大學</a
+                >{{ resume_info[resume_id].school }}</a
               ><br />
-              <hr style="solid" />
+              <hr border-style="solid" /> -->
 
               <a style="font-size: 30px">實習期望</a><br /><br />
-              <a style="font-size: 25px">期望職位</a>&nbsp;<a
+              <a style="font-size: 25px">期望職位</a>&nbsp;<br /><a
                 style="font-size: 18px"
-                >女</a
-              ><br />
-              <a style="font-size: 25px">期望待遇</a>&nbsp;<a
+                >{{ resume_info[resume_id].exp_position }}</a
+              ><br /><br />
+              <a style="font-size: 25px">期望待遇</a>&nbsp;<br /><a
                 style="font-size: 18px"
-                >女</a
-              ><br />
-              <a style="font-size: 25px">期望工作地</a>&nbsp;<a
+                >{{ resume_info[resume_id].exp_treatment }}</a
+              ><br /><br />
+              <a style="font-size: 25px">期望工作地</a>&nbsp;<br /><a
                 style="font-size: 18px"
-                >女</a
-              ><br />
-              <hr style="solid" />
+                >{{ resume_info[resume_id].exp_location }}</a
+              ><br /><br />
+              <hr border-style="solid" />
 
               <a style="font-size: 30px">學經歷</a><br /><br />
-              <a style="font-size: 25px">學歷</a>&nbsp;<a
-                style="font-size: 18px"
-                >不限</a
+              <!-- <a style="font-size: 25px">學歷</a>&nbsp; -->
+              <a style="font-size: 18px"
+                >{{ resume_info[resume_id].edu_and_exp }}</a
               ><br />
-              <a style="font-size: 25px">經歷</a>&nbsp;<a
+              <!-- <a style="font-size: 25px">經歷</a>&nbsp;<a
                 style="font-size: 18px"
                 >英文、日文</a
-              ><br />
+              ><br /> 
               <a style="font-size: 25px">熟悉工具</a>&nbsp;<a
                 style="font-size: 18px"
                 >要會騎機車</a
-              ><br />
-              <hr style="solid" />
+              ><br />-->
+              <hr border-style="solid" />
 
 
               <a style="font-size: 30px">技能專長</a><br /><br />
-              <a style="font-size: 25px">語言能力</a>&nbsp;<a
+              <!-- <a style="font-size: 25px">語言能力</a>&nbsp; -->
+              <a
                 style="font-size: 18px"
-                >不限</a
+                >{{ resume_info[resume_id].skills }}</a
               ><br />
-              <a style="font-size: 25px">熟悉工具</a>&nbsp;<a
+              <!-- <a style="font-size: 25px">熟悉工具</a>&nbsp;<a
                 style="font-size: 18px"
                 >英文、日文</a
-              ><br />
-              <hr style="solid" />
+              ><br /> -->
+              <hr border-style="solid" />
 
-              <a style="font-size: 30px">聯絡方式</a><br /><br />
-              <a style="font-size: 25px">Email</a>&nbsp;<a
+              <a style="font-size: 30px">其他</a><br /><br />
+              <!-- <a style="font-size: 25px">Email</a>&nbsp; -->
+              <a
+                v-if="resume_info[resume_id].others"
                 style="font-size: 18px"
-                >Lulu@gmail.com</a
+                >{{ resume_info[resume_id].others }}</a
+              >
+              <a
+                v-else
+                style="font-size: 18px"
+                >無</a
               ><br />
-              <a style="font-size: 25px">電話</a>&nbsp;<a
+              <!-- <a style="font-size: 25px">電話</a>&nbsp;<a
                 style="font-size: 18px"
-                >0917162934</a
-              ><br /><br />
+                >{{ resume_info[resume_id].phone }}</a
+              ><br /><br /> -->
             </div>
           </div>
         </div>
@@ -178,6 +191,51 @@
     </div>
   </div>
 </template>
+
+<script>
+  import axios from "../js/axios.js";
+  import RecommendUser from "../components/RecommendUser.vue"
+  export default {
+    name: "Profile",
+    components:{
+      RecommendUser
+    },
+    data() {
+      return {
+        resume_id: "",
+        resume_info: "",
+        recommend:[],
+      };
+    },
+    computed: {
+      isLoggedIn: function () {
+        return this.$store.getters.isLoggedIn;
+      },
+    },
+    methods: {
+      //整理貼文格式
+      jsonEscape: function (str) {
+        str = JSON.stringify(str).replace(/[\s]/g, "");
+        return JSON.parse(str);
+      },
+    },
+    created() {
+      this.resume_id = this.$route.params.resume_id;
+      var api = "/api/resume";
+  
+      axios
+        .get(api)
+        .then((response) => {
+          this.resume_info = response.data;
+          this.recommend = [this.resume_info[1]];//推薦實習生，之後再寫
+          this.resume_info = this.jsonEscape(this.resume_info);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  };
+  </script>
 
 <style>
 .ppp-inten1 {

@@ -41,12 +41,12 @@
       </div>
     </form>    
     <br />
-    <!--實習貼文與熱門搜尋  -->
+    <!--實習生與熱門搜尋  -->
     <div class="row">
       <div class="col-lg-9 text-left">
-        <!-- 實習貼文 -->
+        <!-- 實習生履歷 -->
         <!--eslint-disable-next-line-->
-        <div id="Home" v-for="(users, index) in searchResult.slice(pageStart, pageStart + countOfPage)" class="posts" >
+        <div id="Home" v-for="(resume, index) in searchResult.slice(pageStart, pageStart + countOfPage)" class="posts" >
           <div class="panel panel-default">
             <div class="panel-body">
               <div class="row">
@@ -60,10 +60,10 @@
 
                 <div class="col-lg-10">
                   <h1 style="font-size: 25px" align="left">
-                    {{ users.name }}
+                    {{ resume.name }}
                   </h1>
                   <p style="font-size: 20px" align="left">
-                    {{ users.edu_and_exp }}
+                    {{ resume.edu_and_exp }}
                   </p>
                   <p
                     style="
@@ -77,7 +77,7 @@
                     "
                     align="left"
                   >
-                    {{ users.skills }}
+                    {{ resume.skills }}
                   </p>
                 </div>
               </div>
@@ -87,7 +87,7 @@
                   <router-link
                     class="btn"
                     style="width: 200px; height: 50px; font-size: 20px"
-                    to="/profile"
+                    :to="{ name: 'Profile', params: { resume_id: (resume.ID)-1 }}"
                   >
                     查看實習生
                   </router-link>
@@ -105,7 +105,7 @@
         </div>
       </div>
       <!--熱門搜尋  -->
-      <Recommend title="熱門實習生" :recommend_users="users_info"/>
+      <Recommend title="熱門實習生" :recommend_users="resume_info"/>
     </div>
 
     <br />
@@ -140,7 +140,7 @@ export default {
   },
   data() {
     return {
-      users_info: [],
+      resume_info: [],
       searchResult:"",
       countOfPage: 5,
       currPage: 1,
@@ -186,10 +186,10 @@ export default {
 
       // 如果 filter_name 有內容，回傳過濾後的資料，否則將原本的 fb_posts 回傳。
       if ( this.keyword.trim() !== '' ) {
-        this.searchResult = this.users_info.filter(function(d){ return d.edu_and_exp.toLowerCase().indexOf(keyword) > -1; })
+        this.searchResult = this.resume_info.filter(function(d){ return d.edu_and_exp.toLowerCase().indexOf(keyword) > -1; })
       }
       else{
-        this.searchResult = this.users_info;
+        this.searchResult = this.resume_info;
       }
     },
     //設定當前頁面
@@ -206,8 +206,8 @@ export default {
     axios
       .get(api)
       .then((response) => {
-        this.users_info = response.data
-        this.searchResult = this.users_info
+        this.resume_info = response.data
+        this.searchResult = this.resume_info
       })
       .catch(function (error) {
         // 請求失敗處理
