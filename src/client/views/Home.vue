@@ -135,6 +135,7 @@
                     class="btn"
                     style="width: 200px; height: 50px; font-size: 20px"
                     :to="{ name: 'Intern', params: { post_id: posts.id } }"
+                    @click.native="addcounter(posts.id, posts.counter)"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -284,7 +285,7 @@
             </div>
 -->
       </div>
-      <RecommendPost title="熱門實習" :recommend_posts="top5_post" />
+      <RecommendPost title="熱門實習" :recommend_posts="top5_post" :addcounter="addcounter" />
       <!--熱門搜尋  -->
       <!--<div class="col-lg-3">
         <p class="text-left"><strong>熱門實習</strong></p>-->
@@ -396,7 +397,7 @@ export default {
         counter: counter,
       };
       axios
-        .post(api, params)
+        .patch(api, params)
         .then((response) => {
           alert(response.data.msg);
         })

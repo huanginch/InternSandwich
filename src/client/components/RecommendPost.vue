@@ -7,6 +7,7 @@
       <router-link
         :to="{ name: 'Intern', params: { post_id: posts.id } }"
         class="routerlink"
+        @click.native="addcounter(posts.id, posts.counter)"
       >
         <div class="panel_popular">
           <div class="panel-body">
@@ -41,6 +42,10 @@ export default {
     },
     title: {
       type: String,
+      required: true,
+    },
+    addcounter: {
+      type: Function,
       required: true,
     },
   },
