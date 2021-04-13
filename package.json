@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
+    "@riophae/vue-treeselect": "^0.4.0",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -97,3 +98,4 @@
     "not ie <= 8"
   ]
 }
+
