@@ -12,29 +12,35 @@
               v-model="keyword"
               type="text"
               placeholder="輸入關鍵字"
-              class="form-control"
+              class="form-control col-lg-7"
               @keyup.enter="filteredPosts"
             />
             <!-- 類別關鍵字下拉選單 -->
-            <select v-model="select_jobclass" class="btn btn-default">
+            <!-- <select v-model="select_jobclass" class="btn btn-default">
               <option value="">類別</option>
-              <!--eslint-disable-next-line-->
+            
               <option
                 v-for="jobclass in jobclasses"
                 v-bind:value="jobclass.value"
               >
                 {{ jobclass.text }}
               </option>
-            </select>
-            <select v-model="select_area" class="btn btn-default">
+            </select> -->
+            <div class="col-2">
+            <treeselect   v-model="select_jobclass"  :options="treejob" placeholder="類別" />
+            </div>
+            <!-- <select v-model="select_area" class="btn btn-default">
               <option value="">地區</option>
-              <!--eslint-disable-next-line-->
+ 
               <option v-for="area in areas" v-bind:value="area.value">
                 {{ area.text }}
               </option>
-            </select>
+            </select> -->
+            <div class="col-2">
+            <treeselect   v-model="select_area" :multiple="false" :options="treearea" placeholder="地區"  />
+            </div>
             <!--eslint-disable-next-line-->
-            <button class="btn" v-model="keyword, select_area" @click="filteredPosts">
+            <button class="btn"   @click="filteredPosts">
               <span class="glyphicon glyphicon-search"></span>搜尋<span
                 class="caret"
               ></span>
@@ -69,7 +75,7 @@
         >
           觀看次數由多到少
         </button>
-        <br />
+        <br /><br />
 
         <!-- 實習貼文 -->
         <!--eslint-disable-next-line-->
@@ -157,7 +163,7 @@
                         d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"
                       />
                     </svg>
-                    查看評論
+                    查看更多
                   </router-link>
                   <div
                     v-bind:class="{
@@ -351,10 +357,15 @@
 <script>
 import axios from "../js/axios.js";
 import RecommendPost from "../components/RecommendPost.vue";
+// import the component
+import Treeselect from '@riophae/vue-treeselect'
+// import the styles
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 export default {
   name: "Home",
   components: {
     RecommendPost,
+    Treeselect,
   },
   data() {
     return {
@@ -363,8 +374,8 @@ export default {
       searchResult: null,
       countOfPage: 15,
       currPage: 1,
-      select_jobclass: "",
-      select_area: "",
+      select_jobclass: null,
+      select_area: null,
       keyword: "",
       jobclasses: [
         { text: "暑期", value: "暑期" },
@@ -376,6 +387,59 @@ export default {
         { text: "台中", value: "台中" },
         { text: "高雄", value: "高雄" },
       ],
+      treearea: [ {
+          id:"台灣",
+          label:'台灣',
+        },{
+          id:"亞洲",
+          label:'亞洲',
+        },  {
+          id: '台北',
+          label: '台北',
+          children: [ {
+            id: '內湖',
+            label: '內湖',
+          }, {
+            id: '南港',
+            label: '南港',
+          }, {
+            id: '信義',
+            label: '信義',
+          } ],
+        }, {
+          id: '台中',
+          label: '台中',
+          children: [ {
+            id: '中區',
+            label: '中區',
+          }, {
+            id: '東區',
+            label: '東區',
+          }, ],
+        },{
+          id: '高雄',
+          label: '高雄',
+          children: [ {
+            id: '鳳山',
+            label: '鳳山',
+          }, {
+            id: '三民',
+            label: '三民',
+          }, {
+            id: '左營',
+            label: '左營',
+          } ],
+        },] ,
+      treejob: [ {
+          id: '金融',
+          label: '金融',
+        }, {
+          id: '資訊',
+          label: '資訊',
+        },{
+          id: '會計',
+          label: '會計',
+        }, ] ,
       saved_posts: [],
     };
   },
@@ -418,15 +482,24 @@ export default {
       var select_jobclass = this.select_jobclass;
       var select_area = this.select_area;
 
+      if(select_area===null||select_area===undefined){
+        select_area = ""
+      }
+      if(select_jobclass===null||select_jobclass===undefined){
+        select_jobclass = ""
+      }
       // 如果 filter_name 有內容，回傳過濾後的資料，否則將原本的 fb_posts 回傳。
       if (
-        this.keyword.trim() !== "" ||
-        this.select_jobclass.trim() !== "" ||
-        this.select_area.trim() !== ""
+        this.keyword.trim() !== ""  ||
+        select_jobclass !== ""  ||
+        select_area !== ""   
       ) {
         this.searchResult = this.intern_info.filter(function (d) {
           return d.title.toLowerCase().indexOf(keyword) > -1; //過濾關鍵字
         });
+console.log(this.keyword.trim() !== "")
+console.log(select_jobclass )
+console.log(select_area )
 
         this.searchResult = this.searchResult.filter(function (d) {
           return d.title.toLowerCase().indexOf(select_jobclass) > -1; //過濾類別
@@ -458,7 +531,7 @@ export default {
         return p1.id - p2.id;
       });
     },
-    //貼文排序由新到舊
+    //觀看次數排序由多到少
     sortPopularity: function () {
       this.searchResult.sort(function (p1, p2) {
         return p2.counter - p1.counter;
