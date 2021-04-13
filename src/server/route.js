@@ -27,6 +27,14 @@ router.get('/resume', (req, res, next) => {
 
   db(sql)
   .then(results =>{
+    for(let i=0; i<results.length; i++){
+      results[i]["gender"] = results[i]["gender"] ? "女" : "男"
+      var utcbirth = results[i]["birth"]
+      var month = Number(utcbirth.getMonth())
+      month = (month + 1).toString()
+      utcbirth = utcbirth.getFullYear()+"-" + month + "-" + utcbirth.getDate()
+      results[i]["birth"] = utcbirth
+    }
     res.send(results);
   })
   .catch(err =>{
@@ -135,6 +143,16 @@ router.post('/user-login', (req, res, next) => {
          return res.status(401).send({msg:"密碼錯誤"});
         }
         if (bResult) {
+          //將性別由數字(0,1)改成文字(女,男)
+          results[0]["gender"] = results[0]["gender"] ? "女" : "男"
+          //將生日轉換為當地時區與yyyy-mm-dd格式
+          var utcbirth = results[0]["birth"]
+          var month = Number(utcbirth.getMonth())
+          month = (month + 1).toString()
+          utcbirth = utcbirth.getFullYear() + "-" + month + "-" + utcbirth.getDate()
+          results[0]["birth"] = utcbirth
+
+          //發行token
           const token = jwt.sign({
               account: results[0]['email'],
               userId: results[0]['ID']

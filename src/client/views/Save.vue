@@ -108,9 +108,7 @@
                     >
                       <path
                         d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"
-                      /></svg
-                    >&nbsp;立即應徵</router-link
-                  >
+                      /></svg>&nbsp;立即應徵</router-link>
                   <router-link
                     class="btn"
                     style="width: 200px; height: 50px; font-size: 20px"
@@ -150,8 +148,7 @@
                     >
                       <path
                         d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"
-                      /></svg
-                    >&nbsp;取消收藏
+                      /></svg>&nbsp;取消收藏
                   </button>
                 </div>
               </div>
@@ -252,6 +249,7 @@ export default {
   created() {
     //從store取得使用者資料
     this.user_info = this.$store.getters.getUser;
+
     const u_id = this.user_info.ID;
     const api = "/api/show-save";
     const params = { u_id: u_id };

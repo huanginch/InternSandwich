@@ -8,7 +8,6 @@
       <div class="panel-body text-left" style="padding: 50px">
         <form>
           <div class="form-row">
-            <!-- 姓名的資料應該是直接從註冊資料庫抓出來? -->
             <div class="form-group col-md-4">
               <label for="inputEmail4">姓名</label><br />
               {{resume_info[0].name}}
@@ -19,7 +18,6 @@
                 placeholder="請輸入姓名"
               /> -->
             </div>
-            <!-- 性別的資料應該是直接從註冊資料庫抓出來? -->
             <div class="form-group col-md-4">
               <label for="inputPassword4">性別</label><br />
               {{resume_info[0].gender}}
@@ -30,7 +28,6 @@
                 placeholder="請輸入性別"
               /> -->
             </div>
-            <!-- 生日的資料應該是直接從註冊資料庫抓出來? -->
             <div class="form-group col-md-4">
               <label for="inputPassword4">生日</label><br />
               {{resume_info[0].birth}}
@@ -46,7 +43,6 @@
           <br />
 
           <div class="form-row">
-            <!-- 學校的資料應該是直接從註冊資料庫抓出來? -->
             <div class="form-group col-md-4">
               <label for="inputEmail4">學校</label><br />
               {{resume_info[0].school}}
@@ -57,7 +53,6 @@
                 placeholder="請輸入學校"
               /> -->
             </div>
-            <!-- 電話的資料應該是直接從註冊資料庫抓出來? -->
             <div class="form-group col-md-4">
               <label for="inputEmail4">電話</label><br />
               {{resume_info[0].phone}}
@@ -68,7 +63,6 @@
                 placeholder="請輸入電話"
               /> -->
             </div>
-            <!-- email的資料應該是直接從註冊資料庫抓出來? -->
             <div class="form-group col-md-4">
               <label for="inputPassword4">email</label><br />
               {{resume_info[0].email}}
@@ -86,11 +80,11 @@
           <div class="form-row">
             <div class="form-group col-md-4">
               <label for="inputCity" class="txet-left">期望職位</label>
-              <input type="text" class="form-control" id="inputCity" />
+              <input v-model="exp_position" type="text" class="form-control" id="inputCity" />
             </div>
             <div class="form-group col-md-4">
               <label for="inputState">期望待遇</label>
-              <select id="inputState" class="form-control">
+              <select v-model="exp_treatment" id="inputState" class="form-control">
                 <option selected>月薪22K</option>
                 <option>月薪30K</option>
                 <option>月薪40K</option>
@@ -100,7 +94,7 @@
             </div>
             <div class="form-group col-md-4">
               <label for="inputZip">期望工作地</label>
-              <select id="inputState" class="form-control">
+              <select v-model="exp_location" id="inputState" class="form-control">
                 <option selected>台北</option>
                 <option>新竹</option>
                 <option>台中</option>
@@ -115,6 +109,7 @@
           <div class="form-group">
             <label for="inputAddress">學經歷</label>
             <textarea
+              v-model="edu_and_exp"
               class="form-control"
               id="exampleFormControlTextarea1"
               rows="3"
@@ -127,6 +122,7 @@
           <div class="form-group">
             <label for="inputAddress">技能專長</label>
             <textarea
+              v-model="skills"
               class="form-control"
               id="exampleFormControlTextarea1"
               rows="3"
@@ -139,6 +135,7 @@
           <div class="form-group">
             <label for="inputAddress2">其他加分條件</label>
             <textarea
+              v-model="others"
               class="form-control"
               id="exampleFormControlTextarea1"
               rows="3"
@@ -168,6 +165,7 @@
               </label>
               <br /><br /> -->
               <input
+                @click="sendResume"
                 type="submit"
                 value="送出履歷"
                 class="btn"
@@ -192,6 +190,12 @@ export default {
     return {
       resume_id: "",
       resume_info: [],
+      exp_position:"",
+      exp_treatment:"",
+      exp_location:"",
+      edu_and_exp:"",
+      skills:"",
+      others:""
     };
   },
   computed: {
