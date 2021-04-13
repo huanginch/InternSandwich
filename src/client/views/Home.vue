@@ -48,8 +48,7 @@
     <!--實習貼文與熱門搜尋  -->
     <div class="row">
       <div class="col-lg-9">
-        <!-- <button class="btn float-right" style="font-size:17px" @click="sortNewtoOld">觀看次數由多到少</button>
-        <button class="btn float-right" style="font-size:17px" @click="sortOldtoNew">觀看次數由少到多</button> -->
+        <!--<button class="btn float-right" style="font-size:17px" @click="sortOldtoNew">觀看次數由少到多</button> -->
         <button
           class="btn float-right"
           style="font-size: 17px"
@@ -63,6 +62,12 @@
           @click="sortOldtoNew"
         >
           由舊到新
+        </button>
+        <button class="btn float-right" 
+          style="font-size:17px" 
+          @click="sortPopularity"
+        >
+          觀看次數由多到少
         </button>
         <br />
 
@@ -451,6 +456,12 @@ export default {
     sortOldtoNew: function () {
       this.searchResult.sort(function (p1, p2) {
         return p1.id - p2.id;
+      });
+    },
+    //貼文排序由新到舊
+    sortPopularity: function () {
+      this.searchResult.sort(function (p1, p2) {
+        return p2.counter - p1.counter;
       });
     },
     //收藏
