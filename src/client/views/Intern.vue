@@ -20,11 +20,10 @@
                   <div class="col-lg-10">
                     <pre
                       style="font-size: 35px"
-                    ><strong >{{post_info[post_id].title}}</strong></pre>
+                    ><strong >{{post_info[0].title}}</strong></pre>
                     <pre
                       style="font-size: 30px"
-                      v-bind="(post_info, post_id)"
-                      >{{ post_info[post_id].cp_name }}</pre
+                      >{{ post_info[0].cp_name }}</pre
                     >
                   </div>
                 </div>
@@ -50,7 +49,7 @@
                     <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
                     <path
                       d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                    /></svg>&nbsp; 觀看次數: {{ post_info[post_id].counter + 1 }}
+                    /></svg>&nbsp; 觀看次數: {{ post_info[0].counter + 1 }}
                 </div>
                 <div class="row float-right">
                   <a
@@ -125,41 +124,40 @@
             <!-- ridge groove inset outset -->
             <div class="ppp-intern">
               <a style="font-size: 30px">實習內容</a><br /><br />
-              <pre style="font-size: 18px" v-bind="(post_info, post_id)">{{
-                post_info[post_id].job_desc
+              <pre style="font-size: 18px" >{{
+                post_info[0].job_desc
               }}</pre>
               <br />
               <hr border-style="solid" />
 
               <a style="font-size: 30px">薪資待遇</a><br /><br />
-              <pre style="font-size: 18px" v-bind="(post_info, post_id)">{{
-                post_info[post_id].benefits
+              <pre style="font-size: 18px">{{
+                post_info[0].benefits
               }}</pre>
               <br />
               <hr border-style="solid" />
 
               <a style="font-size: 30px">條件要求</a><br /><br />
-              <pre style="font-size: 18px" v-bind="(post_info, post_id)">{{
-                post_info[post_id].requirement
+              <pre style="font-size: 18px">{{
+                post_info[0].requirement
               }}</pre>
               <br />
               <hr border-style="solid" />
 
               <a style="font-size: 30px">實習地點</a><br /><br />
-              <pre style="font-size: 18px" v-bind="(post_info, post_id)">{{
-                post_info[post_id].location
+              <pre style="font-size: 18px">{{
+                post_info[0].location
               }}</pre>
               <br />
               <hr border-style="solid" />
 
               <a style="font-size: 30px">其他</a><br /><br />
               <pre
-                v-if="post_info[post_id].others"
+                v-if="post_info[0].others"
                 style="font-size: 18px"
-                v-bind="(post_info, post_id)"
-                >{{ post_info[post_id].others }}</pre
+                >{{ post_info[0].others }}</pre
               >
-              <pre v-else style="font-size: 18px" v-bind="(post_info, post_id)">無</pre>
+              <pre v-else style="font-size: 18px">無</pre>
               
 
               <!-- <a
@@ -758,10 +756,15 @@ export default {
     axios
       .get(api)
       .then((response) => {
-        this.post_info = response.data;
-        this.recommend = [this.post_info[1]]; //推薦實習，之後再寫
-        this.post_info = this.jsonEscape(this.post_info);
-        this.showcomments();
+        var _this = this
+        _this.post_info = response.data;
+        _this.recommend = [_this.post_info[1]]; //推薦實習，之後再寫
+        _this.post_info = _this.jsonEscape(this.post_info);
+        _this.post_info = _this.post_info.filter(function(d){
+          return d.id.toString().indexOf(_this.post_id) != -1; 
+        })
+        _this.showcomments();
+        console.log(_this.post_info)
       })
       .catch((error) => {
         console.log(error);
@@ -778,7 +781,6 @@ export default {
         this.saved_posts = response.data.map(function(items, index){
           return items.p_id;
         })
-        console.log(this.saved_posts)
       })
       .catch(error =>{
         console.log(error)
