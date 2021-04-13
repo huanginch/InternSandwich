@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
-      <router-link class="navbar-brand" to="#"
+      <div class="navbar-brand" to="#"
         ><img src="./assets/圖片1-1.png" height="60px"
-      /></router-link>
+      /></div>
       <button
         class="navbar-toggler"
         type="button"
@@ -21,37 +21,37 @@
             class="nav-item nav-link router-link-exact-active"
             to="/"
             v-if="!business_isLoggedIn"
-            >找實習</router-link
+            ><strong>找實習</strong></router-link
           >
           <router-link
             class="nav-item nav-link"
             to="/save"
             v-if="user_isLoggedIn"
-            >我的收藏</router-link
+            ><strong>我的收藏</strong></router-link
           >
           <router-link
             class="nav-item nav-link"
             to="/resume"
             v-if="user_isLoggedIn"
-            >履歷模板</router-link
+            ><strong>履歷模板</strong></router-link
           >
           <router-link
             class="nav-item nav-link"
             to="/finder"
             v-if="business_isLoggedIn"
-            >找實習生</router-link
+            ><strong>找實習生</strong></router-link
           >
           <router-link
             class="nav-item nav-link"
             to="/post"
             v-if="business_isLoggedIn"
-            >企業發文</router-link
+            ><strong>企業發文</strong></router-link
           >
           <router-link
             class="nav-item nav-link"
             to="/mailbox"
             v-if="business_isLoggedIn"
-            >履歷信箱</router-link
+            ><strong>履歷信箱</strong></router-link
           >
           <!-- <a
               class="nav-item nav-link"
