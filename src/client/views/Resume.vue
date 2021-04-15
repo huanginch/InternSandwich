@@ -4,12 +4,12 @@
     <br />
     <h3>履歷模板</h3>
     <br />
-    <div class="panel panel-default col-md-6 offset-3">
-      <div class="panel-body text-left" style="padding: 50px">
+    <div class="panel panel-default col-md-8 offset-2" style="border-style:ridge">
+      <div class="panel-body" style="padding: 50px">
         <form>
           <div class="form-row">
             <div class="form-group col-md-4">
-              <label for="inputEmail4">姓名</label><br />
+              <label for="inputEmail4" style="font-size: 25px;background-color:#bcddfc71;width:200px;border-radius:20px;"><strong>姓名</strong></label><br />
               {{resume_info[0].name}}
               <!-- <input
                 type="姓名"
@@ -19,7 +19,7 @@
               /> -->
             </div>
             <div class="form-group col-md-4">
-              <label for="inputPassword4">性別</label><br />
+              <label for="inputPassword4" style="font-size: 25px;background-color:#bcddfc71;width:200px;border-radius:20px;"><strong>性別</strong></label><br />
               {{resume_info[0].gender}}
               <!-- <input
                 type="性別"
@@ -29,7 +29,7 @@
               /> -->
             </div>
             <div class="form-group col-md-4">
-              <label for="inputPassword4">生日</label><br />
+              <label for="inputPassword4" style="font-size: 25px;background-color:#bcddfc71;width:200px;border-radius:20px;"><strong>生日</strong></label><br />
               {{resume_info[0].birth}}
               <!-- <input
                 type="生日"
@@ -44,7 +44,7 @@
 
           <div class="form-row">
             <div class="form-group col-md-4">
-              <label for="inputEmail4">學校</label><br />
+              <label for="inputEmail4" style="font-size: 25px;background-color:#bcddfc71;width:200px;border-radius:20px;"><strong>學校</strong></label><br />
               {{resume_info[0].school}}
               <!-- <input
                 type="學校"
@@ -54,7 +54,7 @@
               /> -->
             </div>
             <div class="form-group col-md-4">
-              <label for="inputEmail4">電話</label><br />
+              <label for="inputEmail4" style="font-size: 25px;background-color:#bcddfc71;width:200px;border-radius:20px;"><strong>電話</strong></label><br />
               {{resume_info[0].phone}}
               <!-- <input
                 type="電話"
@@ -64,7 +64,7 @@
               /> -->
             </div>
             <div class="form-group col-md-4">
-              <label for="inputPassword4">email</label><br />
+              <label for="inputPassword4" style="font-size: 25px;background-color:#bcddfc71;width:200px;border-radius:20px;"><strong>email</strong></label><br />
               {{resume_info[0].email}}
               <!-- <input
                 type="email"
@@ -79,11 +79,11 @@
 
           <div class="form-row">
             <div class="form-group col-md-4">
-              <label for="inputCity" class="txet-left">期望職位</label>
+              <label for="inputCity" class="txet-left" style="font-size: 25px;background-color:#bcddfc71;width:200px;border-radius:20px;"><strong>期望職位</strong></label>
               <input v-model="exp_position" type="text" class="form-control" id="inputCity" />
             </div>
             <div class="form-group col-md-4">
-              <label for="inputState">期望待遇</label>
+              <label for="inputState" style="font-size: 25px;background-color:#bcddfc71;width:200px;border-radius:20px;"><strong>期望待遇</strong></label>
               <select v-model="exp_treatment" id="inputState" class="form-control">
                 <option selected>月薪22K</option>
                 <option>月薪30K</option>
@@ -93,7 +93,7 @@
               </select>
             </div>
             <div class="form-group col-md-4">
-              <label for="inputZip">期望工作地</label>
+              <label for="inputZip" style="font-size: 25px;background-color:#bcddfc71;width:200px;border-radius:20px;"><strong>期望工作地</strong></label>
               <select v-model="exp_location" id="inputState" class="form-control">
                 <option selected>台北</option>
                 <option>新竹</option>
@@ -107,7 +107,7 @@
           <br />
 
           <div class="form-group">
-            <label for="inputAddress">學經歷</label>
+            <p for="inputAddress" style="font-size: 25px;background-color:#bcddfc71;width:200px;border-radius:20px;"><strong>學經歷</strong></p>
             <textarea
               v-model="edu_and_exp"
               class="form-control"
@@ -120,7 +120,7 @@
           <br />
 
           <div class="form-group">
-            <label for="inputAddress">技能專長</label>
+            <p for="inputAddress" style="font-size: 25px;background-color:#bcddfc71;width:200px;border-radius:20px;"><strong>技能專長</strong></p>
             <textarea
               v-model="skills"
               class="form-control"
@@ -133,7 +133,7 @@
           <br />
 
           <div class="form-group">
-            <label for="inputAddress2">其他加分條件</label>
+            <p for="inputAddress2" style="font-size: 25px;background-color:#bcddfc71;width:200px;border-radius:20px;"><strong>其他加分條件</strong></p>
             <textarea
               v-model="others"
               class="form-control"
@@ -144,7 +144,7 @@
           </div>
 
           <div class="form-group">
-            附件
+            <p style="font-size: 25px;background-color:#bcddfc71;width:200px;border-radius:20px;"><strong>附件</strong></p>
             <ul
               class="pagination pagination-sm justify-content-center"
               style="margin: 20px 0"

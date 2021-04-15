@@ -1,20 +1,13 @@
 <!-- 找實習 -->
 <template>
   <div style="padding: 100px 100px 10px">
-    <br>
+    <br />
     <!-- Searchbar -->
     <form class="bs-example bs-example-form" role="form">
       <div class="row align-items-center">
         <div class="col-lg-12">
           <div class="input-group mt-3 mb-3">
-            <!-- 搜尋欄 -->
-            <input
-              v-model="keyword"
-              type="text"
-              placeholder="輸入關鍵字"
-              class="form-control col-lg-7"
-              @keyup.enter="filteredPosts"
-            />
+            
             <!-- 類別關鍵字下拉選單 -->
             <!-- <select v-model="select_jobclass" class="btn btn-default">
               <option value="">類別</option>
@@ -26,8 +19,13 @@
                 {{ jobclass.text }}
               </option>
             </select> -->
-            <div class="col-2">
-            <treeselect   v-model="select_jobclass"  :options="treejob" placeholder="類別" />
+            <div class="col-3">
+              <treeselect
+                style="treeselect"
+                v-model="select_jobclass"
+                :options="treejob"
+                placeholder="類別"
+              />
             </div>
             <!-- <select v-model="select_area" class="btn btn-default">
               <option value="">地區</option>
@@ -36,15 +34,25 @@
                 {{ area.text }}
               </option>
             </select> -->
-            <div class="col-2">
-            <treeselect   v-model="select_area" :multiple="false" :options="treearea" placeholder="地區"  />
+            <div class="col-3">
+              <treeselect
+                v-model="select_area"
+                :multiple="false"
+                :options="treearea"
+                placeholder="地區"
+              />
             </div>
+            <!-- 搜尋欄 -->
+            <input
+              v-model="keyword"
+              type="text"
+              placeholder="輸入關鍵字"
+              class="form-control col-lg-7"
+              style="border-radius: 10px ;height: 38px"
+              @keyup.enter="filteredPosts"
+            />
             <!--eslint-disable-next-line-->
-            <button class="btn"   @click="filteredPosts">
-              <span class="glyphicon glyphicon-search"></span>搜尋<span
-                class="caret"
-              ></span>
-            </button>
+            <button class="btn btn-sm" @click="filteredPosts">搜尋</button>
           </div>
         </div>
       </div>
@@ -55,6 +63,64 @@
     <div class="row">
       <div class="col-lg-9">
         <!--<button class="btn float-right" style="font-size:17px" @click="sortOldtoNew">觀看次數由少到多</button> -->
+
+        <!-- <select v-model = "intern_sort" class = "btn btn-default" @change="sortBy()">
+                <option @change="sortNewtoOld">從新到舊</option>
+                <option @change="sortOldtoNew">從舊到新</option>
+                <option @change="sortPopularity">觀看次數</option>
+              </select> -->
+
+        <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+          <label class="btn btn-light btn-sm">
+            <input
+              type="radio"
+              name="options"
+              id="option1"
+              autocomplete="off"
+              @click="sortPopularity"
+            />
+            觀看次數
+          </label>
+          <label class="btn btn-light btn-sm">
+            <input
+              type="radio"
+              name="options"
+              id="option2"
+              autocomplete="off"
+              @click="sortNewtoOld"
+            />
+            從新到舊
+          </label>
+          <label class="btn btn-light btn-sm">
+            <input
+              type="radio"
+              name="options"
+              id="option3"
+              autocomplete="off"
+              @click="sortOldtoNew"
+            />
+            從舊到新
+          </label>
+        </div>
+        <br><br>
+
+        <!-- <select
+          name="intern_sort"
+          id="intern_sort"
+          v-model="intern_sort"
+          class="btn btn-default"
+          @change="intern_sort(sortType)"
+        >
+          <option value="">貼文排序</option>
+          
+          <option
+            v-for="items in intern_sort_item"
+            v-bind:click="intern_sort_item.value"
+          >
+            {{ items.text }}
+          </option>
+        </select>
+
         <button
           class="btn float-right"
           style="font-size: 17px"
@@ -69,18 +135,19 @@
         >
           由舊到新
         </button>
-        <button class="btn float-right" 
-          style="font-size:17px" 
+        <button
+          class="btn float-right"
+          style="font-size: 17px"
           @click="sortPopularity"
         >
-          觀看次數由多到少
+          觀看次數
         </button>
-        <br /><br />
+        <br /><br /> -->
 
         <!-- 實習貼文 -->
         <!--eslint-disable-next-line-->
         <div id="Home" v-for="(posts, index) in searchResult.slice(pageStart, pageStart + countOfPage)" class="posts" >
-          <div class="panel panel-default">
+          <div class="panel panel-default text-left">
             <div class="panel-body" style="border-style: ridge">
               <!-- ridge groove inset outset -->
               <!-- <router-link class="nav-item nav-link" :to="{ name: 'Intern', params: { post_id: posts.id }}"
@@ -94,10 +161,10 @@
                   />
                 </div>
                 <div class="col-lg-10">
-                  <h1 style="font-size: 25px" align="left">
-                    {{ posts.title }}
-                  </h1>
-                  <p style="font-size: 20px" align="left">
+                 <span style="font-size: 30px ;height: 40px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;" align="left">
+                     <strong>{{ posts.title }}</strong>
+                  </span>
+                  <p style="font-size: 20px ;line-height:50px" align="left">
                     {{ posts.cp_name }}
                   </p>
                   <p
@@ -139,8 +206,22 @@
                       d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
                     />
                   </svg>
-                  觀看次數: {{ posts.counter }}
+                  觀看次數: {{ posts.counter }}&nbsp;&nbsp;
+
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="25"
+                    height="22"
+                    fill="currentColor"
+                    class="bi bi-suit-heart-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"
+                    /></svg
+                  >&nbsp;收藏次數：5
                 </div>
+
                 <div class="row float-right">
                   <router-link
                     class="btn"
@@ -296,7 +377,11 @@
             </div>
 -->
       </div>
-      <RecommendPost title="熱門實習" :recommend_posts="top5_post" :addcounter="addcounter" />
+      <RecommendPost
+        title="熱門實習"
+        :recommend_posts="top5_post"
+        :addcounter="addcounter"
+      />
       <!--熱門搜尋  -->
       <!--<div class="col-lg-3">
         <p class="text-left"><strong>熱門實習</strong></p>-->
@@ -358,9 +443,9 @@
 import axios from "../js/axios.js";
 import RecommendPost from "../components/RecommendPost.vue";
 // import the component
-import Treeselect from '@riophae/vue-treeselect'
+import Treeselect from "@riophae/vue-treeselect";
 // import the styles
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 export default {
   name: "Home",
   components: {
@@ -376,70 +461,88 @@ export default {
       currPage: 1,
       select_jobclass: null,
       select_area: null,
+      intern_sort: "",
       keyword: "",
-      jobclasses: [
-        { text: "暑期", value: "暑期" },
-        { text: "設計", value: "設計" },
-        { text: "餐飲", value: "餐飲" },
+      sortType: "sort",
+      intern_sort_item: [
+        { text: "從新到舊", value: "sortNewtoOld" },
+        { text: "從舊到新", value: "sortOldtoNew" },
+        { text: "觀看次數", value: "sortPopularity" },
       ],
-      areas: [
-        { text: "台灣", value: "台灣" },
-        { text: "台中", value: "台中" },
-        { text: "高雄", value: "高雄" },
+      treearea: [
+        {
+          id: "台灣",
+          label: "台灣",
+        },
+        {
+          id: "亞洲",
+          label: "亞洲",
+        },
+        {
+          id: "台北",
+          label: "台北",
+          children: [
+            {
+              id: "內湖",
+              label: "內湖",
+            },
+            {
+              id: "南港",
+              label: "南港",
+            },
+            {
+              id: "信義",
+              label: "信義",
+            },
+          ],
+        },
+        {
+          id: "台中",
+          label: "台中",
+          children: [
+            {
+              id: "中區",
+              label: "中區",
+            },
+            {
+              id: "東區",
+              label: "東區",
+            },
+          ],
+        },
+        {
+          id: "高雄",
+          label: "高雄",
+          children: [
+            {
+              id: "鳳山",
+              label: "鳳山",
+            },
+            {
+              id: "三民",
+              label: "三民",
+            },
+            {
+              id: "左營",
+              label: "左營",
+            },
+          ],
+        },
       ],
-      treearea: [ {
-          id:"台灣",
-          label:'台灣',
-        },{
-          id:"亞洲",
-          label:'亞洲',
-        },  {
-          id: '台北',
-          label: '台北',
-          children: [ {
-            id: '內湖',
-            label: '內湖',
-          }, {
-            id: '南港',
-            label: '南港',
-          }, {
-            id: '信義',
-            label: '信義',
-          } ],
-        }, {
-          id: '台中',
-          label: '台中',
-          children: [ {
-            id: '中區',
-            label: '中區',
-          }, {
-            id: '東區',
-            label: '東區',
-          }, ],
-        },{
-          id: '高雄',
-          label: '高雄',
-          children: [ {
-            id: '鳳山',
-            label: '鳳山',
-          }, {
-            id: '三民',
-            label: '三民',
-          }, {
-            id: '左營',
-            label: '左營',
-          } ],
-        },] ,
-      treejob: [ {
-          id: '金融',
-          label: '金融',
-        }, {
-          id: '資訊',
-          label: '資訊',
-        },{
-          id: '會計',
-          label: '會計',
-        }, ] ,
+      treejob: [
+        {
+          id: "金融",
+          label: "金融",
+        },
+        {
+          id: "資訊",
+          label: "資訊",
+        },
+        {
+          id: "會計",
+          label: "會計",
+        },
+      ],
       saved_posts: [],
     };
   },
@@ -482,24 +585,24 @@ export default {
       var select_jobclass = this.select_jobclass;
       var select_area = this.select_area;
 
-      if(select_area===null||select_area===undefined){
-        select_area = ""
+      if (select_area === null || select_area === undefined) {
+        select_area = "";
       }
-      if(select_jobclass===null||select_jobclass===undefined){
-        select_jobclass = ""
+      if (select_jobclass === null || select_jobclass === undefined) {
+        select_jobclass = "";
       }
       // 如果 filter_name 有內容，回傳過濾後的資料，否則將原本的 fb_posts 回傳。
       if (
-        this.keyword.trim() !== ""  ||
-        select_jobclass !== ""  ||
-        select_area !== ""   
+        this.keyword.trim() !== "" ||
+        select_jobclass !== "" ||
+        select_area !== ""
       ) {
         this.searchResult = this.intern_info.filter(function (d) {
           return d.title.toLowerCase().indexOf(keyword) > -1; //過濾關鍵字
         });
-console.log(this.keyword.trim() !== "")
-console.log(select_jobclass )
-console.log(select_area )
+        console.log(this.keyword.trim() !== "");
+        console.log(select_jobclass);
+        console.log(select_area);
 
         this.searchResult = this.searchResult.filter(function (d) {
           return d.title.toLowerCase().indexOf(select_jobclass) > -1; //過濾類別

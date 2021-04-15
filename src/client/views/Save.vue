@@ -23,24 +23,36 @@
                     <div class="row">
                       <div class="col-lg-4">
                         <p style="font-size: 20px">
-                          性別：{{ user_info.gender }}
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+  <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+</svg><strong>&nbsp;性別：</strong>{{ user_info.gender }}
                         </p>
                         <p style="font-size: 20px">
-                          生日：{{ user_info.birth }}
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+  <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+</svg><strong>&nbsp;生日：</strong>{{ user_info.birth }}
                         </p>
                         <p style="font-size: 20px">
-                          身分證字號：{{ user_info.id_card }}
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+  <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+</svg><strong>&nbsp;身分證字號：</strong>{{ user_info.id_card }}
                         </p>
                       </div>
                       <div class="col-lg-4">
                         <p style="font-size: 20px">
-                          學校：{{ user_info.school }}
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+  <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+</svg><strong>&nbsp;學校：</strong>{{ user_info.school }}
                         </p>
                         <p style="font-size: 20px">
-                          電話：{{ user_info.phone }}
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+  <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+</svg><strong>&nbsp;電話：</strong>{{ user_info.phone }}
                         </p>
                         <p style="font-size: 20px">
-                          email：{{ user_info.email }}
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+  <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+</svg><strong>&nbsp;email：</strong>{{ user_info.email }}
                         </p>
                       </div>
                     </div>
@@ -57,7 +69,7 @@
       <div class="col-lg-9">
         <!--eslint-disable-next-line-->
         <div id="Home" v-for="(posts, index) in saved_posts.slice(pageStart, pageStart + countOfPage)" class="posts" >
-          <div class="panel panel-default">
+          <div class="panel panel-default text-left">
             <div class="panel-body" style="border-style: ridge">
               <div class="row">
                 <div class="col-lg-2">
@@ -69,16 +81,16 @@
                 </div>
 
                 <div class="col-lg-10">
-                  <h2 style="font-size: 25px" align="left">
-                    {{ posts.title }}
-                  </h2>
-                  <p style="font-size: 20px" align="left">
+                  <span style="font-size: 30px ;height: 40px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;" align="left">
+                    <strong>{{ posts.title }}</strong>
+                  </span>
+                  <p style="font-size: 20px;line-height:50px" align="left">
                     {{ posts.cp_name }}
                   </p>
                   <p
                     style="
                       font-size: 15px;
-                      height: 40px;
+                      height: 70px;
                       overflow: hidden;
                       text-overflow: ellipsis;
                       display: -webkit-box;

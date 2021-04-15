@@ -23,24 +23,36 @@
                     <div class="row">
                       <div class="col-lg-4">
                         <p style="font-size: 20px">
-                          性別：{{ resume_info[resume_id].gender }}
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+  <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+</svg><strong>&nbsp;性別：</strong>{{ resume_info[resume_id].gender }}
                         </p>
                         <p style="font-size: 20px">
-                          生日：{{ resume_info[resume_id].birth }}
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+  <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+</svg><strong>&nbsp;生日：</strong>{{ resume_info[resume_id].birth }}
                         </p>
                         <p style="font-size: 20px">
-                          身分證字號：{{ resume_info[resume_id].id_card }}
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+  <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+</svg><strong>&nbsp;身分證字號：</strong>{{ resume_info[resume_id].id_card }}
                         </p>
                       </div>
                       <div class="col-lg-4">
                         <p style="font-size: 20px">
-                          學校：{{ resume_info[resume_id].school }}
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+  <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+</svg><strong>&nbsp;學校：</strong>{{ resume_info[resume_id].school }}
                         </p>
                         <p style="font-size: 20px">
-                          電話：{{ resume_info[resume_id].phone }}
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+  <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+</svg><strong>&nbsp;電話：</strong>{{ resume_info[resume_id].phone }}
                         </p>
                         <p style="font-size: 20px">
-                          email：{{ resume_info[resume_id].email }}
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+  <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+</svg><strong>&nbsp;email：</strong>{{ resume_info[resume_id].email }}
                         </p>
                       </div>
                     </div>
@@ -98,22 +110,22 @@
               ><br />
               <hr border-style="solid" /> -->
 
-              <a style="font-size: 30px">實習期望</a><br /><br />
-              <a style="font-size: 25px">期望職位</a>&nbsp;<br /><a
+              <a style="font-size: 30px;text-shadow:0px 0px 2px #cccccc;"><strong>實習期望</strong></a><br /><br />
+              <a style="font-size: 25px"><strong>期望職位</strong></a>&nbsp;<br /><a
                 style="font-size: 18px"
                 >{{ resume_info[resume_id].exp_position }}</a
               ><br /><br />
-              <a style="font-size: 25px">期望待遇</a>&nbsp;<br /><a
+              <a style="font-size: 25px"><strong>期望待遇</strong></a>&nbsp;<br /><a
                 style="font-size: 18px"
                 >{{ resume_info[resume_id].exp_treatment }}</a
               ><br /><br />
-              <a style="font-size: 25px">期望工作地</a>&nbsp;<br /><a
+              <a style="font-size: 25px"><strong>期望工作地</strong></a>&nbsp;<br /><a
                 style="font-size: 18px"
                 >{{ resume_info[resume_id].exp_location }}</a
               ><br /><br />
               <hr border-style="solid" />
 
-              <a style="font-size: 30px">學經歷</a><br /><br />
+              <a style="font-size: 30px;text-shadow:0px 0px 2px #cccccc;"><strong>學經歷</strong></a><br /><br />
               <!-- <a style="font-size: 25px">學歷</a>&nbsp; -->
               <a style="font-size: 18px">{{
                 resume_info[resume_id].edu_and_exp
@@ -129,7 +141,7 @@
               ><br />-->
               <hr border-style="solid" />
 
-              <a style="font-size: 30px">技能專長</a><br /><br />
+              <a style="font-size: 30px;text-shadow:0px 0px 2px #cccccc;"><strong>技能專長</strong></a><br /><br />
               <!-- <a style="font-size: 25px">語言能力</a>&nbsp; -->
               <a style="font-size: 18px">{{ resume_info[resume_id].skills }}</a
               ><br />
@@ -139,7 +151,7 @@
               ><br /> -->
               <hr border-style="solid" />
 
-              <a style="font-size: 30px">其他</a><br /><br />
+              <a style="font-size: 30px;text-shadow:0px 0px 2px #cccccc;"><strong>其他加分條件</strong></a><br /><br />
               <!-- <a style="font-size: 25px">Email</a>&nbsp; -->
               <a v-if="resume_info[resume_id].others" style="font-size: 18px">{{
                 resume_info[resume_id].others
