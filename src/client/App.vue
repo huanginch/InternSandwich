@@ -45,7 +45,7 @@
             class="nav-item nav-link"
             to="/post"
             v-if="business_isLoggedIn"
-            ><strong>企業發文</strong></router-link
+            ><strong>刊登實習</strong></router-link
           >
           <router-link
             class="nav-item nav-link"
@@ -116,6 +116,7 @@ export default {
   /* background-color: #dce2ec54; */
   /* background-color: #bcddfc85; */
   background-color: #bcddfc71;
+  /* background-color:rgba(235, 204, 125, 0.443); */
 }
 #navbar {
   position: fixed;
@@ -125,7 +126,8 @@ export default {
   /* background-color:#bedae0; */
   /* background-color: #57d5eb; */
   /* background-color:#b8dcfd; 這是大家覺得ok的*/
-  background-color:rgb(174, 218, 246);
+  background-color:#aedaf6;
+  /* background-color:rgb(235, 204, 125); */
 }
 
 #nav {
