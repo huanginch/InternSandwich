@@ -81,6 +81,7 @@
             <div class="form-group col-md-4">
               <label for="inputCity" class="txet-left" style="font-size: 25px;background-color:#bcddfc71;width:200px;border-radius:20px;"><strong>期望職位</strong></label>
               <input v-model="exp_position" type="text" class="form-control" id="inputCity" />
+              <font size='2' color='red' v-if="invalidEP">*該欄位不得為空</font>
             </div>
             <div class="form-group col-md-4">
               <label for="inputState" style="font-size: 25px;background-color:#bcddfc71;width:200px;border-radius:20px;"><strong>期望待遇</strong></label>
@@ -115,6 +116,7 @@
               rows="3"
               placeholder="參請填寫真實學經歷"
             ></textarea>
+            <font size='2' color='red' v-if="invalidEaE">*該欄位不得為空</font>
           </div>
 
           <br />
@@ -128,6 +130,7 @@
               rows="3"
               placeholder="語言能力等"
             ></textarea>
+            <font size='2' color='red' v-if="invalidSkills">*該欄位不得為空</font>
           </div>
 
           <br />
@@ -195,7 +198,10 @@ export default {
       exp_location:"",
       edu_and_exp:"",
       skills:"",
-      others:""
+      others:"",
+      invalidEP:false,
+      invalidEaE:false,
+      invalidSkills:false,
     };
   },
   computed: {
@@ -203,8 +209,40 @@ export default {
       return this.$store.getters.isLoggedIn;
     },
   },
+  watch:{
+    exp_position: function(newValue){
+      this.invalidEP = !newValue
+    },
+    edu_and_exp: function(newValue){
+      this.invalidEaE = !newValue
+    },
+    skills: function(newValue){
+      this.invalidSkills = !newValue
+    },
+  },
   methods: {
-    
+    sendResume: function(){
+      if(!this.others){
+        this.others = "無";
+      }
+      var api = "/api/resume";
+      var params = {
+        exp_position: this.exp_position,
+        exp_treatment: this.exp_treatment,
+        exp_location: this.exp_location,
+        edu_and_exp: this.edu_and_exp,
+        skills: this.skills,
+        others: this.others
+      }
+
+      axios
+      .post(api,params)
+      .then((response) => {
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    }
   },
   created() {
     this.resume_id = this.$store.getters.getUser.ID;
@@ -218,6 +256,14 @@ export default {
         this.resume_info = this.resume_info.filter(function (d,index) {
           return d.u_id.toString().indexOf(_this.resume_id) > -1; //過濾關鍵字
         });
+
+        if(this.resume_info.skills){
+          this.exp_position = this.resume_info.exp_position
+          this.exp_location = this.resume_info.exp_location
+          this.exp_treatment = this.resume_info.exp_treatment
+          this.edu_and_exp = this.resume_info.edu_and_exp
+          this.skills = this.resume_info.skills
+        }
       })
       .catch((error) => {
         console.log(error);

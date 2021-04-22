@@ -21,7 +21,7 @@
             </select> -->
             <div class="col-3">
               <treeselect
-                style="treeselect"
+                border-style="treeselect"
                 v-model="select_jobclass"
                 :options="treejob"
                 placeholder="類別"
@@ -48,7 +48,7 @@
               type="text"
               placeholder="輸入關鍵字"
               class="form-control col-lg-7"
-              style="border-radius: 10px ;height: 38px"
+              style="border-radius: 10px; height: 38px"
               @keyup.enter="filteredPosts"
             />
             <!--eslint-disable-next-line-->

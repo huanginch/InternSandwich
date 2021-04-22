@@ -42,10 +42,24 @@ router.get('/resume', (req, res, next) => {
   })
 })
 
+//新增實習生履歷
+router.post('/resume', (req, res, next) => {
+  const sqlparams = [req.body.exp_position, req.body.exp_treatment, req.body.exp_location, req.body.edu_and_exp, req.body.skills, req.body.others];
+  var sql = 'INSERT INTO resume (exp_position, exp_treatment, exp_location, edu_and_exp, skills, others) VALUES (?, ?, ?, ?, ?, ?);';
+
+  db(sql,sqlparams)
+  .then(results =>{
+    res.send({msg:"更新履歷成功"});
+  })
+  .catch(err =>{
+    res.status(500).send("err:",err)
+  })
+})
+
 //更新實習生履歷
 router.patch('/resume', (req, res, next) => {
   const sqlparams = [req.body.exp_position, req.body.exp_treatment, req.body.exp_location, req.body.edu_and_exp, req.body.skills, req.body.others];
-  var sql = 'INSERT INTO resume exp_position, exp_treatment, exp_location, edu_and_exp, skills, others) VALUES (?, ?, ?, ?, ?, ?);';
+  var sql = 'UPDATE resume (exp_position, exp_treatment, exp_location, edu_and_exp, skills, others) VALUES (?, ?, ?, ?, ?, ?);';
 
   db(sql,sqlparams)
   .then(results =>{
