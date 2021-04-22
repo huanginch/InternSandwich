@@ -21,6 +21,48 @@ router.get('/posts', (req, res, next) => {
   })
 })
 
+//取得企業資訊
+router.get('/company/:cp_id', (req, res, next) => {
+  var params = req.params.cp_id
+  var sql = 'select * from company_info WHERE ID = ? AND is_del = 0 ';
+
+  db(sql,params)
+  .then(results =>{
+    res.send(results);
+  })
+  .catch(err =>{
+    res.status(500).send("err:",err)
+  })
+})
+
+//取得企業貼文
+router.get('/company/:cp_id/posts', (req, res, next) => {
+  var params = req.params.cp_id
+  var sql = 'select * from intern_post WHERE cp_id = ?';
+
+  db(sql,params)
+  .then(results =>{
+    res.send(results);
+  })
+  .catch(err =>{
+    res.status(500).send("err:",err)
+  })
+})
+
+//發布貼文
+router.post('/company/:cp_id/posts', (req, res, next) => {
+  var params = [req.params.cp_id, req.body.title, req.body.cp_name, req.body.requirement, req.body.benefits, req.body.job_desc, req.body.location, req.body.others]
+  var sql = 'INSERT INTO intern_posts (cp_id, title, cp_name, requirement, benefits, job_desc, location, others) VALUES (?, ?, ?, ?, ?, ?, ?, ?);';
+
+  db(sql, params)
+  .then(results =>{
+    res.send({msg: "發文成功"});
+  })
+  .catch(err =>{
+    res.status(500).send("err:",err)
+  })
+})
+
 //取得實習生資訊
 router.get('/resume', (req, res, next) => {
   var sql = 'select resume.ID, resume.u_id, name, id_card, birth, gender, phone, school, user_info.email, exp_position, exp_treatment, exp_location, edu_and_exp, skills, others from resume INNER JOIN user_info ON resume.u_id = user_info.ID';
@@ -44,12 +86,12 @@ router.get('/resume', (req, res, next) => {
 
 //新增實習生履歷
 router.post('/resume', (req, res, next) => {
-  const sqlparams = [req.body.exp_position, req.body.exp_treatment, req.body.exp_location, req.body.edu_and_exp, req.body.skills, req.body.others];
-  var sql = 'INSERT INTO resume (exp_position, exp_treatment, exp_location, edu_and_exp, skills, others) VALUES (?, ?, ?, ?, ?, ?);';
+  const sqlparams = [req.body.user_id, req.body.exp_position, req.body.exp_treatment, req.body.exp_location, req.body.edu_and_exp, req.body.skills, req.body.others];
+  var sql = 'INSERT INTO resume (u_id, exp_position, exp_treatment, exp_location, edu_and_exp, skills, others) VALUES (?, ?, ?, ?, ?, ?, ?);';
 
   db(sql,sqlparams)
   .then(results =>{
-    res.send({msg:"更新履歷成功"});
+    res.send({msg:"新增履歷成功"});
   })
   .catch(err =>{
     res.status(500).send("err:",err)
@@ -58,8 +100,8 @@ router.post('/resume', (req, res, next) => {
 
 //更新實習生履歷
 router.patch('/resume', (req, res, next) => {
-  const sqlparams = [req.body.exp_position, req.body.exp_treatment, req.body.exp_location, req.body.edu_and_exp, req.body.skills, req.body.others];
-  var sql = 'UPDATE resume (exp_position, exp_treatment, exp_location, edu_and_exp, skills, others) VALUES (?, ?, ?, ?, ?, ?);';
+  const sqlparams = [req.body.exp_position, req.body.exp_treatment, req.body.exp_location, req.body.edu_and_exp, req.body.skills, req.body.others, req.body.user_id];
+  var sql = 'UPDATE resume SET exp_position = ?, exp_treatment = ?, exp_location = ?, edu_and_exp = ?, skills = ?, others = ? WHERE u_id = ?;';
 
   db(sql,sqlparams)
   .then(results =>{

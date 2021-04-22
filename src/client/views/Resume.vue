@@ -168,9 +168,18 @@
               </label>
               <br /><br /> -->
               <input
+                v-if="!Committed"
                 @click="sendResume"
                 type="submit"
                 value="送出履歷"
+                class="btn"
+                style="width: 400px; height: 60px; font-size: 30px; margin:0px auto;"
+              />
+              <input
+                v-else
+                @click="updateResume"
+                type="submit"
+                value="修改履歷"
                 class="btn"
                 style="width: 400px; height: 60px; font-size: 30px; margin:0px auto;"
               />
@@ -202,6 +211,7 @@ export default {
       invalidEP:false,
       invalidEaE:false,
       invalidSkills:false,
+      Committed:false
     };
   },
   computed: {
@@ -227,6 +237,7 @@ export default {
       }
       var api = "/api/resume";
       var params = {
+        user_id: this.$store.getters.getUser.ID,
         exp_position: this.exp_position,
         exp_treatment: this.exp_treatment,
         exp_location: this.exp_location,
@@ -238,6 +249,31 @@ export default {
       axios
       .post(api,params)
       .then((response) => {
+        alert(response.data.msg)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    },
+    updateResume: function(){
+      if(!this.others){
+        this.others = "無";
+      }
+      var api = "/api/resume";
+      var params = {
+        user_id: this.$store.getters.getUser.ID,
+        exp_position: this.exp_position,
+        exp_treatment: this.exp_treatment,
+        exp_location: this.exp_location,
+        edu_and_exp: this.edu_and_exp,
+        skills: this.skills,
+        others: this.others
+      }
+
+      axios
+      .patch(api,params)
+      .then((response) => {
+        alert(response.data.msg)
       })
       .catch((error) => {
         console.log(error);
@@ -254,15 +290,17 @@ export default {
         var _this = this
         this.resume_info = response.data;
         this.resume_info = this.resume_info.filter(function (d,index) {
-          return d.u_id.toString().indexOf(_this.resume_id) > -1; //過濾關鍵字
+          return d.u_id.toString().indexOf(_this.resume_id) > -1; 
         });
+        console.log(this.resume_info)
 
-        if(this.resume_info.skills){
-          this.exp_position = this.resume_info.exp_position
-          this.exp_location = this.resume_info.exp_location
-          this.exp_treatment = this.resume_info.exp_treatment
-          this.edu_and_exp = this.resume_info.edu_and_exp
-          this.skills = this.resume_info.skills
+        if(this.resume_info[0].skills){
+          this.Committed = true
+          this.exp_position = this.resume_info[0].exp_position
+          this.exp_location = this.resume_info[0].exp_location
+          this.exp_treatment = this.resume_info[0].exp_treatment
+          this.edu_and_exp = this.resume_info[0].edu_and_exp
+          this.skills = this.resume_info[0].skills
         }
       })
       .catch((error) => {

@@ -149,8 +149,7 @@
                     >
                       <path
                         d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"
-                      /></svg
-                    >&nbsp;立即聯絡</a
+                      /></svg>&nbsp;立即聯絡</a
                   >
                   <a
                     href="#"
@@ -171,8 +170,7 @@
                       <path
                         fill-rule="evenodd"
                         d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
-                      /></svg
-                    >&nbsp;刪除履歷</a
+                      /></svg>&nbsp;刪除履歷</a
                   >
                 </div>
               </div>
@@ -212,40 +210,15 @@
 </template>
 <script>
 import axios from "../js/axios.js";
-//import Searchbar from "../components/Searchbar.vue";
 
 export default {
-  name: "Home",
-  /*componemts:{
-    Searchbar
-  },*/
+  name: "Mailbox",
   data() {
     return {
       fb_info: null,
       searchResult: null,
       countOfPage: 5,
       currPage: 1,
-      select_school: "",
-      select_grade: "",
-      select_expertise: "",
-      keyword: "",
-      schools: [
-        { text: "抬青椒承", value: "抬青椒承" },
-        { text: "忠自倍", value: "忠自倍" },
-        { text: "地名大學", value: "地名大學" },
-        { text: "其他", value: "其他" },
-      ],
-      grades: [
-        { text: "高中", value: "高中" },
-        { text: "大學", value: "大學" },
-        { text: "研究所", value: "研究所" },
-        { text: "其他", value: "其他" },
-      ],
-      expertises: [
-        { text: "科技", value: "科技" },
-        { text: "設計", value: "設計" },
-        { text: "餐飲", value: "餐飲" },
-      ],
     };
   },
   computed: {
@@ -259,21 +232,6 @@ export default {
     },
   },
   methods: {
-    //依照關鍵字搜尋貼文
-    filteredPosts: function () {
-      // 因為 JavaScript 的 filter 有分大小寫，
-      // 所以這裡將 keyword 與 fb_info[n].cp_name 通通轉小寫方便比對。
-      var keyword = this.keyword.toLowerCase();
-
-      // 如果 filter_name 有內容，回傳過濾後的資料，否則將原本的 fb_posts 回傳。
-      if (this.keyword.trim() !== "") {
-        this.searchResult = this.fb_info.filter(function (d) {
-          return d.cp_name.toLowerCase().indexOf(keyword) > -1;
-        });
-      } else {
-        this.searchResult = this.fb_info;
-      }
-    },
     //設定當前頁面
     setPage: function (idx) {
       if (idx <= 0 || idx > this.totalPage) {
@@ -298,20 +256,4 @@ export default {
       });
   },
 };
-/*export default({
-  name: '#user',
-  data () {
-    return {
-      info: null
-    }
-  },
-  created () {
-    const api = 'localhost:3000/api/test'
-    axios.get(api)
-    .then(response => (this.info = response))
-    .catch(function (error) { // 请求失败处理
-      console.log(error);
-    });
-  }
-})*/
 </script>
