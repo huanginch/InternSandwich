@@ -23,6 +23,7 @@
               <treeselect
                 border-style="treeselect"
                 v-model="select_jobclass"
+                :multiple="true"
                 :options="treejob"
                 placeholder="類別"
               />
@@ -37,8 +38,9 @@
             <div class="col-3">
               <treeselect
                 v-model="select_area"
-                :multiple="false"
+                :multiple="true"
                 :options="treearea"
+                :disable-branch-nodes="true"
                 placeholder="地區"
               />
             </div>
@@ -471,60 +473,90 @@ export default {
       ],
       treearea: [
         {
-          id: "台灣",
-          label: "台灣",
-        },
-        {
-          id: "亞洲",
-          label: "亞洲",
-        },
-        {
-          id: "台北",
-          label: "台北",
+          id: "北部",
+          label: "北部",
           children: [
             {
-              id: "內湖",
-              label: "內湖",
+              id: "台北",
+              label: "台北",
             },
             {
-              id: "南港",
-              label: "南港",
+              id: "新北",
+              label: "新北",
             },
             {
-              id: "信義",
-              label: "信義",
+              id: "桃園",
+              label: "桃園",
+            },
+            {
+              id: "新竹",
+              label: "新竹",
+            },
+            {
+              id: "基隆",
+              label: "基隆",
             },
           ],
         },
         {
-          id: "台中",
-          label: "台中",
+          id: "中部",
+          label: "中部",
           children: [
             {
-              id: "中區",
-              label: "中區",
+              id: "台中",
+              label: "台中",
             },
             {
-              id: "東區",
-              label: "東區",
+              id: "彰化",
+              label: "彰化",
+            },
+            {
+              id: "雲林",
+              label: "雲林",
+            },
+            {
+              id: "苗栗",
+              label: "苗栗",
+            },
+            {
+              id: "南投",
+              label: "南投",
             },
           ],
         },
         {
-          id: "高雄",
-          label: "高雄",
+          id: "南部",
+          label: "南部",
           children: [
             {
-              id: "鳳山",
-              label: "鳳山",
+              id: "高雄",
+              label: "高雄",
             },
             {
-              id: "三民",
-              label: "三民",
+              id: "台南",
+              label: "台南",
             },
             {
-              id: "左營",
-              label: "左營",
+              id: "屏東",
+              label: "屏東",
+            },
+            {
+              id: "嘉義",
+              label: "嘉義",
+            },
+          ],
+        },
+        {
+          id: "東部",
+          label: "東部",
+          children: [
+            {
+              id: "花蓮",
+              label: "花蓮",
+            },
+            {
+              id: "台東",
+              label: "台東",
             },
           ],
         },
@@ -541,6 +573,42 @@ export default {
         {
           id: "會計",
           label: "會計",
+        },
+        {
+          id: "人資",
+          label: "人資",
+        },
+        {
+          id: "行銷",
+          label: "行銷",
+        },
+        {
+          id: "餐飲",
+          label: "餐飲",
+        },
+        {
+          id: "業務",
+          label: "業務",
+        },
+        {
+          id: "營建",
+          label: "營建",
+        },
+        {
+          id: "藝術",
+          label: "藝術",
+        },
+        {
+          id: "教育",
+          label: "教育",
+        },
+        {
+          id: "製造",
+          label: "製造",
+        },
+        {
+          id: "保全",
+          label: "保全",
         },
       ],
       saved_posts: [],
@@ -600,17 +668,31 @@ export default {
         this.searchResult = this.intern_info.filter(function (d) {
           return d.title.toLowerCase().indexOf(keyword) > -1; //過濾關鍵字
         });
-        console.log(this.keyword.trim() !== "");
-        console.log(select_jobclass);
-        console.log(select_area);
+        // console.log(this.keyword.trim() !== "");
+        // console.log(select_jobclass);
+        // console.log(select_area);
+
+        // 0426問題  cp_name無法搜尋
+        this.searchResult = this.intern_info.filter(function (d) {
+          return d.cp_name.toLowerCase().indexOf(keyword) > -1 || d.job_desc.toLowerCase().indexOf(keyword) > -1 || d.cp_name.toLowerCase().indexOf(keyword) > -1;//過濾關鍵字
+        });
+
+        // this.searchResult = this.intern_info.filter(function (d) {
+        //   return d.job_desc.toLowerCase().indexOf(keyword) > -1; //過濾關鍵字
+        // });
 
         this.searchResult = this.searchResult.filter(function (d) {
           return d.title.toLowerCase().indexOf(select_jobclass) > -1; //過濾類別
         });
 
         this.searchResult = this.searchResult.filter(function (d) {
-          return d.title.toLowerCase().indexOf(select_area) > -1; //過濾地區
+          return d.title.toLowerCase().indexOf(select_area) > -1 || d.job_desc.toLowerCase().indexOf(select_area) > -1; //過濾地區
         });
+
+        // this.searchResult = this.searchResult.filter(function (d) {
+        //   return d.job_desc.toLowerCase().indexOf(select_area) > -1; //過濾地區
+        // });
+
       } else {
         this.searchResult = this.intern_info;
       }
