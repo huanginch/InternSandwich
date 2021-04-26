@@ -45,20 +45,8 @@
             class="nav-item nav-link"
             to="/post"
             v-if="business_isLoggedIn"
-            ><strong>刊登實習</strong></router-link
+            ><strong>企業專區</strong></router-link
           >
-          <router-link
-            class="nav-item nav-link"
-            to="/mailbox"
-            v-if="business_isLoggedIn"
-            ><strong>履歷信箱</strong></router-link
-          >
-          <!-- <a
-              class="nav-item nav-link"
-              data-toggle="tab"
-              href="./views/about.vue"
-              >履歷模板</a
-            > -->
         </div>
         <div class="navbar-nav nav-tabs ml-auto">
           <router-link
