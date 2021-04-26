@@ -7,6 +7,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const userMiddleware = require('./middleware/users.js');
 const companyMiddleware = require('./middleware/company.js');
+const postMiddleware = require('./middleware/posts.js');
 
 //首頁貼文
 router.get('/posts', (req, res, next) => {
@@ -24,7 +25,7 @@ router.get('/posts', (req, res, next) => {
 //取得企業資訊
 router.get('/company/:cp_id', (req, res, next) => {
   var params = req.params.cp_id
-  var sql = 'select * from company_info WHERE ID = ? AND is_del = 0 ';
+  var sql = 'select ID, name, address, phone, email from company_info WHERE ID = ? AND is_del = 0 ';
 
   db(sql,params)
   .then(results =>{
@@ -36,9 +37,9 @@ router.get('/company/:cp_id', (req, res, next) => {
 })
 
 //取得企業貼文
-router.get('/company/:cp_id/posts', (req, res, next) => {
+router.get('/company/:cp_id/cp_posts', (req, res, next) => {
   var params = req.params.cp_id
-  var sql = 'select * from intern_post WHERE cp_id = ?';
+  var sql = 'select * from company_post WHERE cp_id = ?';
 
   db(sql,params)
   .then(results =>{
@@ -50,13 +51,51 @@ router.get('/company/:cp_id/posts', (req, res, next) => {
 })
 
 //發布貼文
-router.post('/company/:cp_id/posts', (req, res, next) => {
-  var params = [req.params.cp_id, req.body.title, req.body.cp_name, req.body.requirement, req.body.benefits, req.body.job_desc, req.body.location, req.body.others]
-  var sql = 'INSERT INTO intern_posts (cp_id, title, cp_name, requirement, benefits, job_desc, location, others) VALUES (?, ?, ?, ?, ?, ?, ?, ?);';
+router.post('/company/:cp_id/cp_posts', postMiddleware.validatePost, (req, res, next) => {
+  var params = [req.params.cp_id, req.body.type, req.body.title, req.body.cp_name, req.body.requirement, req.body.benefits, req.body.job_desc, req.body.city, req.body.location, req.body.others]
+  var sql = 'INSERT INTO company_post (cp_id, type, title, cp_name, requirement, benefits, job_desc, city, location, others) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
 
   db(sql, params)
   .then(results =>{
     res.send({msg: "發文成功"});
+  })
+  .catch(err =>{
+    res.status(500).send("err:",err)
+  })
+})
+
+//取得履歷信箱信件
+router.get('/company/:cp_id/mails', (req, res, next) => {
+  var params = req.params.cp_id
+  var sql = 'select user_info.ID, name, id_card, birth, gender, phone, school, email, exp_position, exp_treatment, exp_location, edu_and_exp, skills, others FROM mailbox INNER JOIN user_info ON mailbox.u_id = user_info.ID WHERE cp_id = ?';
+
+  db(sql, params)
+  .then(results =>{
+    for(let i=0; i<results.length; i++){
+      //性別欄位在資料庫是bool，將bool轉成String
+      results[i]["gender"] = results[i]["gender"] ? "女" : "男"
+      //生日欄位在資料庫是UTC+0時間，將格式改成yyyy-mm-dd
+      var utcbirth = results[i]["birth"]
+      var month = Number(utcbirth.getMonth())
+      month = (month + 1).toString()
+      utcbirth = utcbirth.getFullYear()+"-" + month + "-" + utcbirth.getDate()
+      results[i]["birth"] = utcbirth
+    }
+    res.send(results);
+  })
+  .catch(err =>{
+    res.status(500).send("err:",err)
+  })
+})
+
+//刪除履歷信箱信件
+router.delete('/company/:cp_id/mails', (req, res, next) => {
+  var params = req.body.id
+  var sql = 'DELETE FROM mailbox WHERE ID = ?';
+
+  db(sql, params)
+  .then(results =>{
+    res.send({msg:"刪除成功"});
   })
   .catch(err =>{
     res.status(500).send("err:",err)
@@ -70,7 +109,9 @@ router.get('/resume', (req, res, next) => {
   db(sql)
   .then(results =>{
     for(let i=0; i<results.length; i++){
+      //性別欄位在資料庫是bool，將bool轉成String
       results[i]["gender"] = results[i]["gender"] ? "女" : "男"
+      //生日欄位在資料庫是UTC+0時間，將格式改成yyyy-mm-dd
       var utcbirth = results[i]["birth"]
       var month = Number(utcbirth.getMonth())
       month = (month + 1).toString()
