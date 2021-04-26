@@ -16,30 +16,46 @@
               @keyup.enter="filteredPosts"
             />
             <!-- 類別關鍵字下拉選單 -->
-            <select v-model="select_school" class="btn btn-default">
-              <option disabled value="">學校</option>
-              <!--eslint-disable-next-line-->
-              <option v-for="school in schools" v-bind:value="school.value">
-                {{ school.text }}
-              </option>
-            </select>
-            <select v-model="select_grade" class="btn btn-default">
-              <option disabled value="">年級</option>
-              <!--eslint-disable-next-line-->
-              <option v-for="grade in grades" v-bind:value="grade.value">
-                {{ grade.text }}
-              </option>
-            </select>
-            <select v-model="select_expertise" class="btn btn-default">
-              <option disabled value="">專長</option>
-              <!--eslint-disable-next-line-->
-              <option
-                v-for="expertise in expertises"
-                v-bind:value="expertise.value"
-              >
-                {{ expertise.text }}
-              </option>
-            </select>
+            <div class="col-2">
+            <treeselect
+                border-style="treeselect"
+                v-model="select_school"
+                :multiple="false"
+                :options="schools"
+                placeholder="學校"
+              />
+            </div>
+
+            <div class="col-2">
+            <treeselect
+                border-style="treeselect"
+                v-model="select_department"
+                :multiple="false"
+                :options="department"
+                placeholder="系所"
+              />
+            </div>
+            
+            <div class="col-2">
+            <treeselect
+                border-style="treeselect"
+                v-model="select_expertise"
+                :multiple="false"
+                :options="expertise"
+                placeholder="專長"
+              />
+            </div>
+            
+            <div class="col-2">
+            <treeselect
+                border-style="treeselect"
+                v-model="select_position"
+                :multiple="false"
+                :options="position"
+                placeholder="職位"
+              />
+            </div>
+
             <!--eslint-disable-next-line-->
             <button class="btn" v-model="keyword" @click="filteredPosts">
               <span class="glyphicon glyphicon-search"></span>搜尋<span
@@ -159,38 +175,57 @@
 <script>
 import axios from "../js/axios.js";
 import Recommend from "../components/RecommendUser.vue";
+import Treeselect from "@riophae/vue-treeselect";
+// import the styles
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
 export default {
   name: "Finder",
   components: {
     Recommend,
+    Treeselect
   },
   data() {
     return {
+      keyword:"",
       resume_info: [],
       searchResult: "",
       countOfPage: 5,
       currPage: 1,
-      select_school: "",
-      select_grade: "",
-      select_expertise: "",
+      select_school: null,
+      select_department: null,
+      select_expertise: null,
+      select_position: null,
       keyword: "",
       schools: [
-        { text: "抬青椒承", value: "抬青椒承" },
-        { text: "忠自倍", value: "忠自倍" },
-        { text: "地名大學", value: "地名大學" },
-        { text: "其他", value: "其他" },
+        { id: "台大", label: "台大" },
+        { id: "清華", label: "清華" },
+        { id: "陽交大", label: "陽交大" },
+        { id: "政大", label: "政大" },
+        { id: "成大", label: "成大" },
+        { id: "中央", label: "中央" },
+        { id: "中山", label: "中山" },
+        { id: "中正", label: "中正" },
+        { id: "中興", label: "中興" },
       ],
-      grades: [
-        { text: "高中", value: "高中" },
-        { text: "大學", value: "大學" },
-        { text: "研究所", value: "研究所" },
-        { text: "其他", value: "其他" },
+      
+      department: [
+        { id: "資管", label: "資管" },
+        { id: "會計", label: "會計" },
+        { id: "中文", label: "中文" },
+        { id: "電機", label: "電機" },
       ],
       expertises: [
-        { text: "科技", value: "科技" },
-        { text: "設計", value: "設計" },
-        { text: "餐飲", value: "餐飲" },
+        { id: "JAVA", label: "JAVA" },
+        { id: "python", label: "python" },
+        { id: "SQL", label: "SQL" },
+        { id: "管理", label: "管理" },
+      ],
+      position: [
+        { id: "工程師", label: "工程師" },
+        { id: "行銷", label: "行銷" },
+        { id: "會計", label: "會計" },
+        { id: "廣告", label: "廣告" },
       ],
     };
   },
@@ -212,10 +247,32 @@ export default {
       var keyword = this.keyword.toLowerCase();
 
       // 如果 filter_name 有內容，回傳過濾後的資料，否則將原本的 fb_posts 回傳。
-      if (this.keyword.trim() !== "") {
+      if (this.keyword.trim() !== "" || 
+      select_school !== "" ||
+      select_department !== "" ||
+      select_expertise !== "" ||
+      select_position !== "" 
+      ) {
         this.searchResult = this.resume_info.filter(function (d) {
-          return d.edu_and_exp.toLowerCase().indexOf(keyword) > -1;
+          return d.edu_and_exp.toLowerCase().indexOf(keyword) > -1 || d.skill.toLowerCase().indexOf(keyword) > -1;
         });
+        
+        this.searchResult = this.resume_info.filter(function (d) {
+          return d.edu_and_exp.toLowerCase().indexOf(select_school) > -1 ;
+        });
+
+        this.searchResult = this.resume_info.filter(function (d) {
+          return d.edu_and_exp.toLowerCase().indexOf(select_department) > -1 ;
+        });
+
+        this.searchResult = this.resume_info.filter(function (d) {
+          return d.skills.toLowerCase().indexOf(select_expertise) > -1 ;
+        });
+
+        this.searchResult = this.resume_info.filter(function (d) {
+          return d.exp_position.toLowerCase().indexOf(select_position) > -1 ;
+        });
+
       } else {
         this.searchResult = this.resume_info;
       }
