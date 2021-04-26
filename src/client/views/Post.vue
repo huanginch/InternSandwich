@@ -124,3 +124,96 @@
     </div>
   </div>
 </template>
+
+<script>
+  import axios from "../js/axios.js";
+
+export default {
+  name: "Post",
+  data() {
+    return {
+      title:null,
+      type:null,
+      job_desc:null,
+      benefits:null,
+      requirement:null,
+      city:null,
+      location:null,
+      others:null,
+      invalidTitle:false,
+      invalidJobDesc:false,
+      invalidRequirement:false,
+      invalidLocation:false,
+      type_arr:[],
+      city_arr: [
+        { text: "基隆", value: "基隆" },
+        { text: "台北", value: "台北" },
+        { text: "新北", value: "新北" },
+        { text: "桃園", value: "桃園" },
+        { text: "新竹", value: "新竹" },
+        { text: "苗栗", value: "苗栗" },
+        { text: "台中", value: "台中" },
+        { text: "南投", value: "南投" },
+        { text: "彰化", value: "彰化" },
+        { text: "雲林", value: "雲林" },
+        { text: "嘉義", value: "嘉義" },
+        { text: "台南", value: "台南" },
+        { text: "高雄", value: "高雄" },
+        { text: "屏東", value: "屏東" },
+        { text: "台東", value: "台東" },
+        { text: "花蓮", value: "花蓮" },
+        { text: "宜蘭", value: "宜蘭" },
+        { text: "澎湖", value: "澎湖" },
+        { text: "金門", value: "金門" },
+        { text: "馬祖", value: "馬祖" },
+      ],
+    };
+  },
+  computed:{
+    title: function(newValue){
+        this.invalidTitle = !newValue
+    },
+    job_desc: function(newValue){
+        this.invalidJobDesc = !newValue
+    },
+    requirement: function(newValue){
+      this.invalidRequirement = !newValue
+    },
+    location: function(newValue){
+      this.invalidLocation = !newValue
+    },
+  },
+  methods: {
+    pushPosts: function(){
+      this.cp_info = this.$store.getters.getUser
+      //axios獲取後臺資料
+      var cp_id = this.cp_info.ID
+      var api = "/api/company/${cp_id}/cp_posts";
+      var params = {
+        cp_id:this.cp_id,
+        title:this.title,
+        type:this.type,
+        job_desc:this.job_desc,
+        benefits:this.benefits,
+        requirement:this.requirement,
+        city:this.city,
+        location:this.location,
+        others:this.others
+      }
+      axios
+        .post(api)
+        .then((response) => {
+          var msg = response.data.msg
+          alert(msg)
+        })
+        .catch(function (error) {
+          // 請求失敗處理
+          console.log(error);
+        });
+    }
+  },
+  // created() {
+    
+  // },
+};
+</script>

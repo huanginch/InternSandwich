@@ -18,24 +18,24 @@
                   </div>
                   <div class="col-lg-10">
                     <p style="font-size: 40px">
-                      <strong>蓋房子股份有限公司</strong>
+                      <strong>{{cp_info.name}}</strong>
                     </p>
                     <div class="row">
                       <div class="col-lg-4">
+                        <!-- <p style="font-size: 20px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+  <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+</svg><strong>&nbsp;公司名稱：</strong>{{cp_info.name}}}</p> -->
                         <p style="font-size: 20px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
   <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
-</svg><strong>&nbsp;公司名稱：</strong>設計業、建築業</p>
-                        <p style="font-size: 20px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
-  <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
-</svg><strong>&nbsp;地址：</strong>台北、台中</p>
+</svg><strong>&nbsp;地址：</strong>{{cp_info.address}}</p>
                       </div>
                       <div class="col-lg-4">
                         <p style="font-size: 20px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
   <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
-</svg><strong>&nbsp;電話：</strong>設計業、建築業</p>
+</svg><strong>&nbsp;電話：</strong>{{cp_info.phone}}</p>
                         <p style="font-size: 20px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
   <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
-</svg><strong>&nbsp;email：</strong>台北、台中</p>
+</svg><strong>&nbsp;email：</strong>{{cp_info.email}}</p>
                       </div>
                     </div>
                   </div>
@@ -99,7 +99,7 @@
         </div> -->
 
         <!--eslint-disable-next-line-->
-        <div id="Home" v-for="(posts, index) in searchResult.slice(pageStart, pageStart + countOfPage)" class="posts" >
+        <div id="Mailbox" v-for="(mail, index) in mails.slice(pageStart, pageStart + countOfPage)" class="mail" >
           <div class="panel panel-default">
             <div class="panel-body" style="border-style: ridge">
               <div class="row">
@@ -112,9 +112,9 @@
                 </div>
 
                 <div class="col-lg-10">
-                  <h2 style="font-size: 25px" align="left">{{ posts.link }}</h2>
+                  <h2 style="font-size: 25px" align="left">{{ mail.exp_position }}</h2>
                   <p style="font-size: 20px" align="left">
-                    {{ posts.cp_name }}
+                    {{ mail.name }}
                   </p>
                   <p
                     style="
@@ -128,7 +128,7 @@
                     "
                     align="left"
                   >
-                    {{ posts.requirement }}
+                    {{ mail.skills }}
                   </p>
                 </div>
               </div>
@@ -215,8 +215,8 @@ export default {
   name: "Mailbox",
   data() {
     return {
-      fb_info: null,
-      searchResult: null,
+      mails:null,
+      cp_info:null,
       countOfPage: 5,
       currPage: 1,
     };
@@ -228,7 +228,7 @@ export default {
     },
     //設定總頁數
     totalPage: function () {
-      return Math.ceil(this.searchResult.length / this.countOfPage);
+      return Math.ceil(this.mails.length / this.countOfPage);
     },
   },
   methods: {
@@ -241,14 +241,14 @@ export default {
     },
   },
   created() {
+    this.cp_info = this.$store.getters.getUser
     //axios獲取後臺資料
-    const api = "/api/posts";
-    //const params = { userId: 2 };
+    var cp_id = this.cp_info.ID
+    var api = "/api/company/${cp_id}/mails";
     axios
       .get(api)
       .then((response) => {
-        this.fb_info = response.data;
-        this.searchResult = response.data;
+        this.mails = response.data;
       })
       .catch(function (error) {
         // 請求失敗處理
