@@ -2,8 +2,30 @@
 <template>
   <div style="padding: 100px 100px 10px">
     <br />
-    <h3>企業登入</h3>
-    <router-link style="font-size: 20px" to="/login">實習生登入</router-link>
+    <h3>立即登入</h3>
+
+    <div
+      class="btn-group btn-group-toggle float-center"
+      data-toggle="buttons"
+      style="width: 50%"
+    >
+      <label
+        class="btn btn-light btn-sm"
+        style="font-size: 30px; background-color: #bcddfc71; width: 25%"
+        ><router-link type="radio" to="/login" style="color: black"
+          >實習生</router-link
+        ></label
+      >
+
+      <label
+        class="btn btn-light btn-sm"
+        style="font-size: 30px; background-color: #b0dffc; width: 25%"
+        ><router-link type="radio" to="/login_business" style="color: black"
+          >企業
+        </router-link></label
+      >
+    </div>
+
     <div
       class="panel panel-default col-md-6 offset-3"
       style="border-style: ridge"
@@ -12,7 +34,7 @@
       <div class="panel-body" style="padding: 50px">
         <form>
           <div class="form-group col-md-12 text-left">
-            <label for="userId">Email</label>
+            <label for="userId"><strong>Email</strong></label>
             <input
               v-model="email"
               type="text"
@@ -24,7 +46,7 @@
           <br />
 
           <div class="form-group col-md-12 text-left">
-            <label for="password">密 碼</label>
+            <label for="password"><strong>密碼</strong></label>
             <input
               v-model="password"
               type="password"
@@ -36,13 +58,12 @@
           <div class="checkbox">
             <input
               type="submit"
-              value="立即登入"
+              value="登入"
               class="btn"
               style="
-                width: 400px;
-                height: 60px;
                 font-size: 25px;
                 margin: 0px auto;
+                background-color: #bcddfc71;
               "
               @click="login"
             />
