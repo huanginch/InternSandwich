@@ -52,8 +52,8 @@ router.get('/company/:cp_id/cp_posts', (req, res, next) => {
 
 //發布貼文
 router.post('/company/:cp_id/cp_posts', postMiddleware.validatePost, (req, res, next) => {
-  var params = [req.params.cp_id, req.body.type, req.body.title, req.body.cp_name, req.body.requirement, req.body.benefits, req.body.job_desc, req.body.city, req.body.location, req.body.others]
-  var sql = 'INSERT INTO company_post (cp_id, type, title, cp_name, requirement, benefits, job_desc, city, location, others) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
+  var params = [req.params.cp_id, req.body.type, req.body.title, req.body.requirement, req.body.benefits, req.body.job_desc, req.body.city, req.body.location, req.body.others]
+  var sql = 'INSERT INTO company_post (cp_id, type, title, requirement, benefits, job_desc, city, location, others) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);';
 
   db(sql, params)
   .then(results =>{

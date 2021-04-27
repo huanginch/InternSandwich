@@ -14,7 +14,6 @@
         <form>
           <div class="form-group">
             <label
-              for="inputEmail4"
               style="
                 font-size: 25px;
                 background-color: #bcddfc71;
@@ -25,9 +24,9 @@
               <strong>實習名稱</strong>
             </label>
             <input
-              type="email"
+              v-model="title"
+              for="inputState"
               class="form-control"
-              id="inputEmail4"
               placeholder="請輸入實習名稱"
             />
           </div>
@@ -46,7 +45,7 @@
             >
               <strong>實習類別</strong>
             </label>
-            <select v-model="type" id="inputState" class="form-control">
+            <select v-model="type" class="form-control">
               <option>行銷</option>
               <option>資訊</option>
               <option>行政</option>
@@ -70,6 +69,7 @@
               <strong>實習內容</strong>
             </label>
             <textarea
+              v-model="job_desc"
               class="form-control"
               id="exampleFormControlTextarea1"
               rows="3"
@@ -92,7 +92,7 @@
               <strong>薪資待遇</strong>
             </label>
             <select
-              v-model="exp_treatment"
+              v-model="benefits"
               id="inputState"
               class="form-control"
             >
@@ -119,6 +119,7 @@
               <strong>條件要求</strong>
             </label>
             <textarea
+              v-model="requirement"
               class="form-control"
               id="exampleFormControlTextarea1"
               rows="3"
@@ -194,6 +195,7 @@
               <strong>其他</strong>
             </label>
             <textarea
+              v-model="others"
               class="form-control"
               id="exampleFormControlTextarea1"
               rows="3"
@@ -218,7 +220,7 @@
           <div class="form-group text-center">
             <div class="form-check">
               <input
-                type="submit"
+                @click="pushPosts"
                 value="發佈實習貼文"
                 class="btn"
                 style="
@@ -247,21 +249,22 @@ export default {
   },
   data() {
     return {
-      title: null,
-      type: null,
-      job_desc: null,
-      benefits: null,
-      requirement: null,
-      city: null,
-      location: null,
-      others: null,
+      cp_info:[],
+      title: "",
+      type: "",
+      job_desc: "",
+      benefits: "",
+      requirement: "",
+      city: "",
+      location: "",
+      others: "",
       invalidTitle: false,
       invalidJobDesc: false,
       invalidRequirement: false,
       invalidLocation: false,
     };
   },
-  computed: {
+  watch: {
     title: function (newValue) {
       this.invalidTitle = !newValue;
     },
@@ -280,7 +283,7 @@ export default {
       this.cp_info = this.$store.getters.getUser;
       //axios獲取後臺資料
       var cp_id = this.cp_info.ID;
-      var api = "/api/company/${cp_id}/cp_posts";
+      var api = `/api/company/${cp_id}/cp_posts`;
       var params = {
         cp_id: this.cp_id,
         title: this.title,
@@ -293,7 +296,7 @@ export default {
         others: this.others,
       };
       axios
-        .post(api)
+        .post(api, params)
         .then((response) => {
           var msg = response.data.msg;
           alert(msg);

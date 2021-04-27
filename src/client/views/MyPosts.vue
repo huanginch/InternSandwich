@@ -116,7 +116,7 @@
       <div class="col-lg-9">
         <!--eslint-disable-next-line-->
         <div
-          id="Mailbox" v-for="(post) in posts.slice( pageStart, pageStart + countOfPage )" class="post"
+          id="MyPosts" v-for="(post) in posts.slice( pageStart, pageStart + countOfPage )" class="post"
         >
           <div class="panel panel-default">
             <div class="panel-body" style="border-style: ridge">
@@ -131,10 +131,10 @@
 
                 <div class="col-lg-10">
                   <h2 style="font-size: 25px" align="left">
-                    {{ post.exp_position }}
+                    {{ post.title }}
                   </h2>
                   <p style="font-size: 20px" align="left">
-                    {{ post.name }}
+                    {{ post.job_desc }}
                   </p>
                   <p
                     style="
@@ -148,7 +148,7 @@
                     "
                     align="left"
                   >
-                    {{ post.skills }}
+                    {{ post.requirement }}
                   </p>
                 </div>
               </div>
@@ -169,8 +169,7 @@
                     >
                       <path
                         d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"
-                      /></svg
-                    >&nbsp;立即聯絡</a
+                      /></svg>&nbsp;立即聯絡</a
                   >
                   <a
                     href="#"
@@ -191,8 +190,7 @@
                       <path
                         fill-rule="evenodd"
                         d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
-                      /></svg
-                    >&nbsp;刪除履歷</a
+                      /></svg>&nbsp;刪除履歷</a
                   >
                 </div>
               </div>
@@ -240,7 +238,7 @@ export default {
   },
   data() {
     return {
-      cp_info:null,
+      cp_info:[],
       posts: null,
       countOfPage: 5,
       currPage: 1,
@@ -269,7 +267,7 @@ export default {
     this.cp_info = this.$store.getters.getUser;
     //axios獲取後臺資料
     var cp_id = this.cp_info.ID;
-    var api = "/api/company/${cp_id}/posts";
+    var api = `/api/company/${cp_id}/cp_posts`;
     axios
       .get(api)
       .then((response) => {

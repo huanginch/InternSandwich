@@ -43,7 +43,7 @@
           >
           <router-link
             class="nav-item nav-link"
-            to="/post"
+            to="/myposts"
             v-if="business_isLoggedIn"
             ><strong>企業專區</strong></router-link
           >
