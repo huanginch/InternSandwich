@@ -41,7 +41,7 @@
                 border-style="treeselect"
                 v-model="select_expertise"
                 :multiple="false"
-                :options="expertise"
+                :options="expertises"
                 placeholder="專長"
               />
             </div>
@@ -196,23 +196,22 @@ export default {
       select_department: null,
       select_expertise: null,
       select_position: null,
-      keyword: "",
       schools: [
         { id: "台大", label: "台大" },
         { id: "清華", label: "清華" },
         { id: "陽交大", label: "陽交大" },
-        { id: "政大", label: "政大" },
-        { id: "成大", label: "成大" },
-        { id: "中央", label: "中央" },
-        { id: "中山", label: "中山" },
+        { id: "長庚", label: "長庚" },
+        { id: "靜宜", label: "靜宜" },
+        { id: "實踐", label: "實踐" },
+        { id: "逢甲", label: "逢甲" },
         { id: "中正", label: "中正" },
-        { id: "中興", label: "中興" },
+        { id: "致理", label: "致理" },
       ],
       
       department: [
-        { id: "資管", label: "資管" },
+        { id: "資訊管理", label: "資訊管理" },
         { id: "會計", label: "會計" },
-        { id: "中文", label: "中文" },
+        { id: "材料", label: "材料" },
         { id: "電機", label: "電機" },
       ],
       expertises: [
@@ -245,6 +244,23 @@ export default {
       // 因為 JavaScript 的 filter 有分大小寫，
       // 所以這裡將 keyword 與 fb_info[n].cp_name 通通轉小寫方便比對。
       var keyword = this.keyword.toLowerCase();
+      var select_school = this.select_school;
+      var select_department = this.select_department;
+      var select_expertise = this.select_expertise;
+      var select_position = this.select_position;
+
+      if (select_school === null || select_school === undefined) {
+        select_school = "";
+      }
+      if (select_department === null || select_department === undefined) {
+        select_department = "";
+      }
+      if (select_expertise === null || select_expertise === undefined) {
+        select_expertise = "";
+      }
+      if (select_position === null || select_position === undefined) {
+        select_position = "";
+      }
 
       // 如果 filter_name 有內容，回傳過濾後的資料，否則將原本的 fb_posts 回傳。
       if (this.keyword.trim() !== "" || 
@@ -257,25 +273,26 @@ export default {
           return d.edu_and_exp.toLowerCase().indexOf(keyword) > -1 || d.skill.toLowerCase().indexOf(keyword) > -1;
         });
         
-        this.searchResult = this.resume_info.filter(function (d) {
+        this.searchResult = this.searchResult.filter(function (d) {
           return d.edu_and_exp.toLowerCase().indexOf(select_school) > -1 ;
         });
 
-        this.searchResult = this.resume_info.filter(function (d) {
+        this.searchResult = this.searchResult.filter(function (d) {
           return d.edu_and_exp.toLowerCase().indexOf(select_department) > -1 ;
         });
 
-        this.searchResult = this.resume_info.filter(function (d) {
+        this.searchResult = this.searchResult.filter(function (d) {
           return d.skills.toLowerCase().indexOf(select_expertise) > -1 ;
         });
 
-        this.searchResult = this.resume_info.filter(function (d) {
+        this.searchResult = this.searchResult.filter(function (d) {
           return d.exp_position.toLowerCase().indexOf(select_position) > -1 ;
         });
 
       } else {
         this.searchResult = this.resume_info;
       }
+      
     },
     //設定當前頁面
     setPage: function (idx) {
