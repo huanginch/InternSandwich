@@ -200,14 +200,15 @@ export default {
   
   data() {
     return {
-      resume_id: "",
+      user_info:"",
+      user_id: "",
       resume_info: [],
       exp_position:"",
       exp_treatment:"",
       exp_location:"",
       edu_and_exp:"",
       skills:"",
-      others:"",
+      others:null,
       invalidEP:false,
       invalidEaE:false,
       invalidSkills:false,
@@ -232,9 +233,6 @@ export default {
   },
   methods: {
     sendResume: function(){
-      if(!this.others){
-        this.others = "無";
-      }
       var api = "/api/resume";
       var params = {
         user_id: this.$store.getters.getUser.ID,
@@ -256,9 +254,6 @@ export default {
       });
     },
     updateResume: function(){
-      if(!this.others){
-        this.others = "無";
-      }
       var api = "/api/resume";
       var params = {
         user_id: this.$store.getters.getUser.ID,
@@ -281,7 +276,8 @@ export default {
     }
   },
   created() {
-    this.resume_id = this.$store.getters.getUser.ID;
+    this.user_info = this.$store.getters.getUser
+    this.user_id = this.$store.getters.getUser.ID;
     var api = "/api/resume";
 
     axios
@@ -290,11 +286,11 @@ export default {
         var _this = this
         this.resume_info = response.data;
         this.resume_info = this.resume_info.filter(function (d,index) {
-          return d.u_id.toString().indexOf(_this.resume_id) > -1; 
+          return d.u_id.toString().indexOf(_this.user_id) > -1; 
         });
-        console.log(this.resume_info)
+        
 
-        if(this.resume_info[0].skills){
+        if(this.resume_info[0].u_id){
           this.Committed = true
           this.exp_position = this.resume_info[0].exp_position
           this.exp_location = this.resume_info[0].exp_location

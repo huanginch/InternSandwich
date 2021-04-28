@@ -262,7 +262,8 @@ export default {
     singup: function () {
       if (!this.checked) {
         alert("請同意服務條款");
-      } else {
+      } 
+      else {
         const credentials = {
           name: this.name,
           gender: this.gender,
@@ -286,6 +287,26 @@ export default {
           .catch((err) => {
             this.msg = err.response.data.msg;
             alert(this.msg);
+          });
+
+        //存資料到履歷
+        var api = "/api/resume";
+        var params = {
+          user_id: this.$store.getters.getUser.ID,
+          exp_position: null,
+          exp_treatment: null,
+          exp_location: null,
+          edu_and_exp: null,
+          skills: null,
+          others: null
+        }
+
+        axios
+          .post(api,params)
+          .then((response) => {
+          })
+          .catch((error) => {
+            console.log(error);
           });
       }
     },

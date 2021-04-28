@@ -88,6 +88,20 @@ router.get('/company/:cp_id/mails', (req, res, next) => {
   })
 })
 
+//送出履歷信件
+router.post('/company/:cp_id/mails', (req, res, next) => {
+  var params = [req.params.id, req.body.u_id, req.body.cp_id, req.body.exp_position, req.body.exp_treatment, req.body.exp_location, req.body.edu_and_exp, req.body.skills, req.body.others]
+  var sql = 'INSERT INTO mailbox (p_id, u_id, cp_id, exp_position, exp_treatment, exp_location, edu_and_exp, skills, others) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);';
+
+  db(sql, params)
+  .then(results =>{
+    res.send({msg:"寄送成功"});
+  })
+  .catch(err =>{
+    res.status(500).send("err:",err)
+  })
+})
+
 //刪除履歷信箱信件
 router.delete('/company/:cp_id/mails', (req, res, next) => {
   var params = req.body.id
@@ -383,7 +397,7 @@ router.post('/company-register', companyMiddleware.validateRegister, (req, res, 
         } 
         else {
           // has hashed pw => add to database
-          const params = [escape(req.body.name), req.body.address, escape(req.body.phone), escape(req.body.email), hash];
+          const params = [req.body.name, req.body.address, escape(req.body.phone), escape(req.body.email), hash];
           sql = "INSERT INTO company_info (name, address, phone, email, password) VALUES (?, ?, ?, ?, ?);"
           db(sql,params)
           .then(result => {
