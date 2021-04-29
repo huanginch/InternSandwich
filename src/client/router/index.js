@@ -1,10 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-//實習生端
-import Home from '../views/Home.vue' //找實習
-import Intern from '../views/Intern.vue' //實習內容頁面
-import Save from '../views/Save.vue'//收藏
 
 //登入註冊
 import Login from '../views/Login.vue' //實習生登入
@@ -12,16 +8,24 @@ import Login_business from '../views/Login_business'//企業登入
 import Register from '../views/Register.vue' //實習生註冊
 import Register_business from '../views/Register_business.vue'//企業註冊
 
+//實習生端
+import Home from '../views/Home.vue' //找實習
+import Intern from '../views/Intern.vue' //實習內容頁面
+import Save from '../views/Save.vue'//收藏
+import BusinessPosts from '../views/BusinessPosts.vue' //公司貼文
+import BusinessComments from '../views/BusinessComments.vue' //公司評論
+
 //企業端
 import Finder from '../views/Finder.vue' //找實習生
 import Profile from '../views/Profile.vue' //實習生內容頁面
-import Post from '../views/Post.vue'//發文頁面
-import MyPosts from '../views/MyPosts.vue'//我的文章
+import MyPosts from '../views/MyPosts.vue'//我的貼文
+import Post from '../views/Post.vue'//刊登貼文
 
 //履歷
 import Resume from '../views/Resume.vue' //履歷模板
 import Mailbox from '../views/Mailbox.vue' //履歷信箱
 import InternMails from '../views/InternMails.vue' //立即應徵
+
 
 
 
@@ -96,6 +100,16 @@ const routes = [{
   path: '/intern_mails',
   name: 'InternMails',
   component: InternMails
+},
+{
+  path: '/businessposts',
+  name: 'BusinessPosts',
+  component: BusinessPosts
+},
+{
+  path: '/businesscomments',
+  name: 'BusinessComments',
+  component: BusinessComments
 }
 ]
 

@@ -1,156 +1,13 @@
-<!-- 找實習 -->
+<!-- 公司評論 -->
 <template>
   <div style="padding: 100px 100px 10px">
-    <br />
-    <!-- Searchbar -->
-    <form class="bs-example bs-example-form" role="form">
-      <div class="row align-items-center">
-        <div class="col-lg-12">
-          <div class="input-group mt-3 mb-3">
-            <!-- 類別關鍵字下拉選單 -->
-            <!-- <select v-model="select_jobclass" class="btn btn-default">
-              <option value="">類別</option>
-            
-              <option
-                v-for="jobclass in jobclasses"
-                v-bind:value="jobclass.value"
-              >
-                {{ jobclass.text }}
-              </option>
-            </select> -->
-            <div class="col-3">
-              <treeselect
-                border-style="treeselect"
-                v-model="select_jobclass"
-                :multiple="true"
-                :options="treejob"
-                placeholder="類別"
-              />
-            </div>
-            <!-- <select v-model="select_area" class="btn btn-default">
-              <option value="">地區</option>
- 
-              <option v-for="area in areas" v-bind:value="area.value">
-                {{ area.text }}
-              </option>
-            </select> -->
-            <div class="col-3">
-              <treeselect
-                v-model="select_area"
-                :multiple="true"
-                :options="treearea"
-                :disable-branch-nodes="true"
-                placeholder="地區"
-              />
-            </div>
-            <!-- 搜尋欄 -->
-            <input
-              v-model="keyword"
-              type="text"
-              placeholder="輸入關鍵字"
-              class="form-control col-lg-7"
-              style="border-radius: 10px; height: 38px"
-              @keyup.enter="filteredPosts"
-            />
-            <!--eslint-disable-next-line-->
-            <button class="btn btn-sm" @click="filteredPosts">搜尋</button>
-          </div>
-        </div>
-      </div>
-    </form>
-    <br />
+    <Business_info_user :cp_info="cp_info" />
 
-    <!--實習貼文與熱門搜尋  -->
     <div class="row">
-      <div class="col-lg-9">
-        <!--<button class="btn float-right" style="font-size:17px" @click="sortOldtoNew">觀看次數由少到多</button> -->
-
-        <!-- <select v-model = "intern_sort" class = "btn btn-default" @change="sortBy()">
-                <option @change="sortNewtoOld">從新到舊</option>
-                <option @change="sortOldtoNew">從舊到新</option>
-                <option @change="sortPopularity">觀看次數</option>
-              </select> -->
-
-        <div
-          class="btn-group btn-group-toggle float-right"
-          data-toggle="buttons"
-        >
-          <label class="btn btn-light btn-sm">
-            <input
-              type="radio"
-              name="options"
-              id="option1"
-              autocomplete="off"
-              @click="sortPopularity"
-            />
-            觀看次數
-          </label>
-          <label class="btn btn-light btn-sm">
-            <input
-              type="radio"
-              name="options"
-              id="option2"
-              autocomplete="off"
-              @click="sortNewtoOld"
-            />
-            從新到舊
-          </label>
-          <label class="btn btn-light btn-sm">
-            <input
-              type="radio"
-              name="options"
-              id="option3"
-              autocomplete="off"
-              @click="sortOldtoNew"
-            />
-            從舊到新
-          </label>
-        </div>
-        <br /><br />
-
-        <!-- <select
-          name="intern_sort"
-          id="intern_sort"
-          v-model="intern_sort"
-          class="btn btn-default"
-          @change="intern_sort(sortType)"
-        >
-          <option value="">貼文排序</option>
-          
-          <option
-            v-for="items in intern_sort_item"
-            v-bind:click="intern_sort_item.value"
-          >
-            {{ items.text }}
-          </option>
-        </select>
-
-        <button
-          class="btn float-right"
-          style="font-size: 17px"
-          @click="sortNewtoOld"
-        >
-          由新到舊
-        </button>
-        <button
-          class="btn float-right"
-          style="font-size: 17px"
-          @click="sortOldtoNew"
-        >
-          由舊到新
-        </button>
-        <button
-          class="btn float-right"
-          style="font-size: 17px"
-          @click="sortPopularity"
-        >
-          觀看次數
-        </button>
-        <br /><br /> -->
-
+      <div class="col-lg-9 text-left">
         <!-- 實習貼文 -->
         <!--eslint-disable-next-line-->
-        <div id="Home" v-for="(posts, index) in searchResult.slice(pageStart, pageStart + countOfPage)" class="posts" >
+        <div id="Home" v-for="(posts, index) in searchResult.slice(pageStart,pageStart + countOfPage)" class="posts">
           <div class="panel panel-default text-left">
             <div class="panel-body" style="border-style: ridge">
               <!-- ridge groove inset outset -->
@@ -161,13 +18,13 @@
                   <img
                     src="../assets/圖片1.png"
                     alt="internsandwich"
-                    style="vertical-align: bottom; height: 120px"
+                    style="vertical-align: bottom; height: 100px"
                   />
                 </div>
                 <div class="col-lg-10">
                   <div class="row">
                     <div class="col-lg-9">
-                      <span
+                      <p
                         style="
                           font-size: 30px;
                           height: 40px;
@@ -178,7 +35,7 @@
                         align="left"
                       >
                         <strong>{{ posts.title }}</strong>
-                      </span>
+                      </p>
                     </div>
                     <div class="col-lg-3">
                       <p
@@ -193,12 +50,6 @@
                       </p>
                     </div>
                   </div>
-
-                  <p style="font-size: 20px;" align="left">
-                    <router-link to="/businessposts">{{
-                      posts.cp_name
-                    }}</router-link>
-                  </p>
                   <p
                     style="
                       font-size: 15px;
@@ -331,158 +182,201 @@
                   </div>
                 </div>
               </div>
-              <!-- </router-link> -->
             </div>
           </div>
         </div>
-        <!--  
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <div class="ppp">
-                  <div class="photo">
-                    <img
-                      src="../assets/圖片1.png"
-                      alt="internsandwich"
-                      height="150px"
-                    />
-                  </div>
-                  <a style="font-size: 25px">採購實習生</a><br />
-                  <a style="font-size: 20px">全聯大賣場股份有限公司</a><br />
-                  <a style="font-size: 15px"
-                    >1.原物料採購(國內/進口料)、結帳作業。 2.供應商資料維護。
-                    3.收料、庫存管理。 4. 原料退稅作業。 5. 主管交辦事項。</a
-                  ><br />
-                </div>
-                <div class="ppp2">
-                  <div class="row float-right">
-                    <a
-                      href="#"
-                      class="btn"
-                      style="width: 200px; height: 50px; font-size: 20px"
-                      >查看評論</a
-                    >
-                    <a
-                      href="#"
-                      class="btn"
-                      style="width: 200px; height: 50px; font-size: 20px"
-                      >收藏</a
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <div class="ppp">
-                  <div class="photo">
-                    <img
-                      src="../assets/圖片1.png"
-                      alt="internsandwich"
-                      height="150px"
-                    />
-                  </div>
-                  <a style="font-size: 25px">資安實習生</a><br />
-                  <a style="font-size: 20px">中正大學研發處</a><br />
-                  <a style="font-size: 15px"
-                    >協助資安檢測工具研發，包含分析、設計、程式撰寫及軟體測試 -
-                    協助軟體開發文件之撰寫與維護 -
-                    協助新技術、法規與產品的研究</a
-                  ><br />
-                </div>
-                <div class="ppp2">
-                  <div class="row float-right">
-                    <a
-                      href="#"
-                      class="btn"
-                      style="width: 200px; height: 50px; font-size: 20px"
-                      >查看評論</a
-                    >
-                    <a
-                      href="#"
-                      class="btn"
-                      style="width: 200px; height: 50px; font-size: 20px"
-                      >收藏</a
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
--->
+        <hr border-style="solid" />
       </div>
-      <RecommendPost
-        title="熱門實習"
-        :recommend_posts="top5_post"
-        :addcounter="addcounter"
-      />
-      <!--熱門搜尋  -->
-      <!--<div class="col-lg-3">
-        <p class="text-left"><strong>熱門實習</strong></p>-->
-      <!--eslint-disable-next-line-->
-      <!--<div id="Home" v-for="(posts, index) in top5_post" class="posts" >
-          <div class="panel">
-            <div class="panel-body">
-              <div class="row">
-                <div class="col-lg-3">
-                  <img
-                    src="../assets/圖片1.png"
-                    alt="internsandwich"
-                    style="height: 70px"
-                  />
-                </div>
-                <div class="col-lg-9">
-                  <p style="font-size: 25px" align="left">{{ posts.title }}</p>
-                  <p style="font-size: 18px" align="left">
-                    {{ posts.cp_name }}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-1">
+        <img src="../assets/圖片5.png" alt="internsandwich" height="120px" />
+      </div>
+      <div class="col-lg-8 text-left">
+        <div class="input-group mt-3 mb-3 input-group-lg">
+          <input
+            v-if="!isLoggedIn"
+            disabled
+            type="text"
+            class="form-control"
+            placeholder="登入以查看評論......"
+          />
+          <textarea
+            v-else
+            v-model="myNewComment"
+            class="form-control"
+            placeholder="留下評論......"
+            @keyup.enter="pushcomment"
+          ></textarea>
+          <!-- <a v-else v-model="myNewComment" type="text" class="form-control">{{
+              myNewComment
+            }}</a> -->
+          <button
+            class="btn"
+            type="button"
+            @click="pushcomment"
+            v-if="isLoggedIn"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="22"
+              fill="currentColor"
+              class="bi bi-cursor-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103z"
+              />
+            </svg>
+            發佈評論
+          </button>
+          <div class="input-group-btn"></div>
         </div>
-       
-      </div>-->
+      </div>
+      <div class="col-lg-3"></div>
     </div>
     <br />
-    <!-- 換頁按鈕 -->
-    <ul
-      class="pagination pagination-sm justify-content-center"
-      style="margin: 20px 0"
-    >
-      <li
-        v-bind:class="{ disabled: currPage === 1 }"
-        @click.prevent="setPage(currPage - 1)"
-      >
-        <button class="page-link" href="#">上一頁</button>
-      </li>
-      <!--eslint-disable-next-line-->
-      <li
-        v-for="n in totalPage"
-        v-bind:class="{ active: currPage === n }"
-        @click.prevent="setPage(n)"
-      >
-        <button class="page-link" href="#">{{ n }}</button>
-      </li>
-      <li
-        v-bind:class="{ disabled: currPage === totalPage }"
-        @click.prevent="setPage(currPage + 1)"
-      >
-        <button class="page-link" href="#">下一頁</button>
-      </li>
-    </ul>
+    <div v-for="(comment, index) in comment_info" :key="comment.ID">
+      <div class="row">
+        <div class="col-lg-1">
+          <img src="../assets/圖片2.png" alt="internsandwich" height="75px" />
+        </div>
+        <!-- <p style="font-size: 15px">{{ comment.U_ID }}</p> -->
+        <div class="col-lg-6 text-left">
+          <div
+            class="panel panel-default"
+            v-show="comment.ID != temp_comment.ID || !editing"
+          >
+            <div class="panel-body">
+              <div class="ppp-intern">
+                <p style="font-size: 20px">{{ comment.context }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mt-3 mb-3">
+            <textarea
+              v-show="comment.ID === temp_comment.ID && editing"
+              v-model="comment.context"
+              class="form-control"
+            ></textarea>
+
+            <button
+              class="btn"
+              type="button"
+              style="font-size: 20px"
+              @click="finishedit"
+              v-show="comment.ID === temp_comment.ID && editing"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-check-circle-fill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+                />
+              </svg>
+              完成
+            </button>
+            <button
+              class="btn"
+              type="button"
+              style="font-size: 20px"
+              @click="canceledit(index)"
+              v-show="comment.ID === temp_comment.ID && editing"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-x-circle-fill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"
+                />
+              </svg>
+              取消
+            </button>
+            <div class="input-group-btn"></div>
+          </div>
+        </div>
+
+        <button
+          class="btn"
+          type="button"
+          style="width: 107px; height: 80px; font-size: 20px"
+          @click="editcomment(comment)"
+          v-show="isMycomment(comment.U_ID) && !editing"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-pencil-square"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"
+            />
+            <path
+              fill-rule="evenodd"
+              d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
+            />
+          </svg>
+          編輯
+        </button>
+        <button
+          class="btn"
+          type="button"
+          style="width: 107px; height: 80px; font-size: 20px"
+          @click="deletecomment(comment.ID)"
+          v-show="isMycomment(comment.U_ID) && !editing"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-trash"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
+            />
+            <path
+              fill-rule="evenodd"
+              d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+            />
+          </svg>
+          刪除
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import axios from "../js/axios.js";
 import RecommendPost from "../components/RecommendPost.vue";
+import Business_info_user from "../components/Business_info_user.vue";
 // import the component
 import Treeselect from "@riophae/vue-treeselect";
 // import the styles
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+
 export default {
   name: "Home",
   components: {
     RecommendPost,
     Treeselect,
+    Business_info_user,
   },
   data() {
     return {
@@ -495,153 +389,14 @@ export default {
       select_area: null,
       intern_sort: "",
       keyword: "",
-      sortType: "sort",
-      intern_sort_item: [
-        { text: "從新到舊", value: "sortNewtoOld" },
-        { text: "從舊到新", value: "sortOldtoNew" },
-        { text: "觀看次數", value: "sortPopularity" },
-      ],
-      treearea: [
-        {
-          id: "北部",
-          label: "北部",
-          children: [
-            {
-              id: "台北",
-              label: "台北",
-            },
-            {
-              id: "新北",
-              label: "新北",
-            },
-            {
-              id: "桃園",
-              label: "桃園",
-            },
-            {
-              id: "新竹",
-              label: "新竹",
-            },
-            {
-              id: "基隆",
-              label: "基隆",
-            },
-          ],
-        },
-        {
-          id: "中部",
-          label: "中部",
-          children: [
-            {
-              id: "台中",
-              label: "台中",
-            },
-            {
-              id: "彰化",
-              label: "彰化",
-            },
-            {
-              id: "雲林",
-              label: "雲林",
-            },
-            {
-              id: "苗栗",
-              label: "苗栗",
-            },
-            {
-              id: "南投",
-              label: "南投",
-            },
-          ],
-        },
-        {
-          id: "南部",
-          label: "南部",
-          children: [
-            {
-              id: "高雄",
-              label: "高雄",
-            },
-            {
-              id: "台南",
-              label: "台南",
-            },
-            {
-              id: "屏東",
-              label: "屏東",
-            },
-            {
-              id: "嘉義",
-              label: "嘉義",
-            },
-          ],
-        },
-        {
-          id: "東部",
-          label: "東部",
-          children: [
-            {
-              id: "花蓮",
-              label: "花蓮",
-            },
-            {
-              id: "台東",
-              label: "台東",
-            },
-          ],
-        },
-      ],
-      treejob: [
-        {
-          id: "金融",
-          label: "金融",
-        },
-        {
-          id: "資訊",
-          label: "資訊",
-        },
-        {
-          id: "會計",
-          label: "會計",
-        },
-        {
-          id: "人資",
-          label: "人資",
-        },
-        {
-          id: "行銷",
-          label: "行銷",
-        },
-        {
-          id: "餐飲",
-          label: "餐飲",
-        },
-        {
-          id: "業務",
-          label: "業務",
-        },
-        {
-          id: "營建",
-          label: "營建",
-        },
-        {
-          id: "藝術",
-          label: "藝術",
-        },
-        {
-          id: "教育",
-          label: "教育",
-        },
-        {
-          id: "製造",
-          label: "製造",
-        },
-        {
-          id: "保全",
-          label: "保全",
-        },
-      ],
+      user_info: "",
+      user_id: "",
+      comment_info: "",
+      myNewComment: "",
+      editing: false,
+      temp_comment: "",
       saved_posts: [],
+      counter: "",
     };
   },
   computed: {
@@ -698,37 +453,17 @@ export default {
         this.searchResult = this.intern_info.filter(function (d) {
           return d.title.toLowerCase().indexOf(keyword) > -1; //過濾關鍵字
         });
-        // console.log(this.keyword.trim() !== "");
-        // console.log(select_jobclass);
-        // console.log(select_area);
-
-        // 0426問題  cp_name無法搜尋
-        this.searchResult = this.intern_info.filter(function (d) {
-          return (
-            d.cp_name.toLowerCase().indexOf(keyword) > -1 ||
-            d.job_desc.toLowerCase().indexOf(keyword) > -1 ||
-            d.cp_name.toLowerCase().indexOf(keyword) > -1
-          ); //過濾關鍵字
-        });
-
-        // this.searchResult = this.intern_info.filter(function (d) {
-        //   return d.job_desc.toLowerCase().indexOf(keyword) > -1; //過濾關鍵字
-        // });
+        console.log(this.keyword.trim() !== "");
+        console.log(select_jobclass);
+        console.log(select_area);
 
         this.searchResult = this.searchResult.filter(function (d) {
           return d.title.toLowerCase().indexOf(select_jobclass) > -1; //過濾類別
         });
 
         this.searchResult = this.searchResult.filter(function (d) {
-          return (
-            d.title.toLowerCase().indexOf(select_area) > -1 ||
-            d.job_desc.toLowerCase().indexOf(select_area) > -1
-          ); //過濾地區
+          return d.title.toLowerCase().indexOf(select_area) > -1; //過濾地區
         });
-
-        // this.searchResult = this.searchResult.filter(function (d) {
-        //   return d.job_desc.toLowerCase().indexOf(select_area) > -1; //過濾地區
-        // });
       } else {
         this.searchResult = this.intern_info;
       }
@@ -802,7 +537,122 @@ export default {
         });
     },
   },
+  //顯示評論
+  showcomments: function () {
+    var api = "/api/show-comments";
+    var params = {
+      p_id: this.post_id,
+    };
+    axios
+      .get(api, { params })
+      .then((response) => {
+        this.comment_info = response.data;
+
+        //評論排序由新到舊
+        this.comment_info.sort(function (p1, p2) {
+          return p2.ID - p1.ID;
+        });
+        // //如果登入就找到自己的評論
+        // if (this.isLoggedIn) {
+        //   this.myNewComment = this.comment_info.filter(
+        //     (result) => result.U_ID === this.user_id
+        //   );
+
+        //   //找到就顯示有評論
+        //   if (this.myNewComment) {
+        //     this.myNewComment = this.myNewComment[0]["context"];
+        //   }
+
+        //   this.comment_info = this.comment_info.filter(
+        //     (result) => result.U_ID != this.user_id
+        //   );
+        // }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+
+  //留下評論
+  pushcomment: function () {
+    if (this.myNewComment) {
+      //存入資料庫
+      var api = "/api/comment";
+      var params = {
+        p_id: this.post_id,
+        u_id: this.user_id,
+        context: this.myNewComment,
+      };
+
+      axios
+        .post(api, params)
+        .then((response) => {
+          //即時更新留言
+          this.showcomments();
+          this.myNewComment = "";
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  },
+
+  //編輯評論
+  editcomment: function (comment) {
+    this.editing = true;
+    this.temp_comment = comment;
+  },
+
+  //完成編輯評論
+  finishedit: function () {
+    this.editing = false;
+
+    //存入資料庫
+    var api = "/api/modify-comment";
+    var params = {
+      ID: this.temp_comment.ID,
+      context: this.temp_comment.context,
+    };
+
+    axios
+      .patch(api, params)
+      .then((response) => {})
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+
+  //取消編輯評論
+  canceledit: function (index) {
+    this.comment_info[index]["context"] = this.temp_comment.context;
+    this.editing = false;
+  },
+
+  //刪除評論
+  deletecomment: function (ID) {
+    //this.comment_info.splice(ID,1)
+
+    var api = "/api/delete-comment";
+    var params = { ID: ID };
+    axios
+      .delete(api, { data: params })
+      .then((response) => {
+        //即時更新留言
+        this.showcomments();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+  isMycomment: function (u_id) {
+    return u_id === this.user_id;
+  },
+
   created() {
+    this.user_info = this.$store.getters.getUser;
+    this.user_id = this.user_info["ID"];
+    this.post_id = this.$route.params.post_id;
+
     //axios獲取後臺資料
     var api = "/api/posts";
     //const params = { userId: 2 };
