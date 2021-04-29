@@ -187,6 +187,7 @@
   </template>
 <script>
   import axios from "../js/axios.js";
+
   export default {
     name: "Profile",
     
@@ -252,7 +253,7 @@
       }
     },
     created() {
-        this.$on('bus',(data) =>{
+        this.$bus.$on('bus',(data) =>{
             this.cp_id = data.cp_id
             this.p_id = data.p_id
             this.cp_name = data.cp_name

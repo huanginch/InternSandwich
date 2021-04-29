@@ -2,6 +2,7 @@ import '@babel/polyfill'
 import 'mutationobserver-shim'
 import Vue from 'vue'
 import store from './store';
+import bus from './js/bus.js';
 //import VueRouter from 'vue-router'
 // import './plugins/bootstrap-vue'
 import App from './App.vue'
@@ -28,6 +29,7 @@ axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
 Vue.config.productionTip = false
 
 new Vue({
+  bus,
   router,
   store,
   bootstrap_css,
