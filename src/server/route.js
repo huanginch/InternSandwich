@@ -9,9 +9,22 @@ const userMiddleware = require('./middleware/users.js');
 const companyMiddleware = require('./middleware/company.js');
 const postMiddleware = require('./middleware/posts.js');
 
-//首頁貼文
+//首頁貼文(爬蟲貼文)
 router.get('/posts', (req, res, next) => {
   var sql = 'select * from intern_post';
+
+  db(sql)
+  .then(results =>{
+    res.send(results);
+  })
+  .catch(err =>{
+    res.status(500).send("err:",err)
+  })
+})
+
+//首頁貼文(公司貼文)
+router.get('/company_posts', (req, res, next) => {
+  var sql = 'select * from company_post';
 
   db(sql)
   .then(results =>{
