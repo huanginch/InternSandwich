@@ -9,7 +9,7 @@ const userMiddleware = require('./middleware/users.js');
 const companyMiddleware = require('./middleware/company.js');
 const postMiddleware = require('./middleware/posts.js');
 
-//首頁貼文
+//首頁貼文(爬蟲貼文)
 router.get('/posts', (req, res, next) => {
   var sql = 'select * from intern_post';
 
