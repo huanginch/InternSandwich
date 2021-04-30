@@ -16,7 +16,7 @@
                   </div>
                   <div class="col-lg-10">
                     <p style="font-size: 40px">
-                      <strong>這是公司名稱</strong>
+                      <strong>{{cp_info[0].name}}</strong>
                     </p>
 
                     <div class="row">
@@ -32,8 +32,7 @@
                           >
                             <path
                               d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"
-                            /></svg
-                          ><strong>&nbsp;地址：</strong>這是公司地址
+                            /></svg><strong>&nbsp;地址：</strong>{{cp_info[0].address}}
                         </p>
 
                         <p style="font-size: 20px">
@@ -46,9 +45,7 @@
                             viewBox="0 0 16 16"
                           >
                             <path
-                              d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"
-                            /></svg
-                          ><strong>&nbsp;電話：</strong>這是公司電話
+                              d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/></svg><strong>&nbsp;電話：</strong>{{cp_info[0].phone}}
                         </p>
                         <p style="font-size: 20px">
                           <svg
@@ -61,20 +58,19 @@
                           >
                             <path
                               d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"
-                            /></svg
-                          ><strong>&nbsp;email：</strong>這是公司email
+                            /></svg><strong>&nbsp;email：</strong>{{cp_info[0].email}}
                         </p>
                         <div
                           class="btn-group btn-group-toggle float-center"
                           data-toggle="buttons"
                           style="float: center"
                         >
-                          <router-link to="/businessposts">
+                          <router-link :to="{ name: 'BusinessPosts', params: { cp_id: cp_info.id }}">
                             <label class="btn btn-light btn-sm">
                               公司貼文
                             </label>
                           </router-link>
-                          <router-link to="/businesscomments">
+                          <router-link :to="{ name: 'BusinessComments', params: { cp_id: cp_info.id }}">
                             <label class="btn btn-light btn-sm">
                               公司評論
                             </label>

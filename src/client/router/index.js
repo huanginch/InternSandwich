@@ -9,8 +9,9 @@ import Register from '../views/Register.vue' //實習生註冊
 import Register_business from '../views/Register_business.vue'//企業註冊
 
 //實習生端
-import Home from '../views/Home.vue' //找實習
-import Intern from '../views/Intern.vue' //實習內容頁面
+import Home from '../views/Home.vue' //找實習(首頁)
+import Intern from '../views/Intern.vue' //實習內容頁面(爬蟲)
+import Intern_Business from '../views/Intern_Business.vue' //實習內容頁面(公司發文)
 import Save from '../views/Save.vue'//收藏
 import BusinessPosts from '../views/BusinessPosts.vue' //公司貼文
 import BusinessComments from '../views/BusinessComments.vue' //公司評論
@@ -40,6 +41,11 @@ const routes = [{
   path: '/intern/:post_id',
   name: 'Intern',
   component: Intern,
+},
+{
+  path: '/intern_business/:post_id',
+  name: 'Intern_Business',
+  component: Intern_Business,
 },
 {
   path: '/login',
@@ -102,12 +108,12 @@ const routes = [{
   component: InternMails
 },
 {
-  path: '/businessposts',
+  path: '/businessposts/:cp_id',
   name: 'BusinessPosts',
   component: BusinessPosts
 },
 {
-  path: '/businesscomments',
+  path: '/businesscomments/:cp_id',
   name: 'BusinessComments',
   component: BusinessComments
 }

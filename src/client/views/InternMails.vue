@@ -187,7 +187,7 @@
   </template>
 <script>
   import axios from "../js/axios.js";
-
+  import bus from "../js/bus.js";
   export default {
     name: "Profile",
     
@@ -253,12 +253,13 @@
       }
     },
     created() {
-        this.$bus.$on('bus',(data) =>{
-            this.cp_id = data.cp_id
-            this.p_id = data.p_id
-            this.cp_name = data.cp_name
+        bus.on("bus",data =>{
+            //this.cp_id = data.cp_id
+            console.log("bus on:",data)
+            this.p_id = data
+            //this.cp_name = data.cp_name
         })
-        console.log("cp_name:",this.cp_name)
+        console.log("p_id:",this.p_id)
         this.u_id = this.$store.getters.getUser.ID;
         var api = "/api/resume";
   
@@ -284,5 +285,8 @@
             console.log(error);
             });
     },
+    destroyed(){
+      bus.off("bus");
+    }
   };
   </script>

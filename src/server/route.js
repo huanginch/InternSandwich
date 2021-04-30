@@ -22,6 +22,19 @@ router.get('/posts', (req, res, next) => {
   })
 })
 
+//首頁貼文(公司貼文)
+router.get('/company_posts', (req, res, next) => {
+  var sql = 'select * from company_post';
+
+  db(sql)
+  .then(results =>{
+    res.send(results);
+  })
+  .catch(err =>{
+    res.status(500).send("err:",err)
+  })
+})
+
 //取得企業資訊
 router.get('/company/:cp_id', (req, res, next) => {
   var params = req.params.cp_id
@@ -36,10 +49,24 @@ router.get('/company/:cp_id', (req, res, next) => {
   })
 })
 
-//取得企業貼文
+//取得單一企業貼文
 router.get('/company/:cp_id/cp_posts', (req, res, next) => {
   var params = req.params.cp_id
   var sql = 'select * from company_post WHERE cp_id = ?';
+
+  db(sql,params)
+  .then(results =>{
+    res.send(results);
+  })
+  .catch(err =>{
+    res.status(500).send("err:",err)
+  })
+})
+
+//取得單一企業貼文
+router.get('/company/cp_posts/:post_id', (req, res, next) => {
+  var params = req.params.post_id
+  var sql = 'select * from company_post WHERE id = ?';
 
   db(sql,params)
   .then(results =>{

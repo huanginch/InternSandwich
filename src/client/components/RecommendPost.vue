@@ -21,7 +21,7 @@
               </div>
               <div class="col-lg-9">
                 <p style="font-size: 20px" align="left">{{ posts.title }}</p>
-                <p style="font-size: 20px" align="left">{{ posts.cp_name }}</p>
+                <pre style="font-size: 20px" align="left">{{ posts.job_desc }}</pre>
               </div>
             </div>
           </div>
