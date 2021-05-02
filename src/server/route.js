@@ -24,7 +24,7 @@ router.get('/posts', (req, res, next) => {
 
 //首頁貼文(公司貼文)
 router.get('/company_posts', (req, res, next) => {
-  var sql = 'select * from company_post';
+  var sql = 'select company_post.id, name as cp_name, cp_id, type, title, job_desc, counter from company_post INNER JOIN company_info ON company_post.cp_id = company_info.ID';
 
   db(sql)
   .then(results =>{
@@ -49,7 +49,7 @@ router.get('/company/:cp_id', (req, res, next) => {
   })
 })
 
-//取得單一企業貼文
+//取得單一企業發布過的所有貼文
 router.get('/company/:cp_id/cp_posts', (req, res, next) => {
   var params = req.params.cp_id
   var sql = 'select * from company_post WHERE cp_id = ?';
@@ -63,10 +63,10 @@ router.get('/company/:cp_id/cp_posts', (req, res, next) => {
   })
 })
 
-//取得單一企業貼文
+//取得單一企業單一貼文
 router.get('/company/cp_posts/:post_id', (req, res, next) => {
   var params = req.params.post_id
-  var sql = 'select * from company_post WHERE id = ?';
+  var sql = 'select * from company_post WHERE id = ? ';
 
   db(sql,params)
   .then(results =>{
@@ -442,7 +442,7 @@ router.post('/company-register', companyMiddleware.validateRegister, (req, res, 
   })
 })
 
-//取得收藏貼文
+//取得收藏貼文(爬蟲)
 router.get('/show-save', (req, res, next) => {
   const params = escape(req.query.u_id);
   var sql = "SELECT id, u_id, save.p_id, title, cp_name, job_desc FROM save INNER JOIN intern_post ON save.p_id = intern_post.id WHERE u_id = ?"
@@ -455,7 +455,7 @@ router.get('/show-save', (req, res, next) => {
   })
 });
 
-//收藏貼文
+//收藏貼文(爬蟲)
 router.post('/save', userMiddleware.isLoggedIn, (req, res, next) => {
   const params = [escape(req.body.p_id), escape(req.body.u_id)];
   var sql = "SELECT * FROM save WHERE p_id = ? AND u_id = ?"
@@ -480,10 +480,62 @@ router.post('/save', userMiddleware.isLoggedIn, (req, res, next) => {
   })
 });
 
-//取消收藏
+//取消收藏(爬蟲)
 router.delete('/unsave', (req, res, next) => {
   const sqlparams = [req.body.u_id, req.body.p_id];
   var sql = 'DELETE FROM save WHERE u_id = ? AND p_id = ?';
+
+  db(sql,sqlparams)
+  .then(results =>{
+    res.send({msg:"取消收藏成功"});
+  })
+  .catch(err =>{
+    res.status(500).send("err:",err)
+  })
+})
+
+//取得收藏貼文(公司)
+router.get('/company/show-save', (req, res, next) => {
+  const params = req.query.u_id;
+  var sql = "SELECT id, u_id, internsandwich.save_company_post.p_id, title, cp_id, job_desc FROM internsandwich.save_company_post INNER JOIN internsandwich.company_post ON internsandwich.save_company_post.p_id = internsandwich.company_post.id WHERE u_id = ?"
+  db(sql, params)
+  .then(results =>{
+    res.send(results);
+  })
+  .catch(err =>{
+    res.status(500).send("err:",err)
+  })
+});
+
+//收藏貼文(公司)
+router.post('/company/save', userMiddleware.isLoggedIn, (req, res, next) => {
+  const params = [escape(req.body.p_id), escape(req.body.u_id)];
+  var sql = "SELECT * FROM save_company_post WHERE p_id = ? AND u_id = ?"
+  db(sql, params)
+  .then(results =>{
+    if (results.length) {
+      res.status(409).send({msg:"已收藏"});
+    }
+    else{
+      const sql = 'INSERT INTO save_company_post (p_id, u_id) VALUES (?, ?);'
+      db(sql,params)
+      .then(results =>{
+        res.status(200).send({msg:"收藏成功"})      
+      })
+      .catch(error =>{
+        res.status(400)
+      })
+    }
+  })
+  .catch(err =>{
+    res.status(400).send("err:",err)
+  })
+});
+
+//取消收藏(公司)
+router.delete('/company/unsave', (req, res, next) => {
+  const sqlparams = [req.body.u_id, req.body.p_id];
+  var sql = 'DELETE FROM save_company_post WHERE u_id = ? AND p_id = ?';
 
   db(sql,sqlparams)
   .then(results =>{

@@ -65,7 +65,7 @@
                 </div>
                 <div class="row float-right">
                   <a
-                    @click="Applynow"
+                    @click="toLink(post_info[0].source, post_info[0].link)"
                     class="btn"
                     style="width: 150px; height: 50px; font-size: 20px"
                   >
@@ -79,8 +79,9 @@
                     >
                       <path
                         d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"
-                      /></svg>&nbsp;立即應徵</a
-                  >
+                      /></svg>
+                      &nbsp;立即應徵
+                </a>
                   <div
                     v-bind:class="{
                       hidden: saved_posts.indexOf(post_id) != -1,
@@ -590,6 +591,18 @@ export default {
     },
   },
   methods: {
+    //外部超連結跳轉
+    toLink: function(source, link){
+      if(source ===0){
+        link = "https://www.facebook.com/" + link
+      }
+      else if(source === 1 ){
+        link = "https://www.yourator.co" + link
+      }
+
+      window.location =  link
+      
+    },
     //更新觀看次數
     addcounter: function (p_id, counter) {
       counter++;
@@ -769,12 +782,6 @@ export default {
     isMycomment: function (u_id) {
       return u_id === this.user_id;
     },
-    //立即應徵
-    Applynow: function(){
-      //, cp_id: this.cp_id, cp_name:this.cp_info.name
-      bus.emit("bus",{p_id: this.post_id});
-      this.$router.push("/intern_mails")
-    }
   },
   watch: {
     $route: function () {

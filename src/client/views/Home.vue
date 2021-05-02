@@ -195,7 +195,7 @@
                   </div>
 
                   <p style="font-size: 20px;" align="left">
-                    <router-link to="/businessposts">{{
+                    <router-link :to="{ name: 'BusinessPosts', params: { cp_id: posts.cp_id } }">{{
                       posts.cp_name
                     }}</router-link>
                   </p>
@@ -250,15 +250,14 @@
                   >
                     <path
                       d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"
-                    /></svg
-                  >&nbsp;收藏次數：5
+                    /></svg> &nbsp;收藏次數：5
                 </div>
 
                 <div class="row float-right">
                   <router-link
                     class="btn"
                     style="width: 200px; height: 50px; font-size: 20px"
-                    :to="{ name: 'Intern', params: { post_id: posts.id } }"
+                    :to="{ name: 'Intern_Business', params: { post_id: posts.id } }"
                     @click.native="addcounter(posts.id, posts.counter)"
                   >
                     <svg
@@ -280,11 +279,11 @@
                   </router-link>
                   <div
                     v-bind:class="{
-                      hidden: saved_posts.indexOf(posts.id) != -1,
+                      hidden: cp_saved_posts.indexOf(posts.id) != -1,
                     }"
                   >
                     <button
-                      @click="save(posts.id)"
+                      @click="cp_save(posts.id)"
                       class="btn"
                       style="width: 200px; height: 50px; font-size: 20px"
                     >
@@ -305,11 +304,11 @@
                   </div>
                   <div
                     v-bind:class="{
-                      hidden: saved_posts.indexOf(posts.id) === -1,
+                      hidden: cp_saved_posts.indexOf(posts.id) === -1,
                     }"
                   >
                     <button
-                      @click="unsave(posts.id)"
+                      @click="cp_unsave(posts.id)"
                       class="btn"
                       style="width: 200px; height: 50px; font-size: 20px"
                     >
@@ -384,12 +383,13 @@
                       </p>
                     </div>
                   </div>
-
+                  <a
+                  @click="toLink(posts.source, posts.link)"
+                  class="btn">
                   <p style="font-size: 20px;" align="left">
-                    <router-link to="/businessposts">{{
-                      posts.cp_name
-                    }}</router-link>
+                    {{posts.cp_name}}
                   </p>
+                </a>
                   <p
                     style="
                       font-size: 15px;
@@ -441,8 +441,8 @@
                   >
                     <path
                       d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"
-                    /></svg
-                  >&nbsp;收藏次數：5
+                    /></svg>
+                  &nbsp;收藏次數：5
                 </div>
 
                 <div class="row float-right">
@@ -835,6 +835,7 @@ export default {
         },
       ],
       saved_posts: [],
+      cp_saved_posts:[],
     };
   },
   computed: {
@@ -851,6 +852,18 @@ export default {
     },
   },
   methods: {
+    //外部超連結跳轉
+    toLink: function(source, link){
+      if(source ===0){
+        link = "https://www.facebook.com/" + link
+      }
+      else if(source === 1 ){
+        link = "https://www.yourator.co" + link
+      }
+
+      window.location =  link
+      
+    },
     //更新觀看次數
     addcounter: function (p_id, counter) {
       counter++;
@@ -921,7 +934,7 @@ export default {
         this.searchResult = this.searchResult.filter(function (d) {
           return d.title.toLowerCase().indexOf(select_jobclass) > -1; //過濾類別
         });
-        this.cp_searchResult = this.searchResult.filter(function (d) {
+        this.cp_searchResult = this.cp_searchResult.filter(function (d) {
           return d.title.toLowerCase().indexOf(select_jobclass) > -1; //過濾類別
         });
 
@@ -931,7 +944,7 @@ export default {
             d.job_desc.toLowerCase().indexOf(select_area) > -1
           ); //過濾地區
         });
-        this.cp_searchResult = this.searchResult.filter(function (d) {
+        this.cp_searchResult = this.cp_searchResult.filter(function (d) {
           return (
             d.title.toLowerCase().indexOf(select_area) > -1 ||
             d.job_desc.toLowerCase().indexOf(select_area) > -1
@@ -980,7 +993,8 @@ export default {
         return p2.counter - p1.counter;
       });
     },
-    //收藏
+
+    //收藏(爬蟲貼文)
     save: function (p_id) {
       if (this.isLoggedIn) {
         const u_id = this.$store.getters.getUser.ID;
@@ -1004,7 +1018,7 @@ export default {
         this.$router.push("/login");
       }
     },
-    //取消收藏
+    //取消收藏(爬蟲貼文)
     unsave: function (p_id) {
       const api = "/api/unsave";
       const u_id = this.$store.getters.getUser.ID;
@@ -1023,11 +1037,55 @@ export default {
           console.log(error);
         });
     },
+
+    //收藏(公司貼文)
+    cp_save: function (p_id) {
+      if (this.isLoggedIn) {
+        const u_id = this.$store.getters.getUser.ID;
+        const api = "api/company/save";
+        const params = {
+          p_id: p_id,
+          u_id: u_id,
+        };
+        axios
+          .post(api, params)
+          .then((response) => {
+            alert(response.data.msg);
+            this.cp_saved_posts.splice(this.saved_posts.length, 0, p_id);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        // 沒有登入會導向登入頁面
+        alert("您尚未登入");
+        this.$router.push("/login");
+      }
+    },
+    //取消收藏(公司貼文)
+    cp_unsave: function (p_id) {
+      const api = "/api/company/unsave";
+      const u_id = this.$store.getters.getUser.ID;
+      var params = {
+        u_id: u_id,
+        p_id: p_id,
+      };
+      axios
+        .delete(api, { data: params })
+        .then((response) => {
+          alert(response.data.msg);
+          var index = this.saved_posts.indexOf(p_id);
+          this.cp_saved_posts.splice(index, 1);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
   created() {
     //axios獲取後臺資料
     var api = "/api/posts";
-    //const params = { userId: 2 };
+    
     axios
       .get(api)
       .then((response) => {
@@ -1041,7 +1099,7 @@ export default {
 
     //顯示公司發佈之實習貼文
     var api = "/api/company_posts";
-    //const params = { userId: 2 };
+    
     axios
       .get(api)
       .then((response) => {
@@ -1053,7 +1111,9 @@ export default {
         console.log(error);
       });
 
+    //取得收藏貼文，用來判斷是否需顯示已收藏
     if (this.isLoggedIn) {
+      //爬蟲
       api = "/api/show-save";
       var u_id = this.$store.getters.getUser.ID;
       var params = { u_id: u_id };
@@ -1068,6 +1128,23 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+
+        //公司
+        api = "/api/company/show-save";
+        var u_id = this.$store.getters.getUser.ID;
+        var params = { u_id: u_id };
+        axios
+          .get(api, { params })
+          .then((response) => {
+            //saved_posts只存p_id
+            this.cp_saved_posts = response.data.map(function (items, index) {
+              return items.p_id;
+            });
+            console.log(this.cp_saved_posts)
+          })
+          .catch((error) => {
+            console.log(error);
+          });
     }
     api = "/api/show-top5";
     axios.get(api).then((response) => {
@@ -1075,22 +1152,7 @@ export default {
     });
   },
 };
-/*export default({
-  name: '#user',
-  data () {
-    return {
-      info: null
-    }
-  },
-  created () {
-    const api = 'localhost:3000/api/test'
-    axios.get(api)
-    .then(response => (this.info = response))
-    .catch(function (error) { // 请求失败处理
-      console.log(error);
-    });
-  }
-})*/
+
 </script>
 <style>
 .hidden {
