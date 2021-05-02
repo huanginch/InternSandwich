@@ -223,8 +223,8 @@ router.get('/show-top5', (req, res, next) => {
 
 //取得貼文評論
 router.get('/show-comments', (req, res, next) => {
-  var sqlparams = req.query.p_id;
-  var sql = 'select * from comment WHERE P_ID = ?';
+  var sqlparams = req.query.cp_id;
+  var sql = 'select * from comment WHERE cp_id = ?';
 
   db(sql,sqlparams)
   .then(results =>{
@@ -495,10 +495,10 @@ router.delete('/unsave', (req, res, next) => {
 })
 
 //取得收藏貼文(公司)
-router.get('/company/show-save', (req, res, next) => {
-  const params = req.query.u_id;
-  var sql = "SELECT id, u_id, internsandwich.save_company_post.p_id, title, cp_id, job_desc FROM internsandwich.save_company_post INNER JOIN internsandwich.company_post ON internsandwich.save_company_post.p_id = internsandwich.company_post.id WHERE u_id = ?"
-  db(sql, params)
+router.get('/show-cp_save', (req, res, next) => {
+  const sqlparams = req.query.u_id;
+  var sql = "SELECT company_post.id, u_id, internsandwich.save_company_post.p_id, title, name as cp_name, job_desc FROM save_company_post INNER JOIN internsandwich.company_post ON save_company_post.p_id = company_post.id INNER JOIN company_info ON company_post.cp_id = company_info.id WHERE u_id = ?;"
+  db(sql, sqlparams)
   .then(results =>{
     res.send(results);
   })

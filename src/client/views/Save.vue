@@ -69,7 +69,7 @@
     <div class="row">
       <div class="col-lg-9">
         <!--eslint-disable-next-line-->
-        <div id="Home" v-for="(posts, index) in cp_saved_posts.slice(pageStart, pageStart + countOfPage)" class="posts" >
+        <div v-for="(posts, index) in cp_saved_posts.slice(pageStart, pageStart + countOfPage)" class="posts" >
           <div class="panel panel-default text-left">
             <div class="panel-body" style="border-style: ridge">
               <div class="row">
@@ -310,7 +310,7 @@ import axios from "../js/axios.js";
 //import Searchbar from "../components/Searchbar.vue";
 
 export default {
-  name: "Home",
+  name: "Save",
   /*componemts:{
     Searchbar
   },*/
@@ -330,7 +330,7 @@ export default {
     },
     //設定總頁數
     totalPage: function () {
-      return Math.ceil(this.saved_posts.length + cp_saved_posts.length/ this.countOfPage);
+      return Math.ceil(this.saved_posts.length + this.cp_saved_posts.length/ this.countOfPage);
     },
   },
   methods: {
@@ -395,11 +395,10 @@ export default {
     //從store取得使用者資料
     this.user_info = this.$store.getters.getUser;
     const u_id = this.user_info.ID;
-    const params = { u_id: u_id };
 
-    //axios取得後台收藏貼文資料(爬蟲)
+    //取得後台收藏貼文資料(爬蟲)
     var api = "/api/show-save";
-    
+    var params = { u_id: u_id };
     axios
       .get(api, { params })
       .then((response) => {
@@ -410,14 +409,14 @@ export default {
         console.log(error);
       });
 
-    //axios取得後台收藏貼文資料(公司)
-    api = "/api/company/show-save";
+    //取得後台收藏貼文資料(公司) 
+    var api = "/api/show-cp_save";
+    params = { u_id: u_id };
 
     axios
       .get(api, { params })
       .then((response) => {
         this.cp_saved_posts = response.data;
-        console.log(this.cp_saved_posts)
       })
       .catch(function (error) {
         // 請求失敗處理

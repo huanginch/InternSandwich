@@ -1051,7 +1051,7 @@ export default {
           .post(api, params)
           .then((response) => {
             alert(response.data.msg);
-            this.cp_saved_posts.splice(this.saved_posts.length, 0, p_id);
+            this.cp_saved_posts.splice(this.cp_saved_posts.length, 0, p_id);
           })
           .catch((error) => {
             console.log(error);
@@ -1074,7 +1074,7 @@ export default {
         .delete(api, { data: params })
         .then((response) => {
           alert(response.data.msg);
-          var index = this.saved_posts.indexOf(p_id);
+          var index = this.cp_saved_posts.indexOf(p_id);
           this.cp_saved_posts.splice(index, 1);
         })
         .catch((error) => {
@@ -1130,13 +1130,13 @@ export default {
         });
 
         //公司
-        api = "/api/company/show-save";
+        api = "/api/show-cp_save";
         var u_id = this.$store.getters.getUser.ID;
         var params = { u_id: u_id };
         axios
           .get(api, { params })
           .then((response) => {
-            //saved_posts只存p_id
+            //cp_saved_posts只存p_id
             this.cp_saved_posts = response.data.map(function (items, index) {
               return items.p_id;
             });
