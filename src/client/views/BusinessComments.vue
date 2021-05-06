@@ -7,7 +7,7 @@
       <div class="col-lg-9 text-left">
         <!-- 實習貼文 -->
         <!--eslint-disable-next-line-->
-        <div id="Home" v-for="(posts, index) in searchResult.slice(pageStart,pageStart + countOfPage)" class="posts">
+        <div>
         </div>
       </div>
     </div>
@@ -25,8 +25,18 @@
             class="form-control"
             placeholder="登入以查看評論......"
           />
+          <select v-else v-model="selected_title">
+            <option value="" disabled>選擇評論職位</option>
+            
+              <option
+                v-for="intern in intern_info"
+                v-bind:value="intern.title"
+              >
+                {{ intern.title }}
+              </option>
+          </select>
           <textarea
-            v-else
+            v-if="isLoggedIn"
             v-model="myNewComment"
             class="form-control"
             placeholder="留下評論......"
@@ -61,11 +71,12 @@
       <div class="col-lg-3"></div>
     </div>
     <br />
-    <div v-for="(comment, index) in comment_info" :key="comment.ID">
+    <div v-for="(comment, index) in comment_info.slice(pageStart,pageStart + countOfPage)" :key="comment.ID">
       <div class="row">
         <div class="col-lg-1">
           <img src="../assets/圖片2.png" alt="internsandwich" height="75px" />
         </div>
+        <p style="font-size: 20px">{{ comment.intern_title }}</p>
         <!-- <p style="font-size: 15px">{{ comment.U_ID }}</p> -->
         <div class="col-lg-6 text-left">
           <div
@@ -183,42 +194,59 @@
         </button>
       </div>
     </div>
+    <!-- 換頁按鈕 -->
+    <ul
+    class="pagination pagination-sm justify-content-center"
+    style="margin: 20px 0"
+    >
+    <li
+      v-bind:class="{ disabled: currPage === 1 }"
+      @click.prevent="setPage(currPage - 1)"
+    >
+      <button class="page-link" href="#">上一頁</button>
+    </li>
+    <!--eslint-disable-next-line-->
+    <li
+      v-for="n in totalPage"
+      v-bind:class="{ active: currPage === n }"
+      @click.prevent="setPage(n)"
+    >
+      <button class="page-link" href="#">{{ n }}</button>
+    </li>
+    <li
+      v-bind:class="{ disabled: currPage === totalPage }"
+      @click.prevent="setPage(currPage + 1)"
+    >
+      <button class="page-link" href="#">下一頁</button>
+    </li>
+  </ul>
   </div>
 </template>
 <script>
 import axios from "../js/axios.js";
-import RecommendPost from "../components/RecommendPost.vue";
-import Business_info_user from "../components/Business_info_user.vue";
 // import the component
-import Treeselect from "@riophae/vue-treeselect";
+import Business_info_user from "../components/Business_info_user.vue";
 // import the styles
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 export default {
-  name: "Home",
+  name: "BusinessComments",
   components: {
-    RecommendPost,
-    Treeselect,
     Business_info_user,
   },
   data() {
     return {
-      top5_post: null,
+      selected_title:"",
+      cp_info:null,
+      cp_id:null,
       intern_info: null,
-      searchResult: null,
       countOfPage: 15,
       currPage: 1,
-      select_jobclass: null,
-      select_area: null,
-      intern_sort: "",
-      keyword: "",
       user_info: "",
       user_id: "",
       comment_info: "",
       myNewComment: "",
       editing: false,
       temp_comment: "",
-      saved_posts: [],
-      counter: "",
     };
   },
   computed: {
@@ -228,68 +256,13 @@ export default {
     },
     //設定總頁數
     totalPage: function () {
-      return Math.ceil(this.searchResult.length / this.countOfPage);
+      return Math.ceil(this.comment_info.length / this.countOfPage);
     },
     isLoggedIn: function () {
       return this.$store.getters.isLoggedIn;
     },
   },
   methods: {
-    //更新觀看次數
-    addcounter: function (p_id, counter) {
-      counter++;
-      var api = "/api/add-counter";
-      const params = {
-        p_id: p_id,
-        counter: counter,
-      };
-      axios
-        .patch(api, params)
-        .then((response) => {
-          alert(response.data.msg);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    //依照關鍵字搜尋貼文
-    filteredPosts: function () {
-      // 因為 JavaScript 的 filter 有分大小寫，
-      // 所以這裡將 keyword 與 intern_info[n].cp_name 通通轉小寫方便比對。
-      var keyword = this.keyword.toLowerCase();
-      var select_jobclass = this.select_jobclass;
-      var select_area = this.select_area;
-
-      if (select_area === null || select_area === undefined) {
-        select_area = "";
-      }
-      if (select_jobclass === null || select_jobclass === undefined) {
-        select_jobclass = "";
-      }
-      // 如果 filter_name 有內容，回傳過濾後的資料，否則將原本的 fb_posts 回傳。
-      if (
-        this.keyword.trim() !== "" ||
-        select_jobclass !== "" ||
-        select_area !== ""
-      ) {
-        this.searchResult = this.intern_info.filter(function (d) {
-          return d.title.toLowerCase().indexOf(keyword) > -1; //過濾關鍵字
-        });
-        console.log(this.keyword.trim() !== "");
-        console.log(select_jobclass);
-        console.log(select_area);
-
-        this.searchResult = this.searchResult.filter(function (d) {
-          return d.title.toLowerCase().indexOf(select_jobclass) > -1; //過濾類別
-        });
-
-        this.searchResult = this.searchResult.filter(function (d) {
-          return d.title.toLowerCase().indexOf(select_area) > -1; //過濾地區
-        });
-      } else {
-        this.searchResult = this.intern_info;
-      }
-    },
     //設定當前頁面
     setPage: function (idx) {
       if (idx <= 0 || idx > this.totalPage) {
@@ -297,218 +270,145 @@ export default {
       }
       this.currPage = idx;
     },
-    //貼文排序由新到舊
+    //評論排序由新到舊
     sortNewtoOld: function () {
-      this.searchResult.sort(function (p1, p2) {
-        return p2.id - p1.id;
+      this.comment_info.sort(function (p1, p2) {
+        return p2.ID - p1.ID;
       });
     },
-    //貼文排序由舊到新
+    //評論排序由舊到新
     sortOldtoNew: function () {
-      this.searchResult.sort(function (p1, p2) {
-        return p1.id - p2.id;
+      this.comment_info.sort(function (p1, p2) {
+        return p1.ID - p2.ID;
       });
     },
-    //觀看次數排序由多到少
-    sortPopularity: function () {
-      this.searchResult.sort(function (p1, p2) {
-        return p2.counter - p1.counter;
-      });
+     //顯示評論
+    showcomments: function () {
+      //axios獲取評論資料
+      var api = "/api/company/" + this.cp_id + "/show-comments" ;
+      axios
+        .get(api)
+        .then((response) => {
+          this.comment_info = response.data;
+
+          //評論排序由新到舊
+          this.sortNewtoOld()
+          
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
-    //收藏
-    save: function (p_id) {
-      if (this.isLoggedIn) {
-        const u_id = this.$store.getters.getUser.ID;
-        const api = "api/save";
-        const params = {
-          p_id: p_id,
-          u_id: u_id,
+
+    //留下評論
+    pushcomment: function () {
+      if (this.myNewComment) {
+        //存入資料庫
+        var api = "/api/comment";
+        var params = {
+          cp_id: this.cp_id,
+          u_id: this.user_id,
+          context: this.myNewComment,
+          intern_title: this.selected_title
         };
+
         axios
           .post(api, params)
           .then((response) => {
-            alert(response.data.msg);
-            this.saved_posts.splice(this.saved_posts.length, 0, p_id);
+            //即時更新留言
+            this.showcomments();
+            this.myNewComment = "";
           })
           .catch((error) => {
             console.log(error);
           });
-      } else {
-        // 沒有登入會導向登入頁面
-        alert("您尚未登入");
-        this.$router.push("/login");
       }
     },
-    //取消收藏
-    unsave: function (p_id) {
-      const api = "/api/unsave";
-      const u_id = this.$store.getters.getUser.ID;
+
+    //編輯評論
+    editcomment: function (comment) {
+      this.editing = true;
+      this.temp_comment = comment;
+    },
+
+    //完成編輯評論
+    finishedit: function () {
+      this.editing = false;
+
+      //存入資料庫
+      var api = "/api/modify-comment";
       var params = {
-        u_id: u_id,
-        p_id: p_id,
+        ID: this.temp_comment.ID,
+        context: this.temp_comment.context,
       };
+
+      axios
+        .patch(api, params)
+        .then((response) => {})
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    //取消編輯評論
+    canceledit: function (index) {
+      this.comment_info[index]["context"] = this.temp_comment.context;
+      this.editing = false;
+    },
+
+    //刪除評論
+    deletecomment: function (ID) {
+      //this.comment_info.splice(ID,1)
+
+      var api = "/api/delete-comment";
+      var params = { ID: ID };
       axios
         .delete(api, { data: params })
         .then((response) => {
-          alert(response.data.msg);
-          var index = this.saved_posts.indexOf(p_id);
-          this.saved_posts.splice(index, 1);
+          //即時更新留言
+          this.showcomments();
         })
         .catch((error) => {
           console.log(error);
         });
     },
+    //檢查是否為自己的評論
+    isMycomment: function (u_id) {
+      return u_id === this.user_id;
+    },
   },
-  //顯示評論
-  showcomments: function () {
-    var api = "/api/show-comments";
-    var params = {
-      p_id: this.post_id,
-    };
-    axios
-      .get(api, { params })
-      .then((response) => {
-        this.comment_info = response.data;
-
-        //評論排序由新到舊
-        this.comment_info.sort(function (p1, p2) {
-          return p2.ID - p1.ID;
-        });
-        // //如果登入就找到自己的評論
-        // if (this.isLoggedIn) {
-        //   this.myNewComment = this.comment_info.filter(
-        //     (result) => result.U_ID === this.user_id
-        //   );
-
-        //   //找到就顯示有評論
-        //   if (this.myNewComment) {
-        //     this.myNewComment = this.myNewComment[0]["context"];
-        //   }
-
-        //   this.comment_info = this.comment_info.filter(
-        //     (result) => result.U_ID != this.user_id
-        //   );
-        // }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  },
-
-  //留下評論
-  pushcomment: function () {
-    if (this.myNewComment) {
-      //存入資料庫
-      var api = "/api/comment";
-      var params = {
-        p_id: this.post_id,
-        u_id: this.user_id,
-        context: this.myNewComment,
-      };
-
-      axios
-        .post(api, params)
-        .then((response) => {
-          //即時更新留言
-          this.showcomments();
-          this.myNewComment = "";
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  },
-
-  //編輯評論
-  editcomment: function (comment) {
-    this.editing = true;
-    this.temp_comment = comment;
-  },
-
-  //完成編輯評論
-  finishedit: function () {
-    this.editing = false;
-
-    //存入資料庫
-    var api = "/api/modify-comment";
-    var params = {
-      ID: this.temp_comment.ID,
-      context: this.temp_comment.context,
-    };
-
-    axios
-      .patch(api, params)
-      .then((response) => {})
-      .catch((error) => {
-        console.log(error);
-      });
-  },
-
-  //取消編輯評論
-  canceledit: function (index) {
-    this.comment_info[index]["context"] = this.temp_comment.context;
-    this.editing = false;
-  },
-
-  //刪除評論
-  deletecomment: function (ID) {
-    //this.comment_info.splice(ID,1)
-
-    var api = "/api/delete-comment";
-    var params = { ID: ID };
-    axios
-      .delete(api, { data: params })
-      .then((response) => {
-        //即時更新留言
-        this.showcomments();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  },
-  isMycomment: function (u_id) {
-    return u_id === this.user_id;
-  },
+ 
 
   created() {
     this.user_info = this.$store.getters.getUser;
     this.user_id = this.user_info["ID"];
-    this.post_id = this.$route.params.post_id;
+    this.cp_id = this.$route.params.cp_id;
 
-    //axios獲取後臺資料
-    var api = "/api/posts";
-    //const params = { userId: 2 };
+    //取得公司資訊
+    var api = "/api/company/" + this.cp_id;
+            
     axios
       .get(api)
-      .then((response) => {
-        this.intern_info = response.data;
-        this.searchResult = response.data;
+      .then(response =>{
+          this.cp_info = response.data
       })
-      .catch(function (error) {
-        // 請求失敗處理
-        console.log(error);
-      });
+      .catch(error =>{
+          console.log(error);
+      })
 
     if (this.isLoggedIn) {
-      api = "/api/show-save";
-      var u_id = this.$store.getters.getUser.ID;
-      var params = { u_id: u_id };
+      this.showcomments()
+
+      api = "/api/company/" + this.cp_id + "/cp_posts"
       axios
-        .get(api, { params })
-        .then((response) => {
-          //saved_posts只存p_id
-          this.saved_posts = response.data.map(function (items, index) {
-            return items.p_id;
-          });
-        })
-        .catch((error) => {
+      .get(api)
+      .then(response =>{
+          this.intern_info = response.data
+      })
+      .catch(error =>{
           console.log(error);
-        });
+      })
     }
-    api = "/api/show-top5";
-    axios.get(api).then((response) => {
-      this.top5_post = response.data;
-    });
   },
 };
 /*export default({

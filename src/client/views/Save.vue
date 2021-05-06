@@ -85,9 +85,10 @@
                   <span style="font-size: 30px ;height: 40px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;" align="left">
                     <strong>{{ posts.title }}</strong>
                   </span>
+                  <router-link :to="{ name: 'BusinessPosts', params: { cp_id: posts.cp_id } }">
                   <p style="font-size: 20px;line-height:50px" align="left">
                     {{ posts.cp_name }}
-                  </p>
+                  </p></router-link>
                   <p
                     style="
                       font-size: 15px;
@@ -106,12 +107,10 @@
               </div>
               <div class="ppp2_btn">
                 <div class="row float-right">
-                  <router-link
+                  <a
                     class="btn"
-                    style="width: 200px; height: 50px; font-size: 20px"
-                    :to="{ name: 'Intern', params: { post_id: posts.id } }"
-                  >
-                    <svg
+                    style="width: 150px; height: 50px; font-size: 20px">  
+                  <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
                       height="18"
@@ -121,11 +120,11 @@
                     >
                       <path
                         d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"
-                      /></svg>&nbsp;立即應徵</router-link>
+                      /></svg>&nbsp;立即應徵</a>
                   <router-link
                     class="btn"
                     style="width: 200px; height: 50px; font-size: 20px"
-                    :to="{ name: 'Intern', params: { post_id: posts.id } }"
+                    :to="{ name: 'Intern_Business', params: { post_id: posts.id } }"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -142,7 +141,7 @@
                         d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"
                       />
                     </svg>
-                    查看評論
+                    查看更多
                   </router-link>
 
                   <button
@@ -175,7 +174,7 @@
     <div class="row">
       <div class="col-lg-9">
         <!--eslint-disable-next-line-->
-        <div id="Home" v-for="(posts, index) in saved_posts.slice(pageStart, pageStart + countOfPage)" class="posts" >
+        <div id="Save" v-for="(posts, index) in saved_posts.slice(pageStart, pageStart + countOfPage)" class="posts" >
           <div class="panel panel-default text-left">
             <div class="panel-body" style="border-style: ridge">
               <div class="row">
@@ -212,10 +211,10 @@
               </div>
               <div class="ppp2_btn">
                 <div class="row float-right">
-                  <router-link
+                  <a
+                    @click="toLink(posts.source, posts.link)"
                     class="btn"
-                    style="width: 200px; height: 50px; font-size: 20px"
-                    :to="{ name: 'Intern', params: { post_id: posts.id } }"
+                    style="width: 150px; height: 50px; font-size: 20px"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -227,7 +226,7 @@
                     >
                       <path
                         d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"
-                      /></svg>&nbsp;立即應徵</router-link>
+                      /></svg>&nbsp;立即應徵</a>
                   <router-link
                     class="btn"
                     style="width: 200px; height: 50px; font-size: 20px"
@@ -248,7 +247,7 @@
                         d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"
                       />
                     </svg>
-                    查看評論
+                    查看更多
                   </router-link>
 
                   <button
@@ -334,6 +333,18 @@ export default {
     },
   },
   methods: {
+    //外部超連結跳轉
+    toLink: function(source, link){
+      if(source === 0){
+        link = "https://www.facebook.com/" + link
+      }
+      else if(source === 1 ){
+        link = "https://www.yourator.co" + link
+      }
+
+      window.location =  link
+      
+    },
     //設定當前頁面
     setPage: function (idx) {
       if (idx <= 0 || idx > this.totalPage) {
@@ -425,3 +436,8 @@ export default {
   },
 };
 </script>
+<style>
+  .routerlink {
+  color: black;
+}
+</style>

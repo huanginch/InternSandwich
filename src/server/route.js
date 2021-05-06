@@ -222,8 +222,8 @@ router.get('/show-top5', (req, res, next) => {
 })
 
 //取得貼文評論
-router.get('/show-comments', (req, res, next) => {
-  var sqlparams = req.query.cp_id;
+router.get('/company/:cp_id/show-comments', (req, res, next) => {
+  var sqlparams = req.params.cp_id;
   var sql = 'select * from comment WHERE cp_id = ?';
 
   db(sql,sqlparams)
@@ -237,8 +237,8 @@ router.get('/show-comments', (req, res, next) => {
 
 //留下評論
 router.post('/comment', (req, res, next) => {
-  const sqlparams = [escape(req.body.p_id), escape(req.body.u_id), req.body.context];
-  var sql = 'INSERT INTO comment (P_ID, U_ID, context) VALUES (?, ?, ?);';
+  const sqlparams = [escape(req.body.cp_id), escape(req.body.u_id), req.body.context, req.body.intern_title];
+  var sql = 'INSERT INTO comment (cp_id, U_ID, context, intern_title) VALUES (?, ?, ?, ?);';
 
   db(sql,sqlparams)
   .then(results =>{
@@ -445,7 +445,7 @@ router.post('/company-register', companyMiddleware.validateRegister, (req, res, 
 //取得收藏貼文(爬蟲)
 router.get('/show-save', (req, res, next) => {
   const params = escape(req.query.u_id);
-  var sql = "SELECT id, u_id, save.p_id, title, cp_name, job_desc FROM save INNER JOIN intern_post ON save.p_id = intern_post.id WHERE u_id = ?"
+  var sql = "SELECT id, u_id, save.p_id, title, cp_name, job_desc, source, link FROM save INNER JOIN intern_post ON save.p_id = intern_post.id WHERE u_id = ?"
   db(sql, params)
   .then(results =>{
     res.send(results);
@@ -497,7 +497,7 @@ router.delete('/unsave', (req, res, next) => {
 //取得收藏貼文(公司)
 router.get('/show-cp_save', (req, res, next) => {
   const sqlparams = req.query.u_id;
-  var sql = "SELECT company_post.id, u_id, internsandwich.save_company_post.p_id, title, name as cp_name, job_desc FROM save_company_post INNER JOIN internsandwich.company_post ON save_company_post.p_id = company_post.id INNER JOIN company_info ON company_post.cp_id = company_info.id WHERE u_id = ?;"
+  var sql = "SELECT company_post.id, company_post.cp_id, u_id, save_company_post.p_id, title, name as cp_name, job_desc FROM save_company_post INNER JOIN internsandwich.company_post ON save_company_post.p_id = company_post.id INNER JOIN company_info ON company_post.cp_id = company_info.id WHERE u_id = ?;"
   db(sql, sqlparams)
   .then(results =>{
     res.send(results);

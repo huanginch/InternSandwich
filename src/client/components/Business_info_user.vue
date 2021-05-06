@@ -65,12 +65,12 @@
                           data-toggle="buttons"
                           style="float: center"
                         >
-                          <router-link :to="{ name: 'BusinessPosts', params: { cp_id: cp_info.id }}">
+                          <router-link :to="{ name: 'BusinessPosts', params: { cp_id: cp_info[0].ID }}">
                             <label class="btn btn-light btn-sm">
                               公司貼文
                             </label>
                           </router-link>
-                          <router-link :to="{ name: 'BusinessComments', params: { cp_id: cp_info.id }}">
+                          <router-link :to="{ name: 'BusinessComments', params: { cp_id: cp_info[0].ID }}">
                             <label class="btn btn-light btn-sm">
                               公司評論
                             </label>
