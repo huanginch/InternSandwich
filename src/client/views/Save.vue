@@ -108,6 +108,7 @@
               <div class="ppp2_btn">
                 <div class="row float-right">
                   <a
+                    @click="Applynow(posts.id)"
                     class="btn"
                     style="width: 150px; height: 50px; font-size: 20px">  
                   <svg
@@ -401,6 +402,10 @@ export default {
           console.log(error);
         });
     },
+    //立即應徵
+    Applynow: function(id){
+      this.$router.push("/intern_mails/"+ id)
+    }
   },
   created() {
     //從store取得使用者資料

@@ -108,7 +108,7 @@
                   <router-link
                     class="btn"
                     style="width: 200px; height: 50px; font-size: 20px"
-                    :to="{ name: 'Intern', params: { post_id: posts.id } }"
+                    :to="{ name: 'Intern_Business', params: { post_id: posts.id } }"
                     @click.native="addcounter(posts.id, posts.counter)"
                   >
                     <svg

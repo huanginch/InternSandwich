@@ -182,7 +182,7 @@
 <script>
     import axios from "../js/axios.js";
     import RecommendPost from "../components/RecommendPost.vue";
-    import bus from "../js/bus.js";
+
     export default {
       name: "Intern_Buiness",
       components: {
@@ -280,9 +280,7 @@
         
         //立即應徵
         Applynow: function(){
-          //, cp_id: this.cp_id, cp_name:this.cp_info.name
-          bus.emit("bus",{p_id: this.post_id});
-          this.$router.push("/intern_mails")
+          this.$router.push("/intern_mails/"+ this.post_id)
         }
       },
       watch: {
@@ -313,7 +311,6 @@
                 .get(api + this.cp_id)
                 .then(response =>{
                     this.cp_info = response.data
-                    console.log(this.cp_info)
                 })
                 .catch(error =>{
                     console.log(error);

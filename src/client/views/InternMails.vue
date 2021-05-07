@@ -2,7 +2,7 @@
 <template>
     <div style="padding: 100px 100px 10px">
       <br />
-      <h3>修改履歷</h3>
+      <h3>投遞履歷至:</h3>
       <br />
       <h3>{{cp_name}}</h3>
       <div class="panel panel-default col-md-8 offset-2" style="border-style:ridge">
@@ -81,18 +81,12 @@
             <div class="form-row">
               <div class="form-group col-md-4">
                 <label for="inputCity" class="txet-left" style="font-size: 25px;background-color:#bcddfc71;width:200px;border-radius:20px;"><strong>應徵職位</strong></label>
-                <input v-model="exp_position" type="text" class="form-control" id="inputCity" />
-                <font size='2' color='red' v-if="invalidEP">*該欄位不得為空</font>
+                <input disabled v-model="exp_position" type="text" class="form-control" id="inputCity" />
               </div>
               <div class="form-group col-md-4">
                 <label for="inputState" style="font-size: 25px;background-color:#bcddfc71;width:200px;border-radius:20px;"><strong>期望待遇</strong></label>
-                <select v-model="exp_treatment" id="inputState" class="form-control">
-                  <option selected>月薪22K</option>
-                  <option>月薪30K</option>
-                  <option>月薪40K</option>
-                  <option>月薪50K</option>
-                  <option>月薪50K以上</option>
-                </select>
+                <input disabled v-model="exp_treatment" id="inputState" class="form-control"/>
+                  
               </div>
               <div class="form-group col-md-4">
                 <label for="inputZip" style="font-size: 25px;background-color:#bcddfc71;width:200px;border-radius:20px;"><strong>期望工作地</strong></label>
@@ -187,14 +181,15 @@
   </template>
 <script>
   import axios from "../js/axios.js";
-  import bus from "../js/bus.js";
+
   export default {
-    name: "Profile",
+    name: "InternMails",
     
     data() {
       return {
-        p_id:"",
-        u_id:"",
+        cp_name:"",
+        post_id:"",
+        user_id:"",
         cp_id:"",
         resume_info: [],
         exp_position:"",
@@ -203,7 +198,6 @@
         edu_and_exp:"",
         skills:"",
         others:null,
-        invalidEP:false,
         invalidEaE:false,
         invalidSkills:false,
       };
@@ -214,9 +208,6 @@
       },
     },
     watch:{
-      exp_position: function(newValue){
-        this.invalidEP = !newValue
-      },
       edu_and_exp: function(newValue){
         this.invalidEaE = !newValue
       },
@@ -226,9 +217,11 @@
     },
     methods: {
       sendResume: function(){
-        var api = `/api/company/${cp_id}/mails`;
+        var api = `/api/company/${this.cp_id}/mails`;
         var params = {
-          user_id: this.$store.getters.getUser.ID,
+          p_id: this.post_id,
+          u_id: this.$store.getters.getUser.ID,
+          cp_id: this.cp_id,
           exp_position: this.exp_position,
           exp_treatment: this.exp_treatment,
           exp_location: this.exp_location,
@@ -244,6 +237,12 @@
         })
         .catch((error) => {
           console.log(error);
+          var errno = error.response.data.err.errno
+          if(errno === 1062){
+            alert("請勿重複送出履歷")
+          }
+          
+          
         });
       },
       check: function(){
@@ -253,40 +252,58 @@
       }
     },
     created() {
-        bus.on("bus",data =>{
-            //this.cp_id = data.cp_id
-            console.log("bus on:",data)
-            this.p_id = data
-            //this.cp_name = data.cp_name
+
+      this.user_id = this.$store.getters.getUser.ID;
+      var api = "/api/resume";
+
+      axios
+        .get(api)
+        .then((response) => {
+          var _this = this
+          this.resume_info = response.data;
+          this.resume_info = this.resume_info.filter(function (d,index) {
+              return d.u_id.toString().indexOf(_this.user_id) > -1; 
+          });
+
+          if(this.resume_info[0].skills){
+              this.exp_location = this.resume_info[0].exp_location
+              this.edu_and_exp = this.resume_info[0].edu_and_exp
+              this.skills = this.resume_info[0].skills
+          }
         })
-        console.log("p_id:",this.p_id)
-        this.u_id = this.$store.getters.getUser.ID;
-        var api = "/api/resume";
-  
+        .catch((error) => {
+        console.log(error);
+        });
+
+        //取得貼文資訊
+        this.post_id = this.$route.params.post_id;
+        var api = "/api/company/cp_posts/";
+
         axios
-            .get(api)
-            .then((response) => {
-            var _this = this
-            this.resume_info = response.data;
-            this.resume_info = this.resume_info.filter(function (d,index) {
-                return d.u_id.toString().indexOf(_this.u_id) > -1; 
-            });
+          .get(api + this.post_id)
+          .then((response) => {
+            var post_info = response.data;
+            this.cp_id = post_info[0].cp_id
+            this.exp_position = post_info[0].title
+            this.exp_treatment = post_info[0].benefits
+
+            //取得公司資訊
+            api = "/api/company/";
             
-    
-            if(this.resume_info[0].skills){
-                this.exp_position = this.resume_info[0].exp_position
-                this.exp_location = this.resume_info[0].exp_location
-                this.exp_treatment = this.resume_info[0].exp_treatment
-                this.edu_and_exp = this.resume_info[0].edu_and_exp
-                this.skills = this.resume_info[0].skills
-            }
-            })
-            .catch((error) => {
+            axios
+                .get(api + this.cp_id)
+                .then(response =>{
+                    var cp_info = response.data
+                    this.cp_name = cp_info[0].name
+                })
+                .catch(error =>{
+                    console.log(error);
+                })
+          })
+          .catch((error) => {
             console.log(error);
-            });
+          });
     },
-    destroyed(){
-      bus.off("bus");
-    }
+    
   };
   </script>

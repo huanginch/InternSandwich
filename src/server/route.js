@@ -117,7 +117,7 @@ router.get('/company/:cp_id/mails', (req, res, next) => {
 
 //送出履歷信件
 router.post('/company/:cp_id/mails', (req, res, next) => {
-  var params = [req.params.id, req.body.u_id, req.body.cp_id, req.body.exp_position, req.body.exp_treatment, req.body.exp_location, req.body.edu_and_exp, req.body.skills, req.body.others]
+  var params = [req.body.p_id, req.body.u_id, req.params.cp_id,req.body.exp_position, req.body.exp_treatment, req.body.exp_location, req.body.edu_and_exp, req.body.skills, req.body.others]
   var sql = 'INSERT INTO mailbox (p_id, u_id, cp_id, exp_position, exp_treatment, exp_location, edu_and_exp, skills, others) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);';
 
   db(sql, params)
@@ -125,7 +125,7 @@ router.post('/company/:cp_id/mails', (req, res, next) => {
     res.send({msg:"寄送成功"});
   })
   .catch(err =>{
-    res.status(500).send("err:",err)
+    res.status(500).send({"err":err})
   })
 })
 

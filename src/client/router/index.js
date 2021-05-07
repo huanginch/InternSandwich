@@ -103,7 +103,7 @@ const routes = [{
   component: Mailbox
 },
 {
-  path: '/intern_mails',
+  path: '/intern_mails/:post_id',
   name: 'InternMails',
   component: InternMails
 },
