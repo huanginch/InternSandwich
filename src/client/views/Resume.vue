@@ -96,11 +96,28 @@
             <div class="form-group col-md-4">
               <label for="inputZip" style="font-size: 25px;background-color:#bcddfc71;width:200px;border-radius:20px;"><strong>期望工作地</strong></label>
               <select v-model="exp_location" id="inputState" class="form-control">
-                <option selected>台北</option>
-                <option>新竹</option>
-                <option>台中</option>
-                <option>台南</option>
-                <option>高雄</option>
+                  <option>基隆市</option>
+                  <option>台北市</option>
+                  <option>新北市</option>
+                  <option>桃園市</option>
+                  <option>新竹縣</option>
+                  <option>新竹市</option>
+                  <option>苗栗縣</option>
+                  <option>台中市</option>
+                  <option>南投縣</option>
+                  <option>彰化縣</option>
+                  <option>雲林縣</option>
+                  <option>嘉義縣</option>
+                  <option>嘉義市</option>
+                  <option>台南市</option>
+                  <option>高雄市</option>
+                  <option>屏東縣</option>
+                  <option>台東縣</option>
+                  <option>花蓮縣</option>
+                  <option>宜蘭縣</option>
+                  <option>澎湖縣</option>
+                  <option>金門縣</option>
+                  <option>馬祖縣</option>
               </select>
             </div>
           </div>
@@ -278,16 +295,15 @@ export default {
   created() {
     this.user_info = this.$store.getters.getUser
     this.user_id = this.$store.getters.getUser.ID;
-    var api = "/api/resume";
+    var api = "/api/intern/" + this.user_id + "/resume/" ;
 
     axios
       .get(api)
       .then((response) => {
-        var _this = this
         this.resume_info = response.data;
-        this.resume_info = this.resume_info.filter(function (d,index) {
-          return d.u_id.toString().indexOf(_this.user_id) > -1; 
-        });
+        // this.resume_info = this.resume_info.filter(function (d,index) {
+        //   return d.u_id.toString().indexOf(_this.user_id) > -1; 
+        // });
         
 
         if(this.resume_info[0].u_id){

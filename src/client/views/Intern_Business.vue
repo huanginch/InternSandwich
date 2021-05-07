@@ -286,7 +286,46 @@
 
         //推薦實習
         Recommend: function(){
-          this.recommend = [this.post_info[0]]; //推薦實習，之後再寫
+          //取得期望職位
+          var api = "/api/intern/" + this.user_id + "/resume/" ;
+          var exp_position = "";
+          var posts = ""
+          var post_id = this.post_id
+          var post_info = this.post_info[0]
+          axios
+            .get(api)
+            .then((response) => {
+              var resume_info="";
+              resume_info = response.data;
+              exp_position = resume_info[0].exp_position
+
+              //取得公司貼文
+              api = "/api/company_posts";
+              axios
+              .get(api)
+              .then((response) => {
+                posts = response.data;
+                //比對期望職位和實習標題，相同就推薦，但不推薦本篇貼文
+                this.recommend = posts.filter(function (d,index) {
+                  return d.title.toString().indexOf(exp_position) > -1 && d.id!==post_id; 
+                });
+                
+                //如果都沒有符合的實習標題就依照本篇貼文的種類去推薦
+                if(this.recommend.length === 0){
+                  console.log("if-clause called")
+                  this.recommend = posts.filter(function (d,index) {
+                  return d.type.toString().indexOf(post_info.type) > -1 && d.id!==post_id; 
+                });
+                }
+              })
+              .catch(function (error) {
+                // 請求失敗處理
+                console.log(error);
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         }
       },
       watch: {

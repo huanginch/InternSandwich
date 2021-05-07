@@ -109,7 +109,7 @@ router.delete('/company/:cp_id/cp_posts', (req, res, next) => {
 //取得履歷信箱信件
 router.get('/company/:cp_id/mails', (req, res, next) => {
   var params = req.params.cp_id
-  var sql = 'select user_info.ID, mailbox.p_id, mailbox.u_id, name, id_card, birth, gender, phone, school, email, exp_position, exp_treatment, exp_location, edu_and_exp, skills, others FROM mailbox INNER JOIN user_info ON mailbox.u_id = user_info.ID WHERE cp_id = ? AND mailbox.is_del = 0';
+  var sql = 'select user_info.ID, mailbox.p_id, mail.u_id, name, id_card, birth, gender, phone, school, email, exp_position, exp_treatment, exp_location, edu_and_exp, skills, others FROM mailbox INNER JOIN user_info ON mailbox.u_id = user_info.ID WHERE cp_id = ? AND mailbox.is_del = 0';
 
   db(sql, params)
   .then(results =>{
@@ -181,6 +181,30 @@ router.get('/resume', (req, res, next) => {
   })
 })
 
+//取得單一實習生履歷
+router.get('/intern/:u_id/resume', (req, res, next) => {
+  var params = req.params.u_id
+  var sql = 'select resume.ID, resume.u_id, name, id_card, birth, gender, phone, school, user_info.email, exp_position, exp_treatment, exp_location, edu_and_exp, skills, others from resume INNER JOIN user_info ON resume.u_id = user_info.ID WHERE resume.u_id = ?';
+
+  db(sql, params)
+  .then(results =>{
+    for(let i=0; i<results.length; i++){
+      //性別欄位在資料庫是bool，將bool轉成String
+      results[i]["gender"] = results[i]["gender"] ? "女" : "男"
+      //生日欄位在資料庫是UTC+0時間，將格式改成yyyy-mm-dd
+      var utcbirth = results[i]["birth"]
+      var month = Number(utcbirth.getMonth())
+      month = (month + 1).toString()
+      utcbirth = utcbirth.getFullYear()+"-" + month + "-" + utcbirth.getDate()
+      results[i]["birth"] = utcbirth
+    }
+    res.send(results);
+  })
+  .catch(err =>{
+    res.status(500).send("err:",err)
+  })
+})
+
 //新增實習生履歷
 router.post('/resume', (req, res, next) => {
   const sqlparams = [req.body.user_id, req.body.exp_position, req.body.exp_treatment, req.body.exp_location, req.body.edu_and_exp, req.body.skills, req.body.others];
@@ -229,7 +253,7 @@ router.patch('/add-counter', (req, res, next) => {
 
 //取得前五筆熱門貼文
 router.get('/show-top5', (req, res, next) => {
-  var sql = 'select * from intern_post ORDER BY counter DESC limit 5';
+  var sql = 'select * from company_post ORDER BY counter DESC limit 5';
 
   db(sql)
   .then(results =>{

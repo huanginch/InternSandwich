@@ -936,18 +936,19 @@ export default {
           return d.title.toLowerCase().indexOf(select_jobclass) > -1; //過濾類別
         });
         this.cp_searchResult = this.cp_searchResult.filter(function (d) {
-          return d.title.toLowerCase().indexOf(select_jobclass) > -1; //過濾類別
+          return d.type.toLowerCase().indexOf(select_jobclass) > -1; //過濾類別
         });
 
         this.searchResult = this.searchResult.filter(function (d) {
           return (
             d.title.toLowerCase().indexOf(select_area) > -1 ||
-            d.job_desc.toLowerCase().indexOf(select_area) > -1
+            d.job_desc.toLowerCase().indexOf(select_area) > -1 ||
+            d.location.toLowerCase().indexOf(select_area) > -1
           ); //過濾地區
         });
         this.cp_searchResult = this.cp_searchResult.filter(function (d) {
           return (
-            d.title.toLowerCase().indexOf(select_area) > -1 ||
+            d.city.toLowerCase().indexOf(select_area) > -1 ||
             d.job_desc.toLowerCase().indexOf(select_area) > -1
           ); //過濾地區
         });

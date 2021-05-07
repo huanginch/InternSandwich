@@ -576,13 +576,9 @@ export default {
       post_info: "",
       user_info: "",
       user_id: "",
-      comment_info: "",
-      myNewComment: "",
-      editing: false,
-      temp_comment: "",
-      recommend: [],
       saved_posts: [],
       counter: "",
+      recommend:""
     };
   },
   computed: {
@@ -673,116 +669,50 @@ export default {
         });
     },
 
-    //顯示評論
-    showcomments: function () {
-      var api = "/api/show-comments";
-      var params = {
-        p_id: this.post_id,
-      };
-      axios
-        .get(api, { params })
-        .then((response) => {
-          this.comment_info = response.data;
+    //推薦實習
+    Recommend: function(){
+          //取得期望職位
+          var api = "/api/intern/" + this.user_id + "/resume/" ;
+          var exp_position = "";
+          var posts = ""
+          var post_id = this.post_id
+          var post_info = this.post_info[0]
+          axios
+            .get(api)
+            .then((response) => {
+              var resume_info="";
+              resume_info = response.data;
+              exp_position = resume_info[0].exp_position
 
-          //評論排序由新到舊
-          this.comment_info.sort(function (p1, p2) {
-            return p2.ID - p1.ID;
-          });
-          // //如果登入就找到自己的評論
-          // if (this.isLoggedIn) {
-          //   this.myNewComment = this.comment_info.filter(
-          //     (result) => result.U_ID === this.user_id
-          //   );
-
-          //   //找到就顯示有評論
-          //   if (this.myNewComment) {
-          //     this.myNewComment = this.myNewComment[0]["context"];
-          //   }
-
-          //   this.comment_info = this.comment_info.filter(
-          //     (result) => result.U_ID != this.user_id
-          //   );
-          // }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-
-    //留下評論
-    pushcomment: function () {
-      if (this.myNewComment) {
-        //存入資料庫
-        var api = "/api/comment";
-        var params = {
-          p_id: this.post_id,
-          u_id: this.user_id,
-          context: this.myNewComment,
-        };
-
-        axios
-          .post(api, params)
-          .then((response) => {
-            //即時更新留言
-            this.showcomments();
-            this.myNewComment = "";
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-    },
-
-    //編輯評論
-    editcomment: function (comment) {
-      this.editing = true;
-      this.temp_comment = comment;
-    },
-
-    //完成編輯評論
-    finishedit: function () {
-      this.editing = false;
-
-      //存入資料庫
-      var api = "/api/modify-comment";
-      var params = {
-        ID: this.temp_comment.ID,
-        context: this.temp_comment.context,
-      };
-
-      axios
-        .patch(api, params)
-        .then((response) => {})
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-
-    //取消編輯評論
-    canceledit: function (index) {
-      this.comment_info[index]["context"] = this.temp_comment.context;
-      this.editing = false;
-    },
-
-    //刪除評論
-    deletecomment: function (ID) {
-      //this.comment_info.splice(ID,1)
-
-      var api = "/api/delete-comment";
-      var params = { ID: ID };
-      axios
-        .delete(api, { data: params })
-        .then((response) => {
-          //即時更新留言
-          this.showcomments();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    isMycomment: function (u_id) {
-      return u_id === this.user_id;
-    },
+              //取得公司貼文
+              api = "/api/company_posts";
+              axios
+              .get(api)
+              .then((response) => {
+                posts = response.data;
+                //比對期望職位和實習標題，相同就推薦，但不推薦本篇貼文
+                this.recommend = posts.filter(function (d,index) {
+                  return d.title.toString().indexOf(exp_position) > -1 && d.id!==post_id; 
+                });
+                
+                //如果都沒有符合的實習標題就依照本篇貼文的種類去推薦
+                //但是爬蟲貼文沒有type欄位，我不知道怎麼辦了
+                if(this.recommend.length === 0){
+                  console.log("if-clause called")
+                  this.recommend = posts.filter(function (d,index) {
+                  return d.type.toString().indexOf(post_info.type) > -1 && d.id!==post_id; 
+                });
+                }
+              })
+              .catch(function (error) {
+                // 請求失敗處理
+                console.log(error);
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
   },
   watch: {
     $route: function () {
@@ -800,12 +730,11 @@ export default {
       .then((response) => {
         var _this = this;
         _this.post_info = response.data;
-        _this.recommend = [_this.post_info[1]]; //推薦實習，之後再寫
+        this.Recommend()
         _this.post_info = _this.jsonEscape(this.post_info);
         _this.post_info = _this.post_info.filter(function (d) {
           return d.id.toString().indexOf(_this.post_id) != -1;
         });
-        _this.showcomments();
       })
       .catch((error) => {
         console.log(error);
