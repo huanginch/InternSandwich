@@ -29,6 +29,7 @@
               class="form-control"
               placeholder="請輸入實習名稱"
             />
+            <font size="2" color="red" v-if="invalidTitle">*該欄位不得為空</font>
           </div>
 
           <br />
@@ -75,6 +76,7 @@
               rows="3"
               placeholder="請填寫實習內容"
             ></textarea>
+            <font size="2" color="red" v-if="invalidJobDesc">*該欄位不得為空</font>
           </div>
 
           <br />
@@ -125,6 +127,7 @@
               rows="3"
               placeholder="請填寫條件要求"
             ></textarea>
+            <font size="2" color="red" v-if="invalidRequirement">*該欄位不得為空</font>
           </div>
 
           <br />
@@ -149,26 +152,28 @@
                   class="form-control"
                   style="width: 120px"
                 >
-                  <option>基隆</option>
-                  <option>台北</option>
-                  <option>新北</option>
-                  <option>桃園</option>
-                  <option>新竹</option>
-                  <option>苗栗</option>
-                  <option>台中</option>
-                  <option>南投</option>
-                  <option>彰化</option>
-                  <option>雲林</option>
-                  <option>嘉義</option>
-                  <option>台南</option>
-                  <option>高雄</option>
-                  <option>屏東</option>
-                  <option>台東</option>
-                  <option>花蓮</option>
-                  <option>宜蘭</option>
-                  <option>澎湖</option>
-                  <option>金門</option>
-                  <option>馬祖</option>
+                  <option>基隆市</option>
+                  <option>台北市</option>
+                  <option>新北市</option>
+                  <option>桃園市</option>
+                  <option>新竹縣</option>
+                  <option>新竹市</option>
+                  <option>苗栗縣</option>
+                  <option>台中市</option>
+                  <option>南投縣</option>
+                  <option>彰化縣</option>
+                  <option>雲林縣</option>
+                  <option>嘉義縣</option>
+                  <option>嘉義市</option>
+                  <option>台南市</option>
+                  <option>高雄市</option>
+                  <option>屏東縣</option>
+                  <option>台東縣</option>
+                  <option>花蓮縣</option>
+                  <option>宜蘭縣</option>
+                  <option>澎湖縣</option>
+                  <option>金門縣</option>
+                  <option>馬祖縣</option>
                 </select>
               </div>
               <input
@@ -300,10 +305,12 @@ export default {
         .then((response) => {
           var msg = response.data.msg;
           alert(msg);
+          this.$router.go(this.$router.currentRoute)
         })
         .catch(function (error) {
           // 請求失敗處理
           console.log(error);
+          alert(error.response.data.msg)
         });
     },
   },

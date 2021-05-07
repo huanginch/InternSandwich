@@ -25,7 +25,7 @@ router.get('/posts', (req, res, next) => {
 
 //首頁貼文(公司貼文)
 router.get('/company_posts', (req, res, next) => {
-  var sql = 'select company_post.id, name as cp_name, cp_id, type, title, job_desc, counter from company_post INNER JOIN company_info ON company_post.cp_id = company_info.ID';
+  var sql = 'select company_post.id, name as cp_name, cp_id, type, title, job_desc, counter from company_post INNER JOIN company_info ON company_post.cp_id = company_info.ID AND company_post.is_del = 0';
 
   db(sql)
   .then(results =>{
@@ -53,7 +53,7 @@ router.get('/company/:cp_id', (req, res, next) => {
 //取得單一企業發布過的所有貼文
 router.get('/company/:cp_id/cp_posts', (req, res, next) => {
   var params = req.params.cp_id
-  var sql = 'select * from company_post WHERE cp_id = ?';
+  var sql = 'select * from company_post WHERE cp_id = ? AND is_del = 0';
 
   db(sql,params)
   .then(results =>{
@@ -67,7 +67,7 @@ router.get('/company/:cp_id/cp_posts', (req, res, next) => {
 //取得單一企業單一貼文
 router.get('/company/cp_posts/:post_id', (req, res, next) => {
   var params = req.params.post_id
-  var sql = 'select * from company_post WHERE id = ? ';
+  var sql = 'select * from company_post WHERE id = ? AND is_del = 0';
 
   db(sql,params)
   .then(results =>{
@@ -92,10 +92,24 @@ router.post('/company/:cp_id/cp_posts', postMiddleware.validatePost, (req, res, 
   })
 })
 
+//刪除已發布貼文
+router.delete('/company/:cp_id/cp_posts', (req, res, next) => {
+  var params = req.body.id
+  var sql = 'UPDATE company_post SET is_del = 1 WHERE id = ?';
+
+  db(sql, params)
+  .then(results =>{
+    res.send({msg: "刪除成功"});
+  })
+  .catch(err =>{
+    res.status(500).send("err:",err)
+  })
+})
+
 //取得履歷信箱信件
 router.get('/company/:cp_id/mails', (req, res, next) => {
   var params = req.params.cp_id
-  var sql = 'select user_info.ID, name, id_card, birth, gender, phone, school, email, exp_position, exp_treatment, exp_location, edu_and_exp, skills, others FROM mailbox INNER JOIN user_info ON mailbox.u_id = user_info.ID WHERE cp_id = ?';
+  var sql = 'select user_info.ID, mailbox.p_id, mailbox.u_id, name, id_card, birth, gender, phone, school, email, exp_position, exp_treatment, exp_location, edu_and_exp, skills, others FROM mailbox INNER JOIN user_info ON mailbox.u_id = user_info.ID WHERE cp_id = ? AND mailbox.is_del = 0';
 
   db(sql, params)
   .then(results =>{
@@ -132,8 +146,8 @@ router.post('/company/:cp_id/mails', (req, res, next) => {
 
 //刪除履歷信箱信件
 router.delete('/company/:cp_id/mails', (req, res, next) => {
-  var params = req.body.id
-  var sql = 'DELETE FROM mailbox WHERE ID = ?';
+  var params = [req.body.p_id, req.body.u_id]
+  var sql = 'UPDATE mailbox SET is_del = 1 WHERE p_id = ? AND u_id = ?';
 
   db(sql, params)
   .then(results =>{

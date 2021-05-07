@@ -157,7 +157,7 @@
                 <hr border-style="solid" />
   
                 <a style="font-size: 30px;text-shadow:0px 0px 2px #cccccc;"><strong>實習地點</strong></a><br /><br />
-                <pre style="font-size: 18px">{{post_info[0].city}}市{{ post_info[0].location }}</pre>
+                <pre style="font-size: 18px">{{post_info[0].city}}{{ post_info[0].location }}</pre>
                 <br />
                 <hr border-style="solid" />
   
@@ -278,11 +278,15 @@
               console.log(error);
             });
         },
-    
         
         //立即應徵
         Applynow: function(){
           this.$router.push("/intern_mails/"+ this.post_id)
+        },
+
+        //推薦實習
+        Recommend: function(){
+          this.recommend = [this.post_info[0]]; //推薦實習，之後再寫
         }
       },
       watch: {
@@ -302,7 +306,7 @@
           .get(api + this.post_id)
           .then((response) => {
             this.post_info = response.data;
-            this.recommend = [this.post_info[0]]; //推薦實習，之後再寫
+            this.Recommend()
             this.post_info = this.jsonEscape(this.post_info);
             this.cp_id = this.post_info[0].cp_id
 

@@ -97,10 +97,13 @@
               </div>
               <div class="ppp2_btn">
                 <div class="row float-right">
-                  <a
-                    href="#"
+                  <router-link
                     class="btn"
                     style="width: 200px; height: 50px; font-size: 20px"
+                    :to="{
+                      name: 'Profile',
+                      params: { resume_id: mail.u_id },
+                    }"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -112,10 +115,10 @@
                     >
                       <path
                         d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"
-                      /></svg>&nbsp;立即聯絡</a
+                      /></svg>&nbsp;查看信件</router-link
                   >
                   <a
-                    href="#"
+                    @click="deletemail(mail.p_id, mail.u_id)"
                     class="btn"
                     style="width: 200px; height: 50px; font-size: 20px"
                   >
@@ -206,6 +209,23 @@ export default {
       }
       this.currPage = idx;
     },
+    deletemail: function(p_id, u_id){
+      const params = {
+        p_id: p_id,
+        u_id: u_id
+      }
+      const api = "/api/company/" + this.cp_id + "/mails"
+    
+      axios
+      .delete(api,{data:params})
+      .then(response =>{
+        alert(response.data.msg)
+        this.$router.go(this.$router.currentRoute)
+      })
+      .catch(error =>{
+        console.log(error)
+      })
+    }
   },
   created() {
     this.cp_info = this.$store.getters.getUser;

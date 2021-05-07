@@ -154,10 +154,10 @@
               </div>
               <div class="ppp2_btn">
                 <div class="row float-right">
-                  <a
-                    href="#"
+                  <router-link
                     class="btn"
                     style="width: 200px; height: 50px; font-size: 20px"
+                    :to="{ name: 'Intern_Business', params: { post_id: post.id } }"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -169,10 +169,10 @@
                     >
                       <path
                         d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"
-                      /></svg>&nbsp;立即聯絡</a
+                      /></svg>&nbsp;查看更多</router-link
                   >
                   <a
-                    href="#"
+                    @click="deletepost(post.id)"
                     class="btn"
                     style="width: 200px; height: 50px; font-size: 20px"
                   >
@@ -190,7 +190,7 @@
                       <path
                         fill-rule="evenodd"
                         d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
-                      /></svg>&nbsp;刪除履歷</a
+                      /></svg>&nbsp;刪除貼文</a
                   >
                 </div>
               </div>
@@ -262,6 +262,20 @@ export default {
       }
       this.currPage = idx;
     },
+    deletepost: function(id){
+      const params = {id: id}
+      const api = "/api/company/" + this.cp_id + "/cp_posts"
+    
+      axios
+      .delete(api,{data:params})
+      .then(response =>{
+        alert(response.data.msg)
+        this.$router.go(this.$router.currentRoute)
+      })
+      .catch(error =>{
+        console.log(error)
+      })
+    }
   },
   created() {
     this.cp_info = this.$store.getters.getUser;
