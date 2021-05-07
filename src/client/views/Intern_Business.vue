@@ -199,6 +199,7 @@
           recommend: [],
           saved_posts: [],
           counter: "",
+          type: "",
         };
       },
       computed: {
@@ -209,12 +210,13 @@
       methods: {
 
         //更新觀看次數
-        addcounter: function (p_id, counter) {
+        addcounter: function (p_id, counter, type) {
           counter++;
           var api = "/api/add-counter";
           const params = {
             p_id: p_id,
             counter: counter,
+            type: type,
           };
           axios
             .patch(api, params)

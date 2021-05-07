@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 const userMiddleware = require('./middleware/users.js');
 const companyMiddleware = require('./middleware/company.js');
 const postMiddleware = require('./middleware/posts.js');
+const e = require('express');
 
 //首頁貼文(爬蟲貼文)
 router.get('/posts', (req, res, next) => {
@@ -197,11 +198,15 @@ router.patch('/resume', (req, res, next) => {
 //更新觀看次數
 router.patch('/add-counter', (req, res, next) => {
   const sqlparams = [escape(req.body.counter), escape(req.body.p_id)];
-  var sql = 'UPDATE intern_post set counter = ? WHERE id = ?';
+  //type用來判斷是company_post(type=1)還是intern_post(type=0)
+  if(req.body.type === 0)
+    var sql = 'UPDATE intern_post set counter = ? WHERE id = ?';
+  else
+    var sql = 'UPDATE company_post set counter = ? WHERE id = ?';
 
   db(sql,sqlparams)
   .then(results =>{
-    //res.send({msg:"完成觀看次數更新!"});
+    //res.send({msg:"完成觀看次數更新!" + req.body.type});
   })
   .catch(err =>{
     res.status(500).send("err:",err)

@@ -258,7 +258,7 @@
                     class="btn"
                     style="width: 200px; height: 50px; font-size: 20px"
                     :to="{ name: 'Intern_Business', params: { post_id: posts.id } }"
-                    @click.native="addcounter(posts.id, posts.counter)"
+                    @click.native="addcounter(posts.id, posts.counter, 1)"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -450,7 +450,7 @@
                     class="btn"
                     style="width: 200px; height: 50px; font-size: 20px"
                     :to="{ name: 'Intern', params: { post_id: posts.id } }"
-                    @click.native="addcounter(posts.id, posts.counter)"
+                    @click.native="addcounter(posts.id, posts.counter, 0)"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -865,12 +865,13 @@ export default {
       
     },
     //更新觀看次數
-    addcounter: function (p_id, counter) {
+    addcounter: function (p_id, counter, type) {
       counter++;
       var api = "/api/add-counter";
       const params = {
         p_id: p_id,
         counter: counter,
+        type: type,    //type用來判斷是company_post(type=1)還是intern_post(type=0)
       };
       axios
         .patch(api, params)
