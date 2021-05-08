@@ -21,6 +21,7 @@ import Finder from '../views/Finder.vue' //找實習生
 import Profile from '../views/Profile.vue' //實習生內容頁面
 import MyPosts from '../views/MyPosts.vue'//我的貼文
 import Post from '../views/Post.vue'//刊登貼文
+import ModifyPost from '../views/ModifyPost.vue'//修改貼文頁面
 
 //履歷
 import Resume from '../views/Resume.vue' //履歷模板
@@ -96,6 +97,11 @@ const routes = [{
   path: '/myposts',
   name: 'MyPosts',
   component: MyPosts
+},
+{
+  path: '/modifypost/:p_id',
+  name: 'ModifyPost',
+  component: ModifyPost
 },
 {
   path: '/mailbox',

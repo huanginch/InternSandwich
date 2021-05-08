@@ -106,6 +106,20 @@ router.delete('/company/:cp_id/cp_posts', (req, res, next) => {
   })
 })
 
+//修改已發布貼文
+router.patch('/company/:cp_id/cp_post/:p_id', (req, res, next) => {
+  var sqlparams = [req.body.title, req.body.type, req.body.job_desc, req.body.benefits, req.body.requirement, req.body.city, req.body.location, req.body.others, req.params.p_id]
+  var sql = 'UPDATE company_post SET title = ?, type = ?, job_desc = ?, benefits = ?, requirement = ?, city = ?, location = ?, others = ?  WHERE id = ?;'
+
+  db(sql, sqlparams)
+  .then(results =>{
+    res.send({msg: "修改成功"});
+  })
+  .catch(err =>{
+    res.status(500).send("err:",err)
+  })
+})
+
 //取得履歷信箱信件
 router.get('/company/:cp_id/mails', (req, res, next) => {
   var params = req.params.cp_id

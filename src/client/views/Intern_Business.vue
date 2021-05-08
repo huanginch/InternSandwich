@@ -21,7 +21,7 @@
                         ><!-- background-color:#bde0fe;margin-right:10px;border:3px #a2d2ff solid; -->
                         <strong>{{ post_info[0].title }}</strong></span
                       >
-                      <pre style="font-size: 30px"><router-link :to="{ name: 'BusinessPosts', params: { cp_id: cp_id }}" style="color:black;">{{
+                      <pre style="font-size: 30px"><router-link :to="{ name: 'BusinessPosts', params: { cp_id: cp_id }}" style="color:black;" v-if="isUser">{{
                         cp_info[0].name
                       }}</router-link></pre>
                     </div>
@@ -64,6 +64,7 @@
                   </div>
                   <div class="row float-right">
                     <a
+                      v-if="isUser"
                       @click="Applynow"
                       class="btn"
                       style="width: 150px; height: 50px; font-size: 20px"
@@ -86,6 +87,7 @@
                       }"
                     >
                       <button
+                        v-if="isUser"
                         @click="save(post_id)"
                         class="btn"
                         style="width: 200px; height: 50px; font-size: 20px"
@@ -127,6 +129,30 @@
                           /></svg>&nbsp;取消收藏
                       </button>
                     </div>
+                  
+                      <button
+                        v-if="!isUser"
+                        @click="modify"
+                        class="btn"
+                        style="width: 200px; height: 50px; font-size: 20px"
+                      >  
+                      <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          fill="currentColor"
+                          class="bi bi-pencil-square"
+                          viewBox="0 0 16 16"
+                        ><path
+                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"
+                      />
+                      <path
+                        fill-rule="evenodd"
+                        d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
+                      />
+                      </svg>
+                      修改貼文
+                    </button>
                   </div>
                 </div>
               </div>
@@ -171,7 +197,7 @@
       </div>
       <hr border-style="solid" />
     </div>
-    <RecommendPost title="推薦實習" :recommend_posts="recommend" :addcounter="addcounter"/>
+    <RecommendPost v-if="isUser" title="推薦實習" :recommend_posts="recommend" :addcounter="addcounter"/>
     </div>
     <div>
 </div>
@@ -206,6 +232,9 @@
         isLoggedIn: function () {
           return this.$store.getters.isLoggedIn;
         },
+        isUser: function(){
+          return this.$store.getters.getUser.birth
+        }
       },
       methods: {
 
@@ -326,6 +355,9 @@
             .catch((error) => {
               console.log(error);
             });
+        },
+        modify: function(){
+          this.$router.push("/modifypost/" + this.post_id)
         }
       },
       watch: {
@@ -364,8 +396,6 @@
           .catch((error) => {
             console.log(error);
           });
-
-        
 
         //取得收藏貼文
         if (this.isLoggedIn) {

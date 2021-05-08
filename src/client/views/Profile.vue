@@ -196,6 +196,47 @@ export default {
       str = JSON.stringify(str).replace(/[\s]/g, "");
       return JSON.parse(str);
     },
+    //推薦實習生(還沒寫好)
+    Recommend: function(){
+          //取得期望職位
+          var api = "/api/company/" + this.$store.getters.getUser.ID + "/cp_posts";;
+          var exp_position = "";
+          var posts = ""
+          var resume_id = this.resume_id
+          var resume_info = this.resume_info[0]
+          axios
+            .get(api)
+            .then((response) => {
+              var resume_info="";
+              posts = response.data;
+
+              //取得公司貼文
+              api = "/api/resume" 
+              axios
+              .get(api)
+              .then((response) => {
+                resume_info = response.data;
+                //比對期望職位和實習標題，相同就推薦，但不推薦本篇履歷
+                this.recommend = resume.filter(function (d,index) {
+                  return d.exp_position.toString().indexOf(title) > -1 && d.id!==resume_id; 
+                });
+                
+                //如果都沒有符合的期望職位就依照本篇貼文的種類去推薦
+                if(this.recommend.length === 0){
+                  this.recommend = posts.filter(function (d,index) {
+                  return d.type.toString().indexOf(post_info.type) > -1 && d.id!==post_id; 
+                });
+                }
+              })
+              .catch(function (error) {
+                // 請求失敗處理
+                console.log(error);
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
   },
   watch: {
     $route: function () {

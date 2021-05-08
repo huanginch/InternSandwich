@@ -285,7 +285,6 @@ export default {
   },
   methods: {
     pushPosts: function () {
-      this.cp_info = this.$store.getters.getUser;
       //axios獲取後臺資料
       var cp_id = this.cp_info.ID;
       var api = `/api/company/${cp_id}/cp_posts`;
