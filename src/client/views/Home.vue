@@ -150,7 +150,7 @@
 
         <!-- 實習貼文 -->
         <!--eslint-disable-next-line-->
-        <div id="Home" v-for="(posts, index) in cp_searchResult.slice(pageStart, pageStart + countOfPage)" class="posts" >
+        <div id="Home" v-for="(posts, index) in cp_searchResult.slice(pageStart,pageStart + countOfPage)" class="posts">
           <div class="panel panel-default text-left">
             <div class="panel-body" style="border-style: ridge">
               <!-- ridge groove inset outset -->
@@ -194,10 +194,14 @@
                     </div>
                   </div>
 
-                  <p style="font-size: 20px;" align="left">
-                    <router-link :to="{ name: 'BusinessPosts', params: { cp_id: posts.cp_id } }">{{
-                      posts.cp_name
-                    }}</router-link>
+                  <p style="font-size: 20px" align="left">
+                    <router-link
+                      :to="{
+                        name: 'BusinessPosts',
+                        params: { cp_id: posts.cp_id },
+                      }"
+                      >{{ posts.cp_name }}</router-link
+                    >
                   </p>
                   <p
                     style="
@@ -250,14 +254,19 @@
                   >
                     <path
                       d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"
-                    /></svg> &nbsp;收藏次數：5
+                    />
+                  </svg>
+                  &nbsp;收藏次數：5
                 </div>
 
                 <div class="row float-right">
                   <router-link
                     class="btn"
                     style="width: 200px; height: 50px; font-size: 20px"
-                    :to="{ name: 'Intern_Business', params: { post_id: posts.id } }"
+                    :to="{
+                      name: 'Intern_Business',
+                      params: { post_id: posts.id },
+                    }"
                     @click.native="addcounter(posts.id, posts.counter, 1)"
                   >
                     <svg
@@ -335,11 +344,12 @@
           </div>
         </div>
 
-<!--這是用來區隔公司發的貼文跟網路爬來的貼文的分隔線
+        <!--這是用來區隔公司發的貼文跟網路爬來的貼文的分隔線
       <div>
         ---------------------------分隔線------------------------------
       </div>
 -->
+        <!--eslint-disable-next-line-->
         <div id="Home" v-for="(posts, index) in searchResult.slice(pageStart, pageStart + countOfPage)" class="posts" >
           <div class="panel panel-default text-left">
             <div class="panel-body" style="border-style: ridge">
@@ -383,13 +393,15 @@
                       </p>
                     </div>
                   </div>
-                  <a
-                  @click="toLink(posts.source, posts.link)"
-                  class="btn">
-                  <p style="font-size: 20px;" align="left">
-                    {{posts.cp_name}}
+
+                  <p
+                    style="font-size: 20px; cursor: pointer"
+                    align="left"
+                    @click="toLink(posts.source, posts.link)"
+                  >
+                    {{ posts.cp_name }}
                   </p>
-                </a>
+
                   <p
                     style="
                       font-size: 15px;
@@ -441,7 +453,8 @@
                   >
                     <path
                       d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"
-                    /></svg>
+                    />
+                  </svg>
                   &nbsp;收藏次數：5
                 </div>
 
@@ -835,7 +848,7 @@ export default {
         },
       ],
       saved_posts: [],
-      cp_saved_posts:[],
+      cp_saved_posts: [],
     };
   },
   computed: {
@@ -845,7 +858,10 @@ export default {
     },
     //設定總頁數
     totalPage: function () {
-      return Math.ceil((this.searchResult.length + this.cp_searchResult.length) / this.countOfPage);
+      return Math.ceil(
+        (this.searchResult.length + this.cp_searchResult.length) /
+          this.countOfPage
+      );
     },
     isLoggedIn: function () {
       return this.$store.getters.isLoggedIn;
@@ -853,16 +869,14 @@ export default {
   },
   methods: {
     //外部超連結跳轉
-    toLink: function(source, link){
-      if(source ===0){
-        link = "https://www.facebook.com/" + link
-      }
-      else if(source === 1 ){
-        link = "https://www.yourator.co" + link
+    toLink: function (source, link) {
+      if (source === 0) {
+        link = "https://www.facebook.com/" + link;
+      } else if (source === 1) {
+        link = "https://www.yourator.co" + link;
       }
 
-      window.location =  link
-      
+      window.location = link;
     },
     //更新觀看次數
     addcounter: function (p_id, counter, type) {
@@ -871,7 +885,7 @@ export default {
       const params = {
         p_id: p_id,
         counter: counter,
-        type: type,    //type用來判斷是company_post(type=1)還是intern_post(type=0)
+        type: type, //type用來判斷是company_post(type=1)還是intern_post(type=0)
       };
       axios
         .patch(api, params)
@@ -1087,7 +1101,7 @@ export default {
   created() {
     //axios獲取後臺資料
     var api = "/api/posts";
-    
+
     axios
       .get(api)
       .then((response) => {
@@ -1101,7 +1115,7 @@ export default {
 
     //顯示公司發佈之實習貼文
     var api = "/api/company_posts";
-    
+
     axios
       .get(api)
       .then((response) => {
@@ -1131,22 +1145,22 @@ export default {
           console.log(error);
         });
 
-        //公司
-        api = "/api/show-cp_save";
-        var u_id = this.$store.getters.getUser.ID;
-        var params = { u_id: u_id };
-        axios
-          .get(api, { params })
-          .then((response) => {
-            //cp_saved_posts只存p_id
-            this.cp_saved_posts = response.data.map(function (items, index) {
-              return items.p_id;
-            });
-            console.log(this.cp_saved_posts)
-          })
-          .catch((error) => {
-            console.log(error);
+      //公司
+      api = "/api/show-cp_save";
+      var u_id = this.$store.getters.getUser.ID;
+      var params = { u_id: u_id };
+      axios
+        .get(api, { params })
+        .then((response) => {
+          //cp_saved_posts只存p_id
+          this.cp_saved_posts = response.data.map(function (items, index) {
+            return items.p_id;
           });
+          console.log(this.cp_saved_posts);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
     api = "/api/show-top5";
     axios.get(api).then((response) => {
@@ -1154,7 +1168,6 @@ export default {
     });
   },
 };
-
 </script>
 <style>
 .hidden {

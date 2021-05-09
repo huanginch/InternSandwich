@@ -7,76 +7,88 @@
       <div class="col-lg-9 text-left">
         <!-- 實習貼文 -->
         <!--eslint-disable-next-line-->
-        <div>
-        </div>
+        <div></div>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-lg-1">
-        <img src="../assets/圖片5.png" alt="internsandwich" height="120px" />
-      </div>
-      <div class="col-lg-8 text-left">
-        <div class="input-group mt-3 mb-3 input-group-lg">
-          <input
-            v-if="!isLoggedIn"
-            disabled
-            type="text"
-            class="form-control"
-            placeholder="登入以查看評論......"
-          />
-          <select v-else v-model="selected_title">
-            <option value="" disabled>選擇評論職位</option>
-            
-              <option
-                v-for="intern in intern_info"
-                v-bind:value="intern.title"
-              >
-                {{ intern.title }}
-              </option>
-          </select>
-          <textarea
-            v-if="isLoggedIn"
-            v-model="myNewComment"
-            class="form-control"
-            placeholder="留下評論......"
-            @keyup.enter="pushcomment"
-          ></textarea>
-          <!-- <a v-else v-model="myNewComment" type="text" class="form-control">{{
+      <div class="input-group mt-3 mb-3 ">
+        <div class="col-lg-1">
+          <img src="../assets/圖片5.png" alt="internsandwich" height="100px" />
+        </div>
+
+        <input
+          v-if="!isLoggedIn"
+          disabled
+          type="text"
+          class="form-control"
+          placeholder="登入以查看評論......"
+        />
+        <select
+          v-else
+          v-model="selected_title"
+          style="height:80px;width: 240px; cursor: pointer; border-color: #bcddfc"
+        >
+          <option value="" disabled>選擇評論職位</option>
+          <!--eslint-disable-next-line-->
+          <option v-for="intern in intern_info" v-bind:value="intern.title">
+            {{ intern.title }}
+          </option>
+        </select>
+
+        <textarea
+          style="height: 80px;"
+          v-if="isLoggedIn"
+          v-model="myNewComment"
+          class="form-control"
+          placeholder="留下評論......"
+          @keyup.enter="pushcomment"
+        ></textarea>
+
+        <!-- <a v-else v-model="myNewComment" type="text" class="form-control">{{
               myNewComment
             }}</a> -->
-          <button
-            class="btn"
-            type="button"
-            @click="pushcomment"
-            v-if="isLoggedIn"
+        <button
+          class="btn"
+          type="button"
+          style="height: 80px;"
+          @click="pushcomment"
+          v-if="isLoggedIn"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="22"
+            fill="currentColor"
+            class="bi bi-cursor-fill"
+            viewBox="0 0 16 16"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="22"
-              fill="currentColor"
-              class="bi bi-cursor-fill"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103z"
-              />
-            </svg>
-            發佈評論
-          </button>
-          <div class="input-group-btn"></div>
-        </div>
+            <path
+              d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103z"
+            />
+          </svg>
+          發佈評論
+        </button>
+        <div class="input-group-btn"></div>
       </div>
+
       <div class="col-lg-3"></div>
     </div>
-    <br />
-    <div v-for="(comment, index) in comment_info.slice(pageStart,pageStart + countOfPage)" :key="comment.ID">
+
+    <div
+      v-for="(comment, index) in comment_info.slice(
+        pageStart,
+        pageStart + countOfPage
+      )"
+      :key="comment.ID"
+    >
       <div class="row">
         <div class="col-lg-1">
-          <img src="../assets/圖片2.png" alt="internsandwich" height="75px" />
+          <img src="../assets/圖片2.png" alt="internsandwich" height="80px" />
         </div>
-        <p style="font-size: 20px">{{ comment.intern_title }}</p>
+        <div class="col-lg-2" style="text-align: center; line-height: 80px">
+          <p style="font-size: 20px">{{ comment.intern_title }}</p>
+        </div>
         <!-- <p style="font-size: 15px">{{ comment.U_ID }}</p> -->
         <div class="col-lg-6 text-left">
           <div
@@ -85,7 +97,16 @@
           >
             <div class="panel-body">
               <div class="ppp-intern">
-                <p style="font-size: 20px">{{ comment.context }}</p>
+                <p
+                  style="
+                    font-size: 20px;
+                    height: 50px;
+                    display: table-cell;
+                    vertical-align: middle;
+                  "
+                >
+                  {{ comment.context }}
+                </p>
               </div>
             </div>
           </div>
@@ -196,30 +217,30 @@
     </div>
     <!-- 換頁按鈕 -->
     <ul
-    class="pagination pagination-sm justify-content-center"
-    style="margin: 20px 0"
+      class="pagination pagination-sm justify-content-center"
+      style="margin: 20px 0"
     >
-    <li
-      v-bind:class="{ disabled: currPage === 1 }"
-      @click.prevent="setPage(currPage - 1)"
-    >
-      <button class="page-link" href="#">上一頁</button>
-    </li>
-    <!--eslint-disable-next-line-->
-    <li
-      v-for="n in totalPage"
-      v-bind:class="{ active: currPage === n }"
-      @click.prevent="setPage(n)"
-    >
-      <button class="page-link" href="#">{{ n }}</button>
-    </li>
-    <li
-      v-bind:class="{ disabled: currPage === totalPage }"
-      @click.prevent="setPage(currPage + 1)"
-    >
-      <button class="page-link" href="#">下一頁</button>
-    </li>
-  </ul>
+      <li
+        v-bind:class="{ disabled: currPage === 1 }"
+        @click.prevent="setPage(currPage - 1)"
+      >
+        <button class="page-link" href="#">上一頁</button>
+      </li>
+      <!--eslint-disable-next-line-->
+      <li
+        v-for="n in totalPage"
+        v-bind:class="{ active: currPage === n }"
+        @click.prevent="setPage(n)"
+      >
+        <button class="page-link" href="#">{{ n }}</button>
+      </li>
+      <li
+        v-bind:class="{ disabled: currPage === totalPage }"
+        @click.prevent="setPage(currPage + 1)"
+      >
+        <button class="page-link" href="#">下一頁</button>
+      </li>
+    </ul>
   </div>
 </template>
 <script>
@@ -235,9 +256,9 @@ export default {
   },
   data() {
     return {
-      selected_title:"",
-      cp_info:null,
-      cp_id:null,
+      selected_title: "",
+      cp_info: null,
+      cp_id: null,
       intern_info: null,
       countOfPage: 15,
       currPage: 1,
@@ -282,18 +303,17 @@ export default {
         return p1.ID - p2.ID;
       });
     },
-     //顯示評論
+    //顯示評論
     showcomments: function () {
       //axios獲取評論資料
-      var api = "/api/company/" + this.cp_id + "/show-comments" ;
+      var api = "/api/company/" + this.cp_id + "/show-comments";
       axios
         .get(api)
         .then((response) => {
           this.comment_info = response.data;
 
           //評論排序由新到舊
-          this.sortNewtoOld()
-          
+          this.sortNewtoOld();
         })
         .catch((error) => {
           console.log(error);
@@ -309,7 +329,7 @@ export default {
           cp_id: this.cp_id,
           u_id: this.user_id,
           context: this.myNewComment,
-          intern_title: this.selected_title
+          intern_title: this.selected_title,
         };
 
         axios
@@ -377,7 +397,6 @@ export default {
       return u_id === this.user_id;
     },
   },
- 
 
   created() {
     this.user_info = this.$store.getters.getUser;
@@ -386,28 +405,28 @@ export default {
 
     //取得公司資訊
     var api = "/api/company/" + this.cp_id;
-            
+
     axios
       .get(api)
-      .then(response =>{
-          this.cp_info = response.data
+      .then((response) => {
+        this.cp_info = response.data;
       })
-      .catch(error =>{
-          console.log(error);
-      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     if (this.isLoggedIn) {
-      this.showcomments()
+      this.showcomments();
 
-      api = "/api/company/" + this.cp_id + "/cp_posts"
+      api = "/api/company/" + this.cp_id + "/cp_posts";
       axios
-      .get(api)
-      .then(response =>{
-          this.intern_info = response.data
-      })
-      .catch(error =>{
+        .get(api)
+        .then((response) => {
+          this.intern_info = response.data;
+        })
+        .catch((error) => {
           console.log(error);
-      })
+        });
     }
   },
 };

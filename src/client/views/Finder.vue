@@ -13,6 +13,7 @@
               type="text"
               placeholder="輸入關鍵字"
               class="form-control"
+              style="border-radius: 10px; height: 38px"
               @keyup.enter="filteredPosts"
             />
             <!-- 類別關鍵字下拉選單 -->
@@ -57,11 +58,7 @@
             </div>
 
             <!--eslint-disable-next-line-->
-            <button class="btn" v-model="keyword" @click="filteredPosts">
-              <span class="glyphicon glyphicon-search"></span>搜尋<span
-                class="caret"
-              ></span>
-            </button>
+            <button class="btn btn-sm" v-model="keyword" @click="filteredPosts">搜尋</button>
           </div>
         </div>
       </div>
