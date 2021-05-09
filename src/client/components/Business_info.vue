@@ -8,7 +8,7 @@
               <div class="row">
                 <div class="col-lg-2">
                   <img
-                    src="../assets/圖片3.png"
+                    src="../assets/圖片1.png"
                     alt="internsandwich"
                     height="150px"
                   />
