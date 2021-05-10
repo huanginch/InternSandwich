@@ -102,7 +102,7 @@
                     style="width: 200px; height: 50px; font-size: 20px"
                     :to="{
                       name: 'Profile',
-                      params: { resume_id: mail.u_id },
+                      params: { resume_id: 2 },
                     }"
                   >
                     <svg
