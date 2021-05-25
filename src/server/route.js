@@ -123,7 +123,7 @@ router.patch('/company/:cp_id/cp_post/:p_id', (req, res, next) => {
 //取得履歷信箱信件
 router.get('/company/:cp_id/mails', (req, res, next) => {
   var params = req.params.cp_id
-  var sql = 'select user_info.ID, mailbox.p_id, mail.u_id, name, id_card, birth, gender, phone, school, email, exp_position, exp_treatment, exp_location, edu_and_exp, skills, others FROM mailbox INNER JOIN user_info ON mailbox.u_id = user_info.ID WHERE cp_id = ? AND mailbox.is_del = 0';
+  var sql = 'select user_info.ID, mailbox.p_id, mailbox.u_id, name, id_card, birth, gender, phone, school, email, exp_position, exp_treatment, exp_location, edu_and_exp, skills, others FROM mailbox INNER JOIN user_info ON mailbox.u_id = user_info.ID WHERE cp_id = ? AND mailbox.is_del = 0';
 
   db(sql, params)
   .then(results =>{
