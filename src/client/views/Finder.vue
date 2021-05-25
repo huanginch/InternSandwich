@@ -239,7 +239,7 @@ export default {
     //依照關鍵字搜尋實習生
     filteredPosts: function () {
       // 因為 JavaScript 的 filter 有分大小寫，
-      // 所以這裡將 keyword 與 fb_info[n].cp_name 通通轉小寫方便比對。
+      // 所以這裡將 keyword 轉小寫方便比對。
       var keyword = this.keyword.toLowerCase();
       var select_school = this.select_school;
       var select_department = this.select_department;
@@ -300,7 +300,7 @@ export default {
     },
   },
   created() {
-    //axios獲取後臺資料
+    //axios獲取實習生資料
     const api = "/api/resume";
     axios
       .get(api)

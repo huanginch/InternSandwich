@@ -1,12 +1,20 @@
 //封裝資料庫連線功能
 const mysql = require('mysql2')
 
+// const config = {
+//     host:'140.123.173.109',
+//     port:'3307',
+//     database:'internsandwich',
+//     user : 'sandwich',
+//     password:'sandwich'
+// }
+
 const config = {
-    host:'140.123.173.109',
-    port:'3307',
+    host:'127.0.0.1',
+    port:'3306',
     database:'internsandwich',
-    user : 'sandwich',
-    password:'sandwich'
+    user : 'root',
+    password:'int@mysql'
 }
 
 // (), {}, [{}, id] 

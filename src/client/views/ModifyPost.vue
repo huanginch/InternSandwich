@@ -266,6 +266,10 @@
       };
     },
     watch: {
+      /*
+      檢查輸入資料格式是否正確
+      若Title為空白則invalidTitle為true，以此類推
+      */
       title: function (newValue) {
         this.invalidTitle = !newValue;
       },
@@ -280,6 +284,7 @@
       },
     },
     methods: {
+      //發布修改的貼文，將貼文資料存入資料庫
       pushPosts: function () {
         var cp_info = this.$store.getters.getUser;
         //axios獲取後臺資料
@@ -310,6 +315,7 @@
       },
     },
     created() {
+        //取得原本的貼文資料
         this.post_id = this.$route.params.p_id
         var api = "/api/company/cp_posts/" + this.post_id
 

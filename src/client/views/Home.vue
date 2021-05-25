@@ -677,6 +677,7 @@
 </template>
 <script>
 import axios from "../js/axios.js";
+//匯入推薦的component
 import RecommendPost from "../components/RecommendPost.vue";
 // import the component
 import Treeselect from "@riophae/vue-treeselect";
