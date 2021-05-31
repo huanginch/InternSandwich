@@ -603,6 +603,32 @@ router.delete('/company/unsave', (req, res, next) => {
   })
 })
 
+//取得期望技能
+router.get('/skills', (req, res, next) => {
+  const params = req.query.cp_id;
+  var sql = "SELECT skill FROM recommend_keyword WHERE cp_id = ?"
+  db(sql, params)
+  .then(results =>{
+    res.send(results);
+  })
+  .catch(err =>{
+    res.status(500).send("err:",err)
+  })
+});
+
+//新增期望技能
+router.post('/skills', (req, res, next) => {
+  const params = [req.body.cp_id, req.body.skill];
+  var sql = "INSERT INTO recommend_keyword (cp_id, skill) VALUES (?, ?);"
+  db(sql, params)
+  .then(results =>{
+    res.send(results);
+  })
+  .catch(err =>{
+    res.status(500).send("err:",err)
+  })
+});
+
 router.get('/secret-route', userMiddleware.isLoggedIn, (req, res, next) => {
   console.log(req.userData);
   res.send('This is the secret content. Only logged in users can see that!');
