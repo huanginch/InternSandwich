@@ -313,7 +313,7 @@ export default {
       .catch((error) => {
         console.log(error);
       });
-    }
+    },
   },
   created() {
     this.user_info = this.$store.getters.getUser

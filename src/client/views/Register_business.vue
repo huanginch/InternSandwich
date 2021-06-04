@@ -77,6 +77,17 @@
               >*請輸入0987654321 或 02-1234567</font
             >
             <br />
+            <!-- <label><strong>實習生技能需求</strong></label>
+            <select v-model="recommend_keyword" class="form-control">
+              <option value="">將會按照此欄位為您推薦合適實習生</option>
+              <option>Python</option>
+              <option>C/C++</option>
+              <option>Java</option>
+              <option>行銷</option>
+              <option>行政</option>
+              <option>管理</option>
+            </select>
+            <br /> -->
 
             <hr border-style="solid" />
             <div class="text-center">
@@ -163,6 +174,7 @@ export default {
       email: "",
       password: "",
       password_repeat: "",
+      recommend_keyword: "",
       msg: "",
       checked: false,
       invalidName: false,
@@ -217,6 +229,7 @@ export default {
         axios
           .post(api, qs.stringify(credentials))
           .then((response) => {
+            //this.add_keyword()
             this.msg = response.data.msg;
             alert(this.msg);
           })
@@ -226,6 +239,11 @@ export default {
           });
       }
     },
+
+    // //新增推薦關鍵字
+    // add_keyword: function(){
+
+    // }
   },
 };
 </script>
